@@ -8,16 +8,7 @@ export default function GuestLayout({ children, title, subtitle }) {
                 {/* Logo */}
                 <div className="absolute top-8 left-8 sm:left-12 lg:left-16">
                     <Link href="/" className="flex items-center gap-2 group shrink-0">
-                        <div className="w-8 h-8 rounded-full bg-forest-600 flex items-center justify-center text-white">
-                            <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4" aria-hidden="true">
-                                <path d="M12 3C7.5 3 4 7 4 11.5c0 2.8 1.5 5.3 3.8 6.8L12 21l4.2-2.7C18.5 16.8 20 14.3 20 11.5 20 7 16.5 3 12 3z" fill="currentColor" />
-                            </svg>
-                        </div>
-                        <div className="leading-none flex items-center">
-                            <span className="text-xl font-semibold tracking-tight text-gray-900 font-sans">
-                                Bathari<span className="text-forest-600">Sri</span>
-                            </span>
-                        </div>
+                        <img src="/images/Logo_BathariSri.png" alt="BathariSri Logo" className="h-10 w-auto object-contain" />
                     </Link>
                 </div>
 

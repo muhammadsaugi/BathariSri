@@ -56,22 +56,8 @@ export default function Footer() {
                             className="flex items-center gap-3 group w-fit"
                             aria-label="BathariSri Home"
                         >
-                            <div className="w-12 h-12 rounded-xl bg-forest-600 flex items-center justify-center shadow-md transition-transform duration-300 group-hover:scale-105">
-                                <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-white" aria-hidden="true">
-                                    <path
-                                        d="M12 3C7.5 3 4 7 4 11.5c0 2.8 1.5 5.3 3.8 6.8L12 21l4.2-2.7C18.5 16.8 20 14.3 20 11.5 20 7 16.5 3 12 3z"
-                                        fill="currentColor" opacity="0.9"
-                                    />
-                                    <path
-                                        d="M12 3v13M9.5 7.5C9.5 7.5 12 10 12 14"
-                                        stroke="rgba(255,255,255,0.6)" strokeWidth="1.2" strokeLinecap="round"
-                                    />
-                                </svg>
-                            </div>
-                            <div className="leading-none">
-                                <span className="block text-2xl font-semibold text-gray-900 tracking-tight">
-                                    Bathari<span className="text-forest-600">Sri</span>
-                                </span>
+                            <img src="/images/Logo_BathariSri.png" alt="BathariSri Logo" className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+                            <div className="leading-none mt-2">
                                 <span className="block text-[11px] text-gray-400 tracking-[0.2em] uppercase font-bold mt-1">
                                     Smart Farming
                                 </span>

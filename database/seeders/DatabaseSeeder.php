@@ -2,38 +2,29 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
+     *
+     * Urutan penting:
+     * - Data referensi (disease, variety, fertilizer) tidak bergantung FK lain.
+     * - commodity_prices dan waste_price_refs tidak bergantung FK lain.
+     * - spk_weight_configs memiliki FK nullable ke users, bisa diisi sebelum users.
+     * - AdminUserSeeder paling terakhir karena membuat record lahans yang butuh FK users.
      */
     public function run(): void
     {
-        // Seeder Akun Admin
-        User::create([
-            'name' => 'Admin BathariSri',
-            'email' => 'admin@batharisri.com',
-            'password' => Hash::make('password123'),
-            'role' => 'admin',
-            'phone' => '081234567890',
-            'address' => 'Kantor Pusat BathariSri, Kediri',
-        ]);
-
-        // Seeder Akun Petani
-        User::create([
-            'name' => 'Petani BathariSri',
-            'email' => 'petani@batharisri.com',
-            'password' => Hash::make('password123'),
-            'role' => 'petani',
-            'phone' => '089876543210',
-            'address' => 'Area Persawahan Subur, Kediri',
+        $this->call([
+            DiseaseRefSeeder::class,
+            VarietyRefSeeder::class,
+            FertilizerRefSeeder::class,
+            CommodityPriceSeeder::class,
+            WastePriceRefSeeder::class,
+            SpkWeightConfigSeeder::class,
+            AdminUserSeeder::class,
         ]);
     }
 }

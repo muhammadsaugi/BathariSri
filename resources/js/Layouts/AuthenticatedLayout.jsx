@@ -33,13 +33,13 @@ export default function AuthenticatedLayout({ header, children }) {
                 </div>
 
                 {/* Main Scrollable Content */}
-                <main className="flex-1 overflow-y-auto lg:overflow-hidden hide-scrollbar p-4 lg:p-8 flex flex-col min-h-0">
+                <main className="flex-1 overflow-y-auto hide-scrollbar p-4 lg:p-8 flex flex-col min-h-0">
                     {header && (
                         <header className="mb-6 dashboard-content shrink-0">
                             {header}
                         </header>
                     )}
-                    <div className="dashboard-content flex-1 min-h-0 flex flex-col relative">
+                    <div className="dashboard-content flex flex-col relative pb-6">
                         {children}
                     </div>
                 </main>

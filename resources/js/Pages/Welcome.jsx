@@ -20,7 +20,7 @@ export default function Welcome({ auth }) {
                 <title>BathariSri - Platform Pertanian Cerdas Berbasis AI</title>
                 <meta
                     name="description"
-                    content="BathariSri adalah platform smart farming berbasis AI untuk petani Indonesia. Deteksi penyakit padi instan, pantau bibit real-time, dan ubah limbah menjadi nilai ekonomi."
+                    content="BathariSri adalah platform smart farming berbasis AI untuk petani muda Indonesia. Deteksi penyakit padi instan, pantau bibit real-time, dan ubah limbah menjadi nilai ekonomi."
                 />
                 <meta name="keywords" content="smart farming, AI pertanian, deteksi penyakit padi, sistem pakar limbah, BathariSri" />
                 <meta property="og:title" content="BathariSri - Platform Pertanian Cerdas Berbasis AI" />

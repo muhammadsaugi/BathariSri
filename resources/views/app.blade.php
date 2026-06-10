@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
+        <link rel="icon" href="/images/Logo_BathariSri.png" type="image/png">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">

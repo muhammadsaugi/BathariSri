@@ -2,16 +2,6 @@ import { useEffect, useRef } from 'react';
 import { Link } from '@inertiajs/react';
 import { PiArrowUpRight, PiCheckCircleFill } from 'react-icons/pi';
 
-/**
- * BathariSri — HeroSection (Light & Organic Design)
- *
- * Sesuai referensi:
- * - Full screen background image (Unsplash farm/tractor).
- * - Teks terpusat (centered) di atas.
- * - Tombol di tengah.
- * - Pill box "10K+ Petani" di kiri bawah.
- * - Badges di kanan bawah.
- */
 export default function HeroSection({ auth }) {
     const heroRef = useRef(null);
 
@@ -58,7 +48,7 @@ export default function HeroSection({ auth }) {
 
                 {/* Subheadline */}
                 <p className="hero-anim opacity-0 translate-y-6 transition-all duration-700 ease-out text-gray-700 text-base sm:text-lg md:text-xl font-medium mt-6 max-w-2xl leading-relaxed">
-                    BathariSri hadir untuk membantu petani Indonesia mendeteksi penyakit tanaman secara instan, memantau bibit dari mana saja, dan mengubah limbah pertanian menjadi nilai ekonomi nyata.
+                    BathariSri hadir untuk membantu petani Indonesia dengan Sistem Pendukung Keputusan cerdas: deteksi penyakit instan, rekomendasi pupuk presisi, prediksi hasil panen, dan pengelolaan limbah bernilai ekonomi.
                 </p>
 
                 {/* Buttons */}
@@ -102,29 +92,21 @@ export default function HeroSection({ auth }) {
                     </div>
                 </div> */}
 
-                {/* Kanan: Badges */}
-                <div className="hero-anim opacity-0 translate-y-6 transition-all duration-700 ease-out delay-[500ms] flex flex-wrap items-center justify-end gap-2 md:gap-3">
-                    {['Efisiensi', 'Keberlanjutan', 'Pertumbuhan'].map((badge, idx) => (
-                        <div key={idx} className="flex items-center gap-2 bg-dark-bg/60 backdrop-blur-md border border-white/10 rounded-full py-2 px-4 shadow-lg">
-                            <PiCheckCircleFill className="text-white w-4 h-4" />
-                            <span className="text-white text-sm font-medium">{badge}</span>
-                        </div>
-                    ))}
-                </div>
+                {/* Kanan: Badges removed */}
 
             </div>
 
             {/* ── Shape Divider (Transisi Organik ke Fitur) ───────────────── */}
             <div className="absolute bottom-[-1px] left-0 w-full overflow-hidden leading-[0]">
-                <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="0 0 1440 320" 
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 1440 320"
                     preserveAspectRatio="none"
                     className="w-full h-[40px] sm:h-[60px] md:h-[90px] lg:h-[100px]"
                 >
-                    <path 
-                        fill="#f8faf6" 
-                        fillOpacity="1" 
+                    <path
+                        fill="#f8faf6"
+                        fillOpacity="1"
                         d="M0,224L60,202.7C120,181,240,139,360,144C480,149,600,203,720,208C840,213,960,171,1080,144C1200,117,1320,107,1380,101.3L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
                     ></path>
                 </svg>

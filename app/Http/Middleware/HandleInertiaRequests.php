@@ -32,8 +32,17 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user()?->only('id', 'name', 'email', 'role', 'avatar'),
             ],
+            'flash' => [
+                'success' => session('success'),
+                'error'   => session('error'),
+            ],
+            // Query ini hanya berjalan untuk user dengan role 'petani'
+            // agar tidak ada overhead query DB pada setiap request Admin
+            'has_lahan' => ($request->user()?->role === 'petani')
+                ? $request->user()->lahans()->where('is_active', true)->exists()
+                : null,
         ];
     }
 }

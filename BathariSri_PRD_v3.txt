@@ -1,0 +1,976 @@
+================================================================================
+  BATHARISR I — PRODUCT REQUIREMENTS DOCUMENT (PRD)
+  Versi      : 3.0 (Revisi Final — Realistis untuk Seminggu + Lomba Nasional)
+  Tanggal    : 08 Juni 2026
+  Dibuat oleh: [Nama Mahasiswa] — [NIM] — Politeknik Negeri Jember (POLIJE)
+  Stack      : Laravel 13 + Inertia.js + FastAPI (Python)
+  Mode kerja : Vibe coding dengan Kiro AI
+================================================================================
+
+════════════════════════════════════════════════════════════════════════════════
+  CATATAN KRITIS SEBELUM MEMBACA PRD INI
+════════════════════════════════════════════════════════════════════════════════
+
+  PERUBAHAN BESAR DARI v2.0 → v3.0:
+
+  [1] MODUL 1 DIGANTI TOTAL
+      Bukan Growth Stage Detection.
+      Alasan: Semua dataset growth stage padi yang ada berbasis UAV/drone
+      dan LANDSAT — tidak cocok dengan foto smartphone petani. Tidak ada
+      dataset open-source yang siap pakai untuk konteks ini dalam seminggu.
+      Pengganti: "Kalkulator Umur & Jadwal Tanam Cerdas" (tidak butuh ML,
+      tapi tetap smart dan bernilai tinggi di mata juri).
+
+  [2] ROLE DISEDERHANAKAN: 4 → 2
+      Alasan: 4 role terlalu kompleks untuk seminggu + vibe coding.
+      Lebih penting: menghilangkan claim "Dinas Pertanian" yang berisiko
+      di lomba karena juri akan tanya legalitas MOU-nya.
+      Pengganti: Admin (kamu/pengelola sistem) + Petani (end user).
+
+  [3] BRANDING LOMBA AMAN
+      Tidak menyebut Dinas Pertanian, PPL, atau lembaga pemerintah.
+      Posisi BathariSri = platform independen untuk petani muda,
+      bukan aplikasi pemerintah.
+
+════════════════════════════════════════════════════════════════════════════════
+  BAGIAN 0 — RINGKASAN EKSEKUTIF
+════════════════════════════════════════════════════════════════════════════════
+
+  BathariSri adalah platform web berbasis AI untuk petani padi muda Indonesia.
+  Sistem mengintegrasikan Computer Vision (deteksi penyakit daun), Decision
+  Support System berbasis TOPSIS (rekomendasi pemupukan, prediksi panen,
+  pengelolaan limbah), dan kalkulator agronomi cerdas — seluruhnya dalam
+  satu antarmuka web yang ramah pengguna awam.
+
+  Status saat ini (08/06/2026):
+    [SELESAI]  Landing page kerangka web sudah ada
+    [SELESAI]  FastAPI + Model ResNet50 deteksi penyakit daun (Modul 2)
+               Running di: http://127.0.0.1:8000
+               Service Laravel: PadiScanService.php sudah tersedia
+    [TODO]     Semua halaman setelah login (admin + petani)
+    [TODO]     Database migration + seeder
+    [TODO]     Integrasi FastAPI ke Laravel
+    [TODO]     Logic SPK (Modul 3, 4, 5)
+    [TODO]     Modul 1 (Kalkulator — tidak butuh ML)
+
+════════════════════════════════════════════════════════════════════════════════
+  BAGIAN 1 — SISTEM ROLE (DISEDERHANAKAN)
+════════════════════════════════════════════════════════════════════════════════
+
+  FILOSOFI: 2 role saja. Simpel, bisa dibuat dalam seminggu, tetap terlihat
+  profesional di lomba. Tidak ada claim lembaga pemerintah.
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │  ROLE 1: admin                                                          │
+  │  Siapa: Pengelola platform BathariSri (kamu/tim pengembang)            │
+  │  Akses:                                                                 │
+  │   • Dashboard statistik global (total user, scan, penyakit terbanyak)  │
+  │   • Manajemen akun petani (lihat, nonaktifkan)                         │
+  │   • CRUD data referensi: pupuk, penyakit, harga limbah, harga gabah    │
+  │   • Konfigurasi bobot SPK (TOPSIS)                                     │
+  │   • CRUD artikel & tips pertanian                                      │
+  │   • Lihat semua riwayat scan dan rekomendasi                           │
+  │   • Export data (CSV)                                                  │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │  ROLE 2: petani                                                         │
+  │  Siapa: End user — petani muda yang mendaftar mandiri                  │
+  │  Akses:                                                                 │
+  │   • Dashboard pribadi                                                   │
+  │   • Kelola lahan miliknya                                              │
+  │   • Modul 1: Kalkulator Jadwal Tanam                                   │
+  │   • Modul 2: Deteksi Penyakit Daun (upload foto → AI)                 │
+  │   • Modul 3: Rekomendasi Pupuk (SPK)                                   │
+  │   • Modul 4: Prediksi Panen (SPK)                                      │
+  │   • Modul 5: Rekomendasi Limbah (SPK)                                  │
+  │   • Riwayat semua aktivitas                                            │
+  │   • Baca artikel & tips                                                │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+  MATRIKS AKSES:
+  ┌──────────────────────────────────────┬───────┬────────┐
+  │ Fitur                                │ admin │ petani │
+  ├──────────────────────────────────────┼───────┼────────┤
+  │ Dashboard statistik global           │   ✓   │   —    │
+  │ Manajemen user                       │   ✓   │   —    │
+  │ Konfigurasi bobot SPK                │   ✓   │   —    │
+  │ CRUD referensi (pupuk, harga, dsb)   │   ✓   │   —    │
+  │ CRUD artikel                         │   ✓   │   —    │
+  │ Lihat semua scan (semua petani)      │   ✓   │   —    │
+  │ Export CSV                           │   ✓   │   —    │
+  │ Kelola lahan sendiri                 │   —   │   ✓    │
+  │ Modul 1 (Kalkulator)                 │   —   │   ✓    │
+  │ Modul 2 (Deteksi penyakit AI)        │   —   │   ✓    │
+  │ Modul 3 (SPK pupuk)                  │   —   │   ✓    │
+  │ Modul 4 (Prediksi panen)             │   —   │   ✓    │
+  │ Modul 5 (Rekomendasi limbah)         │   —   │   ✓    │
+  │ Baca artikel                         │   ✓   │   ✓    │
+  └──────────────────────────────────────┴───────┴────────┘
+
+════════════════════════════════════════════════════════════════════════════════
+  BAGIAN 2 — DATABASE SCHEMA
+════════════════════════════════════════════════════════════════════════════════
+
+  2.1 TABEL: users
+  ─────────────────
+  id                  bigint PK auto_increment
+  name                varchar(255)
+  email               varchar(255) unique
+  password            varchar(255) hashed
+  role                enum('admin','petani') default 'petani'
+  phone               varchar(20) nullable
+  alamat              text nullable
+  avatar              varchar(255) nullable
+  is_active           boolean default true
+  email_verified_at   timestamp nullable
+  remember_token      varchar(100) nullable
+  created_at          timestamp
+  updated_at          timestamp
+
+  2.2 TABEL: lahans
+  ──────────────────
+  id                  bigint PK
+  user_id             bigint FK → users.id (cascade delete)
+  nama_lahan          varchar(255)        -- e.g. "Sawah Timur Rumah"
+  luas_are            decimal(8,2)        -- dalam satuan are
+  desa                varchar(255)
+  kecamatan           varchar(255)
+  kabupaten           varchar(255)
+  jenis_tanah         enum('liat','lempung','pasir')
+  sumber_air          enum('irigasi_teknis','tadah_hujan','pompa')
+  varietas_default    varchar(100) nullable
+  is_active           boolean default true
+  created_at          timestamp
+  updated_at          timestamp
+
+  2.3 TABEL: disease_scans
+  ─────────────────────────
+  id                  bigint PK
+  user_id             bigint FK → users.id
+  lahan_id            bigint FK → lahans.id nullable
+  image_path          varchar(500)
+  predicted_class     enum('bacterial_leaf_blight','brown_spot','leaf_blast','healthy')
+  confidence          decimal(5,4)        -- contoh: 0.9234
+  severity            enum('mild','moderate','severe') nullable
+  raw_response        json                -- simpan full JSON dari FastAPI
+  action_taken        text nullable       -- catatan tindakan petani
+  scanned_at          timestamp default now()
+  created_at          timestamp
+  updated_at          timestamp
+
+  2.4 TABEL: planting_schedules  (output Modul 1)
+  ─────────────────────────────────────────────────
+  id                  bigint PK
+  user_id             bigint FK → users.id
+  lahan_id            bigint FK → lahans.id nullable
+  varietas            varchar(100)
+  tanggal_semai       date
+  tanggal_tanam       date                -- HSS ke-21-25 otomatis
+  umur_panen_hari     int                 -- dari referensi varietas
+  estimasi_panen      date                -- tanggal_tanam + umur_panen
+  fase_saat_ini       varchar(50)         -- dihitung real-time saat dibuka
+  hst_saat_ini        int                 -- hari setelah tanam hari ini
+  jadwal_pupuk        json                -- array jadwal pemupukan per fase
+  catatan             text nullable
+  created_at          timestamp
+  updated_at          timestamp
+
+  2.5 TABEL: spk_fertilizer_recs  (output Modul 3)
+  ──────────────────────────────────────────────────
+  id                  bigint PK
+  user_id             bigint FK → users.id
+  lahan_id            bigint FK → lahans.id nullable
+  disease_scan_id     bigint FK → disease_scans.id nullable
+  planting_id         bigint FK → planting_schedules.id nullable
+  input_data          json                -- semua parameter input
+  topsis_scores       json                -- skor per alternatif
+  rekomendasi         varchar(100)        -- alternatif terpilih
+  detail_pupuk        json                -- jenis, dosis, jadwal
+  estimasi_biaya      decimal(12,2)
+  catatan             text nullable
+  created_at          timestamp
+  updated_at          timestamp
+
+  2.6 TABEL: harvest_predictions  (output Modul 4)
+  ──────────────────────────────────────────────────
+  id                  bigint PK
+  user_id             bigint FK → users.id
+  lahan_id            bigint FK → lahans.id nullable
+  spk_fertilizer_id   bigint FK → spk_fertilizer_recs.id nullable
+  input_data          json
+  topsis_scores       json
+  kategori            enum('sangat_baik','baik','cukup','rendah','berisiko')
+  estimasi_ton_ha     decimal(6,2)
+  estimasi_total_ton  decimal(8,2)
+  estimasi_pendapatan decimal(14,2)
+  faktor_risiko       json
+  created_at          timestamp
+  updated_at          timestamp
+
+  2.7 TABEL: waste_recommendations  (output Modul 5)
+  ────────────────────────────────────────────────────
+  id                  bigint PK
+  user_id             bigint FK → users.id
+  lahan_id            bigint FK → lahans.id nullable
+  harvest_id          bigint FK → harvest_predictions.id nullable
+  input_data          json
+  rekomendasi_jerami  json nullable
+  rekomendasi_sekam   json nullable
+  rekomendasi_dedak   json nullable
+  total_nilai_ekonomi decimal(14,2)
+  created_at          timestamp
+  updated_at          timestamp
+
+  2.8 TABEL: articles
+  ─────────────────────
+  id                  bigint PK
+  title               varchar(500)
+  slug                varchar(500) unique
+  content             longtext
+  category            enum('penyakit','pemupukan','pasca_panen','teknologi','umum')
+  thumbnail           varchar(500) nullable
+  author_id           bigint FK → users.id
+  is_published        boolean default false
+  published_at        timestamp nullable
+  created_at          timestamp
+  updated_at          timestamp
+
+  2.9 TABEL: referensi (config tables — diisi admin)
+  ────────────────────────────────────────────────────
+
+  a) fertilizer_refs
+     id, nama, jenis enum('kimia','organik','majemuk','foliar'),
+     harga_per_kg decimal(10,2), satuan varchar(50), deskripsi text,
+     created_at, updated_at
+
+  b) disease_refs
+     id, disease_key varchar(100) unique, nama_id varchar(255),
+     nama_en varchar(255), nama_ilmiah varchar(255),
+     deskripsi text, gejala text,
+     penanganan_mild text, penanganan_moderate text, penanganan_severe text,
+     pencegahan text, created_at, updated_at
+
+  c) variety_refs
+     id, nama varchar(100), umur_panen_hari int,
+     potensi_hasil_ton_ha decimal(5,2),
+     deskripsi text, created_at, updated_at
+
+  d) commodity_prices
+     id, komoditas varchar(100), harga_per_kg decimal(10,2),
+     satuan varchar(50), updated_by bigint FK → users.id,
+     updated_at timestamp
+
+  e) waste_price_refs
+     id, jenis_limbah enum('jerami','sekam','dedak'),
+     metode_pengolahan varchar(255), harga_per_kg decimal(10,2),
+     updated_at timestamp
+
+  f) spk_weight_configs
+     id, modul varchar(50), kriteria_nama varchar(255),
+     bobot decimal(5,4), jenis enum('benefit','cost'),
+     updated_by bigint FK → users.id, updated_at timestamp
+
+════════════════════════════════════════════════════════════════════════════════
+  BAGIAN 3 — MODUL 1: KALKULATOR JADWAL TANAM CERDAS
+════════════════════════════════════════════════════════════════════════════════
+
+  ── KEPUTUSAN DESAIN ──────────────────────────────────────────────────────
+
+  Modul 1 TIDAK menggunakan Computer Vision atau Machine Learning.
+  Alasan:
+    • Tidak ada dataset growth stage padi smartphone-based yang open-source
+      dan bisa digunakan dalam seminggu. Semua dataset yang ada (UAV, LANDSAT,
+      drone) tidak cocok dengan konteks foto dari HP petani.
+    • Membuat dataset sendiri butuh minimal 4-6 minggu (pengumpulan, labeling,
+      training, validasi).
+
+  Modul 1 menggunakan KALKULASI AGRONOMI BERBASIS ATURAN (rule-based).
+  Ini tetap SANGAT KUAT untuk lomba karena:
+    • Output konkret dan langsung berguna: "Hari ini HST ke-32, masuk fase
+      vegetatif akhir. Waktunya pemupukan susulan pertama!"
+    • Menggantikan kertas catatan petani yang sering hilang
+    • Output Modul 1 (fase saat ini) otomatis menjadi input Modul 3
+    • Tidak ada claim yang tidak bisa dibuktikan ke juri
+
+  NARASI KE JURI: "Modul 1 adalah digital companion sepanjang musim tanam.
+  Petani cukup input sekali di awal musim, sistem otomatis menghitung dan
+  mengingatkan jadwal pemupukan, pengairan, dan perkiraan panen setiap hari."
+
+  ── INPUT ─────────────────────────────────────────────────────────────────
+
+  Dari petani (input sekali di awal musim):
+    • Pilih lahan (dropdown dari lahan terdaftar)
+    • Tanggal semai
+    • Tanggal tanam (atau pilih "tanam 21 hari setelah semai")
+    • Varietas padi (dropdown dari variety_refs: IR64, Ciherang, Inpari 32,
+      Mekongga, dll — diisi admin)
+    • Sumber air (untuk kalkulasi kebutuhan pengairan)
+
+  ── LOGIKA KALKULASI ──────────────────────────────────────────────────────
+
+  Data referensi varietas (dari tabel variety_refs, diisi admin):
+    Contoh:
+    Ciherang   → umur panen 116 hari, potensi 6.0 ton/ha
+    IR64       → umur panen 110 hari, potensi 5.0 ton/ha
+    Inpari 32  → umur panen 118 hari, potensi 6.5 ton/ha
+    Mekongga   → umur panen 116 hari, potensi 6.0 ton/ha
+
+  Pembagian fase otomatis (dihitung dari HST):
+    HST  1-14  : Vegetatif Awal     (establishment, anakan awal)
+    HST 15-45  : Vegetatif Aktif    (anakan maksimum)
+    HST 46-65  : Reproduktif        (pembentukan malai, heading)
+    HST 66-dst : Pemasakan          (pengisian gabah, panen)
+    Catatan: Batas fase ini adaptif berdasarkan umur panen varietas.
+    Formula: fase_reproduktif_mulai = round(umur_panen * 0.40)
+             fase_pemasakan_mulai   = round(umur_panen * 0.58)
+
+  Jadwal pemupukan otomatis (generate saat input disimpan):
+    Pupuk Dasar    : HST 0-3    (saat tanam)
+    Pupuk Susulan 1: HST 21-25  (fase vegetatif aktif)
+    Pupuk Susulan 2: HST 40-45  (akhir vegetatif / awal reproduktif)
+    Pupuk Susulan 3: HST 55-60  (fase reproduktif — opsional, tergantung kondisi)
+
+  ── OUTPUT ────────────────────────────────────────────────────────────────
+
+  Dashboard musim tanam:
+    • Hari ini: "HST ke-32 — Fase Vegetatif Aktif"
+    • Progress bar visual: [===========>........] 32/116 hari
+    • Perkiraan panen: "18 Oktober 2026" (+ countdown: 84 hari lagi)
+    • Status pupuk terakhir: ✓ Pupuk dasar, ✓ Susulan 1, ○ Susulan 2 (18 hari lagi)
+    • Alert: "Sudah waktunya pemupukan susulan ke-2!" (jika masuk jendela waktu)
+
+  Timeline visual musim tanam (satu halaman, menarik secara UI):
+    [ Semai ] → [ Tanam ] → [ Pupuk 1 ] → [ Pupuk 2 ] → [ Pupuk 3 ] → [ Panen ]
+      tgl        tgl          tgl           tgl           tgl           tgl
+
+  Tombol aksi cepat:
+    • "Deteksi Penyakit Sekarang" → ke Modul 2
+    • "Minta Rekomendasi Pupuk"   → ke Modul 3 (fase otomatis terisi)
+
+  ── DATABASE ──────────────────────────────────────────────────────────────
+
+  Gunakan tabel: planting_schedules (sudah didefinisikan di Bagian 2.4)
+  Fase saat ini dihitung real-time di PHP, tidak disimpan permanen.
+
+  ── IMPLEMENTASI (untuk Kiro) ─────────────────────────────────────────────
+
+  Controller : PlantingController.php
+  Routes     :
+    GET    /tanam           → index (daftar musim tanam aktif)
+    GET    /tanam/buat      → create (form input)
+    POST   /tanam           → store (simpan + generate jadwal)
+    GET    /tanam/{id}      → show (dashboard musim tanam)
+    DELETE /tanam/{id}      → destroy
+
+  Service    : PlantingCalculatorService.php
+  Method utama:
+    calculatePhase(Carbon $tanggal_tanam, int $umur_panen, Carbon $today): array
+      return [
+        'hst'          => int,
+        'fase'         => string,
+        'fase_index'   => int (0-3),
+        'next_event'   => string,
+        'days_to_next' => int,
+        'alerts'       => array,
+      ]
+
+    generateSchedule(Carbon $tanggal_tanam, int $umur_panen): array
+      return array of ['event', 'tanggal_mulai', 'tanggal_selesai', 'status']
+
+  Inertia Page: Pages/Tanam/Show.vue
+    Props: { planting: object, schedule: array, today_status: object }
+
+════════════════════════════════════════════════════════════════════════════════
+  BAGIAN 4 — MODUL 2: DETEKSI PENYAKIT DAUN PADI (SUDAH ADA)
+════════════════════════════════════════════════════════════════════════════════
+
+  ── STATUS ────────────────────────────────────────────────────────────────
+
+  [SELESAI] Model ResNet50 sudah di-deploy di FastAPI localhost:8000
+  [SELESAI] PadiScanService.php sudah tersedia
+  [TODO]    Semua bagian Laravel di bawah ini
+
+  ── ENDPOINT FASTAPI YANG TERSEDIA ────────────────────────────────────────
+
+  GET  /api/v1/health        → cek apakah model loaded dan siap
+  GET  /api/v1/classes       → daftar kelas penyakit yang bisa dideteksi
+  GET  /api/v1/info          → info model (nama, versi, akurasi)
+  POST /api/v1/predict       → prediksi 1 gambar (multipart/form-data)
+  POST /api/v1/predict/batch → prediksi banyak gambar sekaligus
+
+  Contoh response POST /api/v1/predict yang diharapkan:
+  {
+    "predicted_class": "leaf_blast",
+    "confidence": 0.9234,
+    "class_probabilities": {
+      "bacterial_leaf_blight": 0.0123,
+      "brown_spot": 0.0456,
+      "leaf_blast": 0.9234,
+      "healthy": 0.0187
+    }
+  }
+
+  ── KELAS OUTPUT MODEL ────────────────────────────────────────────────────
+
+  bacterial_leaf_blight → Hawar Daun Bakteri
+  brown_spot            → Bercak Coklat
+  leaf_blast            → Blas Daun
+  healthy               → Sehat
+
+  ── INTEGRASI LARAVEL (TODO) ──────────────────────────────────────────────
+
+  File yang perlu dibuat:
+    app/Services/PadiScanService.php     ← SUDAH ADA
+    app/Http/Controllers/ScanController.php
+    resources/js/Pages/Scan/Penyakit.vue
+    resources/js/Pages/Scan/Hasil.vue
+
+  Routes:
+    POST   /scan/penyakit         → ScanController@store
+    GET    /scan/penyakit         → ScanController@index (riwayat)
+    GET    /scan/penyakit/{id}    → ScanController@show (detail hasil)
+    DELETE /scan/penyakit/{id}    → ScanController@destroy
+
+  Logika ScanController@store:
+    1. Validasi: file gambar, max 5MB, mime: jpg/jpeg/png/webp
+    2. Simpan gambar ke storage/app/public/scans/penyakit/{user_id}/
+    3. Panggil PadiScanService::predict($imagePath)
+    4. Tangkap response JSON dari FastAPI
+    5. Hitung severity (lihat logika di bawah)
+    6. Simpan ke tabel disease_scans
+    7. Redirect ke halaman hasil dengan data
+
+  Logika severity (rule-based dari confidence score):
+    confidence >= 0.85 AND class != healthy → severe
+    confidence  0.65-0.84                  → moderate
+    confidence < 0.65                       → mild
+    class == healthy                        → null (tidak ada severity)
+
+  Catatan untuk Kiro: Gunakan try-catch saat memanggil FastAPI.
+  Jika FastAPI timeout/error, tampilkan pesan "Sistem AI sedang tidak
+  tersedia, coba beberapa saat lagi" — jangan biarkan 500 error.
+
+  ── TAMPILAN HASIL UNTUK PETANI ───────────────────────────────────────────
+
+  Halaman hasil scan harus menampilkan:
+    1. Gambar yang diupload (thumbnail)
+    2. Nama penyakit dalam Bahasa Indonesia (dari disease_refs)
+    3. Nama ilmiah (dari disease_refs)
+    4. Badge confidence: "92% yakin" dengan warna (hijau ≥80%, kuning 60-79%,
+       merah <60%)
+    5. Badge severity: Ringan / Sedang / Parah (dengan warna)
+    6. Deskripsi penyakit singkat (dari disease_refs.deskripsi)
+    7. Gejala khas (dari disease_refs.gejala)
+    8. Rekomendasi penanganan sesuai severity (dari disease_refs.penanganan_*)
+    9. Tombol "Minta Rekomendasi Pupuk" → ke Modul 3 dengan pre-fill data
+    10. Tombol "Simpan & Kembali"
+
+════════════════════════════════════════════════════════════════════════════════
+  BAGIAN 5 — MODUL 3: SPK REKOMENDASI PEMUPUKAN (AHP-TOPSIS)
+════════════════════════════════════════════════════════════════════════════════
+
+  ── METODE ────────────────────────────────────────────────────────────────
+
+  AHP untuk pembobotan kriteria (bisa dikonfigurasi admin).
+  TOPSIS untuk ranking alternatif rekomendasi pupuk.
+
+  ── INPUT PARAMETER ───────────────────────────────────────────────────────
+
+  Dari sistem (otomatis — pre-filled jika ada):
+    fase_pertumbuhan     : dari planting_schedules (fase saat ini)
+    jenis_penyakit       : dari disease_scans terbaru di lahan ini
+    severity_penyakit    : dari disease_scans terbaru
+
+  Input manual petani di form:
+    luas_lahan           : sudah ada di tabel lahans (auto-fill)
+    jenis_tanah          : sudah ada di tabel lahans (auto-fill)
+    sumber_air           : sudah ada di tabel lahans (auto-fill)
+    ketersediaan_air     : dropdown (baik / cukup / kurang)
+    riwayat_pemupukan    : dropdown (belum_pupuk / sudah_dasar / sudah_susulan_1)
+
+  ── KRITERIA DAN BOBOT DEFAULT ────────────────────────────────────────────
+
+  Ini disimpan di tabel spk_weight_configs dan bisa diubah admin.
+  Bobot berikut adalah nilai default (seed data):
+
+  No | Kriteria              | Bobot Default | Jenis   |
+  ---|------------------------|---------------|---------|
+  1  | Fase pertumbuhan       | 0.25          | benefit |
+  2  | Kondisi penyakit       | 0.22          | cost    |
+  3  | Ketersediaan air       | 0.20          | benefit |
+  4  | Jenis tanah            | 0.18          | benefit |
+  5  | Riwayat pemupukan      | 0.15          | benefit |
+
+  Jumlah bobot = 1.00
+
+  ── SKALA NILAI PER KRITERIA ──────────────────────────────────────────────
+
+  Fase pertumbuhan (benefit — semakin awal semakin butuh nitrogen):
+    vegetatif_awal   = 4
+    vegetatif_aktif  = 5
+    reproduktif      = 3
+    pemasakan        = 1
+
+  Kondisi penyakit (cost — semakin parah semakin buruk):
+    healthy  = 1 (terbaik)
+    mild     = 2
+    moderate = 3
+    severe   = 4 (terburuk)
+
+  Ketersediaan air (benefit):
+    baik   = 3
+    cukup  = 2
+    kurang = 1
+
+  Jenis tanah (benefit — untuk penyerapan pupuk):
+    lempung = 3 (terbaik)
+    liat    = 2
+    pasir   = 1
+
+  Riwayat pemupukan (benefit):
+    belum_pupuk    = 3 (butuh pupuk paling segera)
+    sudah_dasar    = 2
+    sudah_susulan1 = 1
+
+  ── ALTERNATIF REKOMENDASI ────────────────────────────────────────────────
+
+  6 alternatif, TOPSIS akan meranking dan memilih yang terbaik:
+    A1 : Urea + SP36 + KCl         (standar kimia lengkap)
+    A2 : NPK Phonska               (kimia majemuk praktis)
+    A3 : Urea + Kompos             (semi-organik — prioritas air cukup)
+    A4 : Pupuk organik penuh       (untuk lahan dengan penyakit parah)
+    A5 : Pupuk daun (foliar)       (untuk kondisi kekeringan/kurang air)
+    A6 : Tunda + penanganan OPT    (jika severity parah, pupuk bisa memperparah)
+
+  Matriks nilai alternatif per kriteria (nilai 1-5, sudah ditentukan pakar):
+
+        | Fase | Penyakit | Air | Tanah | Riwayat |
+  A1   |  5   |    1     |  3  |   3   |    3    |
+  A2   |  4   |    2     |  3  |   2   |    3    |
+  A3   |  4   |    3     |  2  |   3   |    2    |
+  A4   |  3   |    5     |  2  |   2   |    1    |
+  A5   |  2   |    3     |  1  |   2   |    2    |
+  A6   |  1   |    5     |  1  |   1   |    1    |
+
+  ── OUTPUT ────────────────────────────────────────────────────────────────
+
+    • Alternatif terpilih (A1-A6) dengan nama dan deskripsi
+    • Tabel skor TOPSIS semua alternatif (transparansi)
+    • Dosis rekomendasi (kg/are × luas_lahan dari data lahan)
+      → Ambil dari tabel fertilizer_refs berdasarkan alternatif terpilih
+    • Estimasi biaya total (dosis × harga dari fertilizer_refs)
+    • Jadwal aplikasi (berdasarkan fase saat ini)
+    • Catatan khusus berdasarkan penyakit (dari disease_refs)
+
+  ── IMPLEMENTASI ──────────────────────────────────────────────────────────
+
+  File:
+    app/Services/TopsisService.php   ← dibuat baru (universal, dipakai M3+M4+M5)
+    app/Services/FertilizerSPKService.php
+    app/Http/Controllers/SPK/FertilizerController.php
+    resources/js/Pages/SPK/Pupuk.vue
+
+  TopsisService.php skeleton:
+
+    class TopsisService {
+      public function calculate(
+        array $alternatives,  // ['A1'=>[val1,val2,...], 'A2'=>[...], ...]
+        array $weights,       // [0.25, 0.22, 0.20, 0.18, 0.15]
+        array $types          // ['benefit','cost','benefit','benefit','benefit']
+      ): array {
+        // Step 1: Normalisasi matriks (pembagian elemen per kolom dengan
+        //         akar jumlah kuadrat kolom tersebut)
+        // Step 2: Pembobotan (kalikan hasil normalisasi dengan bobot)
+        // Step 3: Tentukan Solusi Ideal Positif (A+) dan Negatif (A-)
+        //         benefit: A+ = max, A- = min
+        //         cost:    A+ = min, A- = max
+        // Step 4: Hitung jarak Euclidean ke A+ (D+) dan A- (D-)
+        // Step 5: Hitung skor preferensi: Ci = D- / (D+ + D-)
+        // Step 6: Ranking (Ci terbesar = terbaik)
+        // Return: array(['alternative'=>'A1', 'score'=>0.87, 'rank'=>1], ...)
+      }
+    }
+
+════════════════════════════════════════════════════════════════════════════════
+  BAGIAN 6 — MODUL 4: PREDIKSI HASIL PANEN (TOPSIS)
+════════════════════════════════════════════════════════════════════════════════
+
+  ── METODE ────────────────────────────────────────────────────────────────
+
+  TOPSIS — menggunakan TopsisService.php yang sama dari Modul 3.
+  Tidak menggunakan Machine Learning (alasan: tidak ada dataset yang cukup).
+
+  ── INPUT PARAMETER ───────────────────────────────────────────────────────
+
+  Otomatis (pre-filled dari data yang sudah ada):
+    luas_lahan          : dari lahans.luas_are
+    varietas            : dari planting_schedules.varietas
+    potensi_hasil_var   : dari variety_refs.potensi_hasil_ton_ha
+    riwayat_penyakit    : dari disease_scans (ambil scan terbaru di lahan ini,
+                          cek apakah ada penyakit severe dalam 30 hari terakhir)
+    ikut_rekomendasi_m3 : boolean (apakah sudah generate rekomendasi M3?)
+
+  Input manual petani:
+    sumber_air          : auto-fill dari lahans, bisa diubah
+    kondisi_cuaca       : enum (normal / banjir / kekeringan)
+    jumlah_pemupukan    : int — sudah berapa kali memupuk musim ini
+
+  ── KRITERIA DAN BOBOT DEFAULT ────────────────────────────────────────────
+
+  No | Kriteria                    | Bobot Default | Jenis   |
+  ---|------------------------------|---------------|---------|
+  1  | Keparahan penyakit (max)     | 0.30          | cost    |
+  2  | Kesesuaian pemupukan         | 0.25          | benefit |
+  3  | Ketersediaan air             | 0.20          | benefit |
+  4  | Potensi varietas             | 0.15          | benefit |
+  5  | Kondisi cuaca                | 0.10          | benefit |
+
+  ── SKALA NILAI ───────────────────────────────────────────────────────────
+
+  Keparahan penyakit (cost):
+    tidak_ada_penyakit = 1, mild = 2, moderate = 3, severe = 4
+
+  Kesesuaian pemupukan (benefit):
+    ikut_rekomendasi + ≥3x pupuk = 5
+    tidak ikut + ≥3x             = 3
+    ikut rekomendasi + <3x        = 4
+    tidak ikut + <3x              = 2
+    tidak pernah pupuk            = 1
+
+  Ketersediaan air (benefit):
+    irigasi_teknis + baik = 5, irigasi + cukup = 4,
+    tadah_hujan + baik = 3, tadah_hujan + cukup = 2,
+    kondisi_kurang = 1
+
+  Potensi varietas (benefit — dari variety_refs):
+    ≥6.5 ton/ha = 5, 5.5-6.4 = 4, 4.5-5.4 = 3, 3.5-4.4 = 2, <3.5 = 1
+
+  Kondisi cuaca (benefit):
+    normal = 3, banjir = 1, kekeringan = 1
+
+  ── ALTERNATIF (KATEGORI PANEN) ───────────────────────────────────────────
+
+  K1 : Sangat Baik  → faktor koreksi 0.95 × potensi varietas
+  K2 : Baik         → faktor koreksi 0.80 × potensi varietas
+  K3 : Cukup        → faktor koreksi 0.65 × potensi varietas
+  K4 : Rendah       → faktor koreksi 0.50 × potensi varietas
+  K5 : Berisiko     → faktor koreksi 0.30 × potensi varietas
+
+  Skor TOPSIS menentukan kategori mana yang paling sesuai kondisi lahan.
+
+  ── OUTPUT ────────────────────────────────────────────────────────────────
+
+    • Kategori potensi panen (badge visual + ikon)
+    • Estimasi hasil (ton/ha) dan total (ton untuk lahan tersebut)
+    • Estimasi pendapatan kotor (ton × harga_gabah dari commodity_prices)
+    • Faktor risiko utama yang ditemukan
+    • Rekomendasi tindakan untuk meningkatkan potensi
+    • Tombol "Rencanakan Pengolahan Limbah" → ke Modul 5
+
+════════════════════════════════════════════════════════════════════════════════
+  BAGIAN 7 — MODUL 5: REKOMENDASI PENGOLAHAN LIMBAH PADI (TOPSIS)
+════════════════════════════════════════════════════════════════════════════════
+
+  ── INTEGRASI DENGAN M4 ───────────────────────────────────────────────────
+
+  Input utama: harvest_prediction_id dari Modul 4.
+  Estimasi volume limbah dihitung otomatis dari total panen:
+    Jerami  : estimasi_total_ton × 1.2  (rasio jerami:gabah)
+    Sekam   : estimasi_total_ton × 0.20 (20% dari berat gabah)
+    Dedak   : estimasi_total_ton × 0.08 (8% dari berat gabah)
+
+  ── INPUT MANUAL PETANI ───────────────────────────────────────────────────
+
+    jenis_limbah_ada    : checkbox (jerami / sekam / dedak)
+    fasilitas           : checkbox (lahan_kosong / kandang_ternak /
+                          akses_pengepul / alat_cacah)
+    tujuan_utama        : radio (ekonomi / lingkungan / keduanya)
+
+  ── ALTERNATIF DAN SCORING PER JENIS LIMBAH ──────────────────────────────
+
+  JERAMI (5 alternatif):
+    J1 : Kompos          — butuh: lahan_kosong
+    J2 : Pakan ternak    — butuh: kandang_ternak
+    J3 : Biochar         — butuh: lahan_kosong
+    J4 : Mulsa           — tidak butuh fasilitas
+    J5 : Dibakar         — nilai ekonomi 0, skor rendah, tambahkan WARNING
+
+  SEKAM (4 alternatif):
+    S1 : Arang sekam/biochar  — nilai ekonomi tinggi
+    S2 : Media tanam          — nilai sedang
+    S3 : Briket bahan bakar   — nilai sedang
+    S4 : Jual langsung        — nilai rendah tapi paling mudah
+
+  DEDAK (3 alternatif):
+    D1 : Pakan ternak langsung — nilai ekonomi tinggi, paling mudah
+    D2 : Campuran pupuk organik — nilai sedang
+    D3 : Simpan/jual           — nilai rendah tapi mudah
+
+  Harga referensi per kg dari tabel waste_price_refs (diisi admin):
+    Kompos jadi      : ± Rp 400/kg
+    Pakan ternak     : ± Rp 800/kg
+    Biochar          : ± Rp 2.000/kg
+    Arang sekam      : ± Rp 1.500/kg
+    Media tanam siap : ± Rp 3.000/kg
+    Dedak pakan      : ± Rp 2.500/kg
+
+  ── OUTPUT ────────────────────────────────────────────────────────────────
+
+    Per jenis limbah yang dipilih:
+      • Rekomendasi terbaik (berdasarkan TOPSIS + ketersediaan fasilitas)
+      • Estimasi volume limbah (kg)
+      • Estimasi nilai ekonomi (Rp)
+      • Langkah pengolahan singkat (3-5 langkah)
+
+    Ringkasan:
+      • Total nilai ekonomi semua limbah jika dikelola optimal
+      • Perbandingan semua alternatif (tabel)
+      • Peringatan merah jika petani cenderung membakar jerami
+
+════════════════════════════════════════════════════════════════════════════════
+  BAGIAN 8 — PANEL ADMIN
+════════════════════════════════════════════════════════════════════════════════
+
+  8.1 HALAMAN ADMIN
+  ─────────────────
+
+  /admin → Dashboard
+    • Total petani terdaftar (badge)
+    • Total scan penyakit (badge)
+    • Penyakit terbanyak terdeteksi minggu ini (bar chart sederhana)
+    • Rekomendasi SPK dibuat hari ini (badge)
+    • Grafik scan per hari (line chart, 30 hari terakhir)
+    • Tabel: scan terbaru (10 terakhir)
+
+  /admin/users → Manajemen Petani
+    • Tabel: id, nama, email, lahan_count, scan_count, tgl_daftar, status
+    • Filter: aktif/nonaktif, cari nama/email
+    • Aksi per baris: lihat detail, nonaktifkan
+    • TIDAK ada fitur tambah user dari admin (petani daftar sendiri)
+
+  /admin/scan → Semua Riwayat Scan
+    • Tabel: nama_petani, lahan, penyakit, confidence, severity, tanggal
+    • Filter: penyakit, tanggal range
+    • Export CSV
+
+  /admin/referensi/pupuk → CRUD Referensi Pupuk
+    Kolom: nama, jenis, harga/kg, satuan, deskripsi
+    Tombol tambah, edit, hapus
+
+  /admin/referensi/penyakit → CRUD Referensi Penyakit
+    Kolom: disease_key, nama_id, nama_ilmiah, deskripsi, gejala,
+    penanganan_mild/moderate/severe, pencegahan
+    (4 baris: bacterial_leaf_blight, brown_spot, leaf_blast, healthy)
+
+  /admin/referensi/varietas → CRUD Varietas Padi
+    Kolom: nama, umur_panen, potensi_hasil, deskripsi
+    Contoh seed: Ciherang, IR64, Inpari 32, Mekongga, Logawa
+
+  /admin/referensi/harga → CRUD Harga Komoditas
+    Kolom: komoditas (Gabah GKP, Gabah GKG, dll), harga/kg, satuan
+
+  /admin/referensi/limbah → CRUD Harga Limbah
+    Kolom: jenis_limbah, metode_pengolahan, harga/kg
+
+  /admin/spk → Konfigurasi Bobot SPK
+    Tabel per modul (M3, M4, M5) dengan kolom: kriteria, bobot, jenis
+    Validasi: jumlah bobot per modul harus = 1.00
+    Tombol "Reset ke default"
+
+  /admin/artikel → CRUD Artikel
+    Tabel: judul, kategori, status (draft/publish), tanggal
+    Editor: textarea biasa (cukup untuk lomba, tidak perlu WYSIWYG)
+    Aksi: tulis, edit, publish, hapus
+
+════════════════════════════════════════════════════════════════════════════════
+  BAGIAN 9 — PRIORITAS SPRINT (UNTUK KIRO AI — SEMINGGU)
+════════════════════════════════════════════════════════════════════════════════
+
+  HARI 1 (Fondasi — harus selesai hari ini):
+  ─────────────────────────────────────────
+  [ ] Migration semua tabel (urutan: users → wilayahs → lahans → disease_refs
+      → variety_refs → fertilizer_refs → commodity_prices → waste_price_refs
+      → spk_weight_configs → planting_schedules → disease_scans →
+      spk_fertilizer_recs → harvest_predictions → waste_recommendations →
+      articles)
+  [ ] Seeder: 4 penyakit di disease_refs, 5 varietas di variety_refs,
+      6 pupuk di fertilizer_refs, bobot default di spk_weight_configs,
+      1 akun admin default (admin@bathariSri.test / password: admin123)
+  [ ] Auth: login, register petani, logout
+  [ ] Middleware role (cek kolom role di users)
+  [ ] Route group: /admin (role:admin), / (role:petani)
+
+  HARI 2 (Lahan + Modul 1):
+  ─────────────────────────
+  [ ] CRUD Lahan (petani)
+  [ ] PlantingCalculatorService.php (logika fase + generate jadwal)
+  [ ] PlantingController + Routes
+  [ ] Pages/Lahan/Index.vue + Pages/Lahan/Create.vue
+  [ ] Pages/Tanam/Create.vue + Pages/Tanam/Show.vue (dashboard musim tanam)
+
+  HARI 3 (Modul 2 — Integrasi FastAPI):
+  ──────────────────────────────────────
+  [ ] ScanController.php (store + index + show)
+  [ ] Integrasi PadiScanService.php ke controller
+  [ ] Error handling jika FastAPI down
+  [ ] Pages/Scan/Penyakit.vue (halaman upload foto)
+  [ ] Pages/Scan/Hasil.vue (halaman tampilan hasil — ambil data dari
+      disease_refs untuk deskripsi, gejala, penanganan)
+  [ ] Pages/Scan/Riwayat.vue
+
+  HARI 4 (TopsisService + Modul 3):
+  ───────────────────────────────────
+  [ ] TopsisService.php (generic, dipakai M3+M4+M5)
+  [ ] FertilizerSPKService.php (wrapper M3 pakai TopsisService)
+  [ ] SPK/FertilizerController.php
+  [ ] Pages/SPK/Pupuk.vue (form input + hasil rekomendasi)
+  [ ] Pastikan pre-fill dari M1 dan M2 bekerja
+
+  HARI 5 (Modul 4 + 5):
+  ──────────────────────
+  [ ] HarvestPredictionService.php (M4, pakai TopsisService)
+  [ ] WasteRecommendationService.php (M5, pakai TopsisService)
+  [ ] SPK/HarvestController.php + SPK/WasteController.php
+  [ ] Pages/SPK/Panen.vue + Pages/SPK/Limbah.vue
+
+  HARI 6 (Panel Admin):
+  ─────────────────────
+  [ ] Dashboard admin (statistik + chart)
+  [ ] Manajemen user (tabel + nonaktifkan)
+  [ ] Semua CRUD referensi (pupuk, penyakit, varietas, harga, limbah)
+  [ ] Konfigurasi bobot SPK
+  [ ] Halaman scan semua petani + export CSV
+  [ ] CRUD artikel sederhana
+
+  HARI 7 (Polish + Dashboard Petani):
+  ─────────────────────────────────────
+  [ ] Dashboard petani (ringkasan: lahan aktif, scan terakhir, fase tanam)
+  [ ] Halaman riwayat lengkap petani
+  [ ] Halaman artikel + tips (read-only untuk petani)
+  [ ] Test semua alur dari register → scan → SPK → prediksi panen → limbah
+  [ ] Perbaikan UI minor
+  [ ] Test di mobile (responsive)
+
+════════════════════════════════════════════════════════════════════════════════
+  BAGIAN 10 — CATATAN TEKNIS UNTUK KIRO AI
+════════════════════════════════════════════════════════════════════════════════
+
+  10.1 ENV VARIABLES YANG DIBUTUHKAN
+  ────────────────────────────────────
+  Di .env:
+    PADISCAN_API_URL=http://127.0.0.1:8000
+    PADISCAN_API_TIMEOUT=30
+    APP_TIMEZONE=Asia/Jakarta
+
+  10.2 PACKAGE TAMBAHAN
+  ──────────────────────
+  composer require maatwebsite/excel     # Untuk export CSV di admin
+  # spatie/laravel-permission TIDAK perlu — role cukup pakai enum di kolom users
+
+  10.3 STORAGE SETUP
+  ──────────────────
+  php artisan storage:link   # Wajib dijalankan sekali
+  Simpan gambar scan di: storage/app/public/scans/{user_id}/{timestamp}.jpg
+  Akses publik via: /storage/scans/{user_id}/{timestamp}.jpg
+
+  10.4 MIDDLEWARE ROLE
+  ─────────────────────
+  Buat: app/Http/Middleware/RoleMiddleware.php
+  Logic: if (auth()->user()->role !== $role) abort(403);
+  Daftarkan di bootstrap/app.php sebagai 'role'
+  Gunakan: Route::middleware(['auth', 'role:admin'])->group(...)
+
+  10.5 INERTIA SHARED DATA (HandleInertiaRequests.php)
+  ──────────────────────────────────────────────────────
+  Tambahkan di share():
+    'auth' => [
+      'user' => auth()->user()?->only('id','name','email','role','avatar'),
+    ],
+    'flash' => [
+      'success' => session('success'),
+      'error'   => session('error'),
+    ],
+
+  10.6 CATATAN PENTING LAINNYA
+  ─────────────────────────────
+  • Semua teks UI dalam Bahasa Indonesia
+  • Validasi upload gambar: max 5MB, mime types: image/jpeg,image/png,image/webp
+  • Rate limiting scan: maksimal 20 scan per jam per user
+    (tambahkan di routes: ->middleware(['throttle:20,1']))
+  • Gunakan Carbon untuk semua kalkulasi tanggal (sudah include di Laravel)
+  • Jika petani belum punya lahan, tampilkan prompt "Tambah lahan dulu"
+    sebelum bisa akses modul manapun
+  • Soft delete TIDAK diperlukan untuk lomba — hardcode biasa saja
+  • Di halaman upload foto: tampilkan loading spinner saat menunggu prediksi AI
+  • Jangan gunakan AJAX manual — gunakan Inertia form helpers
+    (useForm dari @inertiajs/vue3)
+
+════════════════════════════════════════════════════════════════════════════════
+  BAGIAN 11 — SEED DATA WAJIB (untuk demo lomba)
+════════════════════════════════════════════════════════════════════════════════
+
+  Admin default:
+    name: Administrator BathariSri
+    email: admin@bathariSri.test
+    password: admin123 (hashed)
+    role: admin
+
+  Petani demo:
+    name: Budi Santoso
+    email: budi@demo.test
+    password: petani123
+    role: petani
+    (beserta 1 lahan demo dan beberapa riwayat scan dummy)
+
+  disease_refs (4 baris wajib):
+    bacterial_leaf_blight | Hawar Daun Bakteri | Xanthomonas oryzae | ...
+    brown_spot            | Bercak Coklat      | Helminthosporium oryzae | ...
+    leaf_blast            | Blas Daun          | Pyricularia oryzae | ...
+    healthy               | Sehat              | — | Tanaman dalam kondisi baik...
+
+  variety_refs (5 baris wajib):
+    Ciherang   | 116 hari | 6.0 ton/ha
+    IR64       | 110 hari | 5.0 ton/ha
+    Inpari 32  | 118 hari | 6.5 ton/ha
+    Mekongga   | 116 hari | 6.0 ton/ha
+    Logawa     | 110 hari | 5.5 ton/ha
+
+  commodity_prices:
+    Gabah Kering Panen (GKP) | Rp 5.500/kg
+    Gabah Kering Giling (GKG) | Rp 6.200/kg
+
+════════════════════════════════════════════════════════════════════════════════
+  BAGIAN 12 — POSITIONING UNTUK LOMBA WEB NASIONAL
+════════════════════════════════════════════════════════════════════════════════
+
+  TAGLINE YANG AMAN:
+  "Platform AI untuk Pertanian Padi yang Lebih Cerdas"
+  (Bukan: "Aplikasi resmi Dinas Pertanian...")
+
+  KLAIM YANG AMAN DISAMPAIKAN KE JURI:
+    ✓ "AI deteksi penyakit menggunakan ResNet50 yang dilatih dengan
+       dataset penyakit daun padi tervalidasi"
+    ✓ "Sistem SPK menggunakan metode TOPSIS yang divalidasi secara akademik"
+    ✓ "Bobot kriteria SPK dapat dikonfigurasi sesuai kebutuhan lokal"
+    ✓ "Sistem end-to-end dari awal tanam hingga pengelolaan limbah"
+    ✓ "Dikembangkan untuk kebutuhan petani muda Indonesia"
+
+  KLAIM YANG HARUS DIHINDARI:
+    ✗ "Bekerjasama dengan Dinas Pertanian" (tanpa MOU resmi)
+    ✗ "Model dengan akurasi 99%" (kecuali sudah diuji sendiri)
+    ✗ "Sudah digunakan oleh X petani" (jika belum)
+    ✗ "Real-time monitoring lahan" (jika tidak ada sensor IoT)
+
+  KEUNGGULAN KOMPETITIF UNTUK DIPAMERKAN:
+    1. Pipeline terintegrasi: M1→M2→M3→M4→M5 (data mengalir antar modul)
+    2. Transparansi SPK: petani bisa lihat skor TOPSIS tiap alternatif
+    3. Estimasi nilai ekonomi limbah (sangat jarang di aplikasi pertanian)
+    4. Konfigurasi admin yang lengkap (bobot SPK, referensi, harga)
+    5. Desain UI yang ramah petani muda (bukan form teknis)
+
+================================================================================
+  END OF DOCUMENT
+  BathariSri PRD v3.0 — 08 Juni 2026
+  Total: revisi besar dari v2.0 — baca ulang dari awal sebelum coding
+================================================================================
