@@ -5,14 +5,15 @@ export default function GuestLayout({ children, title, subtitle }) {
         <div className="flex min-h-screen bg-white">
             {/* Kiri: Area Form */}
             <div className="w-full lg:w-[45%] flex flex-col justify-center px-8 sm:px-16 md:px-24 lg:px-24 relative z-10 py-12">
-                {/* Logo */}
-                <div className="absolute top-8 left-8 sm:left-12 lg:left-16">
-                    <Link href="/" className="flex items-center gap-2 group shrink-0">
-                        <img src="/images/Logo_BathariSri.png" alt="BathariSri Logo" className="h-10 w-auto object-contain" />
-                    </Link>
-                </div>
+                <div className="w-full max-w-[400px] mx-auto">
+                    {/* Logo */}
+                    <div className="mb-8">
+                        <Link href="/" className="inline-flex items-center gap-2 group shrink-0">
+                            <img src="/images/Logo_BathariSri.png" alt="BathariSri Logo" className="h-10 w-auto object-contain" />
+                            <span className="text-2xl font-bold text-gray-900 tracking-tight">Bathari<span className="text-forest-600">Sri</span></span>
+                        </Link>
+                    </div>
 
-                <div className="w-full max-w-[400px] mx-auto mt-12 lg:mt-0">
                     {title && (
                         <h2 className="text-3xl sm:text-[34px] font-semibold text-gray-900 mb-2 tracking-tight leading-tight">
                             {title}
@@ -44,7 +45,7 @@ export default function GuestLayout({ children, title, subtitle }) {
                     />
                     
                     {/* Kotak Kaca (Glassmorphism) */}
-                    <div className="relative z-10 p-10 m-8 mt-auto rounded-[2rem] bg-white/10 backdrop-blur-md border border-white/30 shadow-2xl">
+                    <div className="relative z-10 p-10 m-8 mb-auto rounded-[2rem] bg-white/10 backdrop-blur-md border border-white/30 shadow-2xl">
                         <h3 className="text-3xl font-medium text-white mb-3 leading-tight max-w-lg tracking-tight [text-shadow:0_4px_20px_rgba(0,0,0,0.3)]">
                             Kendalikan masa depan panen Anda secara digital.
                         </h3>

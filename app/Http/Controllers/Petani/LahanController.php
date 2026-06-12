@@ -12,9 +12,6 @@ use Inertia\Response;
 
 class LahanController extends Controller
 {
-    /**
-     * Tampilkan daftar lahan aktif milik user yang sedang login.
-     */
     public function index(): Response
     {
         $lahans = Lahan::where('user_id', auth()->id())
@@ -44,19 +41,19 @@ class LahanController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'nama_lahan'       => ['required', 'string', 'max:255'],
-            'luas_ha'          => ['required', 'numeric', 'min:0.001'],
-            'desa'             => ['required', 'string', 'max:255'],
-            'kecamatan'        => ['required', 'string', 'max:255'],
-            'kabupaten'        => ['required', 'string', 'max:255'],
-            'jenis_tanah'      => ['required', 'string', 'in:liat,lempung,pasir'],
-            'sumber_air'       => ['required', 'string', 'in:irigasi_teknis,tadah_hujan,pompa'],
+            'nama_lahan' => ['required', 'string', 'max:255'],
+            'luas_ha' => ['required', 'numeric', 'min:0.001'],
+            'desa' => ['required', 'string', 'max:255'],
+            'kecamatan' => ['required', 'string', 'max:255'],
+            'kabupaten' => ['required', 'string', 'max:255'],
+            'jenis_tanah' => ['required', 'string', 'in:liat,lempung,pasir'],
+            'sumber_air' => ['required', 'string', 'in:irigasi_teknis,tadah_hujan,pompa'],
             'varietas_default' => ['nullable', 'string', 'max:100'],
         ]);
 
-        $validated['user_id']   = auth()->id();
+        $validated['user_id'] = auth()->id();
         $validated['is_active'] = true;
-        
+
         // Konversi Hektar ke m2
         $validated['luas_m2'] = $validated['luas_ha'] * 10000;
         unset($validated['luas_ha']);
@@ -96,13 +93,13 @@ class LahanController extends Controller
         }
 
         $validated = $request->validate([
-            'nama_lahan'       => ['required', 'string', 'max:255'],
-            'luas_ha'          => ['required', 'numeric', 'min:0.001'],
-            'desa'             => ['required', 'string', 'max:255'],
-            'kecamatan'        => ['required', 'string', 'max:255'],
-            'kabupaten'        => ['required', 'string', 'max:255'],
-            'jenis_tanah'      => ['required', 'string', 'in:liat,lempung,pasir'],
-            'sumber_air'       => ['required', 'string', 'in:irigasi_teknis,tadah_hujan,pompa'],
+            'nama_lahan' => ['required', 'string', 'max:255'],
+            'luas_ha' => ['required', 'numeric', 'min:0.001'],
+            'desa' => ['required', 'string', 'max:255'],
+            'kecamatan' => ['required', 'string', 'max:255'],
+            'kabupaten' => ['required', 'string', 'max:255'],
+            'jenis_tanah' => ['required', 'string', 'in:liat,lempung,pasir'],
+            'sumber_air' => ['required', 'string', 'in:irigasi_teknis,tadah_hujan,pompa'],
             'varietas_default' => ['nullable', 'string', 'max:100'],
         ]);
 

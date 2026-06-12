@@ -17,12 +17,8 @@ class PlantingController extends Controller
 {
     public function __construct(
         private PlantingCalculatorService $calculator
-    ) {}
-
-    /**
-     * Tampilkan daftar jadwal tanam milik user yang sedang login.
-     * Sertakan status fase terkini yang dihitung real-time.
-     */
+    ) {
+    }
     public function index(): Response
     {
         $plantings = PlantingSchedule::where('user_id', auth()->id())
@@ -65,7 +61,7 @@ class PlantingController extends Controller
         $varietyRefs = VarietyRef::orderBy('nama')->get(['id', 'nama', 'umur_panen_hari', 'potensi_hasil_ton_ha']);
 
         return Inertia::render('Tanam/Create', [
-            'lahans'      => $lahans,
+            'lahans' => $lahans,
             'varietyRefs' => $varietyRefs,
         ]);
     }
@@ -76,23 +72,23 @@ class PlantingController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'lahan_id'        => [
+            'lahan_id' => [
                 'nullable',
                 'integer',
                 'exists:lahans,id,user_id,' . auth()->id(),
             ],
-            'varietas'        => ['required', 'string', 'max:100'],
-            'tanggal_semai'   => ['required', 'date'],
-            'tanggal_tanam'   => ['required', 'date', 'after_or_equal:tanggal_semai'],
+            'varietas' => ['required', 'string', 'max:100'],
+            'tanggal_semai' => ['required', 'date'],
+            'tanggal_tanam' => ['required', 'date', 'after_or_equal:tanggal_semai'],
             'umur_panen_hari' => ['required', 'integer', 'min:90', 'max:180'],
-            'catatan'         => ['nullable', 'string'],
+            'catatan' => ['nullable', 'string'],
         ]);
 
         $umurPanenHari = (int) $validated['umur_panen_hari'];
-        $lahanId       = isset($validated['lahan_id']) ? (int) $validated['lahan_id'] : null;
+        $lahanId = isset($validated['lahan_id']) ? (int) $validated['lahan_id'] : null;
 
         // Hitung estimasi_panen = tanggal_tanam + umur_panen_hari
-        $tanggalTanam  = Carbon::parse($validated['tanggal_tanam']);
+        $tanggalTanam = Carbon::parse($validated['tanggal_tanam']);
         $estimasiPanen = (clone $tanggalTanam)->addDays($umurPanenHari);
 
         // Generate jadwal_pupuk via service
@@ -104,21 +100,21 @@ class PlantingController extends Controller
         // Serialisasi tanggal Carbon agar bisa disimpan sebagai JSON
         $jadwalPupukArray = array_map(function (array $event): array {
             return array_merge($event, [
-                'tanggal_mulai'   => $event['tanggal_mulai']->toDateString(),
+                'tanggal_mulai' => $event['tanggal_mulai']->toDateString(),
                 'tanggal_selesai' => $event['tanggal_selesai']->toDateString(),
             ]);
         }, $jadwalPupuk);
 
         $planting = PlantingSchedule::create([
-            'user_id'         => auth()->id(),
-            'lahan_id'        => $lahanId,
-            'varietas'        => $validated['varietas'],
-            'tanggal_semai'   => $validated['tanggal_semai'],
-            'tanggal_tanam'   => $validated['tanggal_tanam'],
+            'user_id' => auth()->id(),
+            'lahan_id' => $lahanId,
+            'varietas' => $validated['varietas'],
+            'tanggal_semai' => $validated['tanggal_semai'],
+            'tanggal_tanam' => $validated['tanggal_tanam'],
             'umur_panen_hari' => $umurPanenHari,
-            'estimasi_panen'  => $estimasiPanen->toDateString(),
-            'jadwal_pupuk'    => $jadwalPupukArray,
-            'catatan'         => $validated['catatan'] ?? null,
+            'estimasi_panen' => $estimasiPanen->toDateString(),
+            'jadwal_pupuk' => $jadwalPupukArray,
+            'catatan' => $validated['catatan'] ?? null,
         ]);
 
         return redirect()->route('petani.tanam.show', $planting)
@@ -147,8 +143,8 @@ class PlantingController extends Controller
         $schedule = $tanam->jadwal_pupuk ?? [];
 
         return Inertia::render('Tanam/Show', [
-            'planting'     => $tanam,
-            'schedule'     => $schedule,
+            'planting' => $tanam,
+            'schedule' => $schedule,
             'today_status' => $todayStatus,
         ]);
     }

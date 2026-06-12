@@ -7,39 +7,36 @@ export default function AuthenticatedLayout({ header, children }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     useEffect(() => {
-        // Simple GSAP entrance animation for the main content
-        gsap.fromTo(".dashboard-content", 
-            { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", delay: 0.2 }
+        gsap.fromTo('.dashboard-content',
+            { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.1 }
         );
     }, []);
 
     return (
-        <div className="flex h-[100dvh] w-full bg-gray-50 overflow-hidden font-sans">
-            {/* Sidebar Component */}
+        <div className="flex h-[100dvh] w-full bg-[#f5f7f5] overflow-hidden font-sans">
             <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-            {/* Main Content Area */}
-            <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
-                {/* Mobile Header (Hamburger Menu) */}
-                <div className="lg:hidden flex items-center justify-between bg-white px-6 py-4 shadow-sm z-30 rounded-3xl mb-4 mt-4 mx-4">
-                    <div className="font-bold text-forest-600 text-xl tracking-tight">BathariSri</div>
-                    <button 
+            <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+                {/* Mobile Header */}
+                <div className="lg:hidden flex items-center justify-between bg-white px-5 py-3.5 shadow-sm z-30 border-b border-zinc-100">
+                    <span className="font-bold text-[#166534] text-lg tracking-tight">BathariSri</span>
+                    <button
                         onClick={() => setSidebarOpen(true)}
-                        className="text-gray-600 hover:text-forest-600 focus:outline-none p-2 -mr-2 rounded-xl bg-gray-50 transition-colors"
+                        className="text-zinc-600 hover:text-[#166534] p-2 rounded-lg bg-zinc-50 transition-colors"
                     >
-                        <FiMenu size={24} />
+                        <FiMenu size={22} />
                     </button>
                 </div>
 
-                {/* Main Scrollable Content */}
-                <main className="flex-1 overflow-y-auto hide-scrollbar p-4 lg:p-8 flex flex-col min-h-0">
+                {/* Scrollable Content */}
+                <main className="flex-1 overflow-y-auto hide-scrollbar px-5 py-5 lg:px-6 lg:py-6">
                     {header && (
-                        <header className="mb-6 dashboard-content shrink-0">
+                        <header className="mb-4 dashboard-content shrink-0">
                             {header}
                         </header>
                     )}
-                    <div className="dashboard-content flex flex-col relative pb-6">
+                    <div className="dashboard-content">
                         {children}
                     </div>
                 </main>

@@ -36,10 +36,9 @@ class HandleInertiaRequests extends Middleware
             ],
             'flash' => [
                 'success' => session('success'),
-                'error'   => session('error'),
+                'error' => session('error'),
             ],
-            // Query ini hanya berjalan untuk user dengan role 'petani'
-            // agar tidak ada overhead query DB pada setiap request Admin
+
             'has_lahan' => ($request->user()?->role === 'petani')
                 ? $request->user()->lahans()->where('is_active', true)->exists()
                 : null,

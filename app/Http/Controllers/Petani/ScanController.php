@@ -18,11 +18,9 @@ class ScanController extends Controller
     public function __construct(
         private PadiScanService $scanService,
         private PlantingCalculatorService $calculatorService,
-    ) {}
+    ) {
+    }
 
-    /**
-     * Tampilkan riwayat scan milik user yang sedang login.
-     */
     public function index(): Response
     {
         $scans = DiseaseScan::where('user_id', auth()->id())
@@ -50,27 +48,22 @@ class ScanController extends Controller
         ]);
     }
 
-    /**
-     * Proses upload gambar, panggil AI, dan simpan hasil deteksi.
-     *
-     * Rate limit: 20 request/jam per user (ditangani via throttle:20,1 di route).
-     */
     public function store(Request $request): RedirectResponse
     {
         // 1. Validasi input
         $validated = $request->validate([
-            'image'    => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'lahan_id' => ['nullable', 'exists:lahans,id,user_id,' . auth()->id()],
         ]);
 
         $userId = auth()->id();
-        $image  = $request->file('image');
+        $image = $request->file('image');
 
         // 2. Simpan file ke storage/app/public/scans/{user_id}/{timestamp}_{safe_filename}
-        $timestamp    = now()->format('YmdHis');
+        $timestamp = now()->format('YmdHis');
         // Sanitasi nama file: ambil hanya nama (tanpa path), lalu ganti karakter non-alfanumerik
-        $safeName     = preg_replace('/[^A-Za-z0-9._-]/', '_', pathinfo($image->getClientOriginalName(), PATHINFO_BASENAME));
-        $filename     = $timestamp . '_' . $safeName;
+        $safeName = preg_replace('/[^A-Za-z0-9._-]/', '_', pathinfo($image->getClientOriginalName(), PATHINFO_BASENAME));
+        $filename = $timestamp . '_' . $safeName;
         $relativePath = 'scans/' . $userId . '/' . $filename;
 
         Storage::disk('public')->putFileAs(
@@ -101,14 +94,14 @@ class ScanController extends Controller
 
         // 5. Simpan hasil scan ke database
         $scan = DiseaseScan::create([
-            'user_id'         => $userId,
-            'lahan_id'        => $validated['lahan_id'] ?? null,
-            'image_path'      => $relativePath,
+            'user_id' => $userId,
+            'lahan_id' => $validated['lahan_id'] ?? null,
+            'image_path' => $relativePath,
             'predicted_class' => $prediction['predicted_class'],
-            'confidence'      => $prediction['confidence'],
-            'severity'        => $severity,
-            'raw_response'    => $prediction,
-            'scanned_at'      => now(),
+            'confidence' => $prediction['confidence'],
+            'severity' => $severity,
+            'raw_response' => $prediction,
+            'scanned_at' => now(),
         ]);
 
         // 6. Redirect ke halaman hasil scan
@@ -128,21 +121,21 @@ class ScanController extends Controller
         // Load relasi yang diperlukan
         $scan->load(['diseaseRef', 'lahan']);
 
-        $diseaseRef  = $scan->diseaseRef;
-        $penanganan  = null;
+        $diseaseRef = $scan->diseaseRef;
+        $penanganan = null;
 
         // Ambil panduan penanganan sesuai severity
         if ($diseaseRef && $scan->severity) {
             $penanganan = match ($scan->severity) {
-                'mild'     => $diseaseRef->penanganan_mild,
+                'mild' => $diseaseRef->penanganan_mild,
                 'moderate' => $diseaseRef->penanganan_moderate,
-                'severe'   => $diseaseRef->penanganan_severe,
-                default    => null,
+                'severe' => $diseaseRef->penanganan_severe,
+                default => null,
             };
         }
 
         return Inertia::render('Scan/Hasil', [
-            'scan'       => $scan,
+            'scan' => $scan,
             'diseaseRef' => $diseaseRef,
             'penanganan' => $penanganan,
         ]);

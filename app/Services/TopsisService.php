@@ -4,17 +4,6 @@ namespace App\Services;
 
 use InvalidArgumentException;
 
-/**
- * TopsisService — Implementasi TOPSIS universal (6 langkah).
- *
- * Dipakai oleh Modul 3 (SPK Pupuk), Modul 4 (Prediksi Panen),
- * dan Modul 5 (Rekomendasi Limbah).
- *
- * Guarantees:
- *   - Rank membentuk permutasi {1,...,n} tanpa duplikasi.
- *   - Semua score ∈ [0.0, 1.0].
- *   - Input identik → output identik (deterministik).
- */
 class TopsisService
 {
     /**
@@ -84,7 +73,7 @@ class TopsisService
 
         // Konversi ke matriks numerik terindeks (0-based) agar lebih mudah dioperasikan.
         // Simpan urutan kunci asli untuk output akhir.
-        $keys   = array_keys($alternatives);
+        $keys = array_keys($alternatives);
         $matrix = array_values($alternatives);
 
         // STEP 1: Normalisasi
@@ -104,8 +93,8 @@ class TopsisService
         foreach ($scores as $i => $score) {
             $results[] = [
                 'alternative' => $keys[$i],
-                'score'       => $score,
-                'rank'        => 0, // akan diisi setelah sorting
+                'score' => $score,
+                'rank' => 0, // akan diisi setelah sorting
             ];
         }
 
@@ -251,15 +240,15 @@ class TopsisService
 
         $scores = [];
         for ($i = 0; $i < $n; $i++) {
-            $dPlusSq  = 0.0;
+            $dPlusSq = 0.0;
             $dMinusSq = 0.0;
 
             for ($j = 0; $j < $m; $j++) {
-                $dPlusSq  += ($weighted[$i][$j] - $idealPos[$j]) ** 2;
+                $dPlusSq += ($weighted[$i][$j] - $idealPos[$j]) ** 2;
                 $dMinusSq += ($weighted[$i][$j] - $idealNeg[$j]) ** 2;
             }
 
-            $dPlus  = sqrt($dPlusSq);
+            $dPlus = sqrt($dPlusSq);
             $dMinus = sqrt($dMinusSq);
 
             $denominator = $dPlus + $dMinus;

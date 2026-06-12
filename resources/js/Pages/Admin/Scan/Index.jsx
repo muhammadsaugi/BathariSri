@@ -42,12 +42,6 @@ export default function ScanIndex({ scans, filters }) {
                         <h1 className="text-2xl font-bold text-gray-900">Riwayat Scan Penyakit</h1>
                         <p className="text-sm text-gray-500 mt-1">Semua hasil scan penyakit dari seluruh petani</p>
                     </div>
-                    <Link
-                        href={route('admin.scan.export')}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white text-sm font-semibold rounded-xl hover:bg-emerald-700 transition-colors"
-                    >
-                        Export CSV
-                    </Link>
                 </div>
             }
         >
@@ -72,7 +66,7 @@ export default function ScanIndex({ scans, filters }) {
                                 value={form.predicted_class}
                                 onChange={(e) => setForm({ ...form, predicted_class: e.target.value })}
                                 placeholder="Misal: blast"
-                                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                             />
                         </div>
                         <div>
@@ -83,7 +77,7 @@ export default function ScanIndex({ scans, filters }) {
                                 type="date"
                                 value={form.date_from}
                                 onChange={(e) => setForm({ ...form, date_from: e.target.value })}
-                                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                             />
                         </div>
                         <div>
@@ -94,7 +88,7 @@ export default function ScanIndex({ scans, filters }) {
                                 type="date"
                                 value={form.date_to}
                                 onChange={(e) => setForm({ ...form, date_to: e.target.value })}
-                                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                             />
                         </div>
                         <div className="flex items-end gap-2">
