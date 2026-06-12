@@ -222,7 +222,7 @@ export default function Panen({ lahans, varietyRefs, prefill, result }) {
         <AuthenticatedLayout>
             <Head title="Perkiraan Hasil Panen" />
 
-            {/* ── Page Header ── */}
+            {}
             <div className="rounded-2xl bg-gradient-to-br from-[#166534] to-[#15803d] px-6 py-5 mb-5 text-white">
                 <h1 className="text-[20px] font-semibold mb-0.5" style={{ fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
                     Perkiraan Hasil Panen
@@ -232,10 +232,10 @@ export default function Panen({ lahans, varietyRefs, prefill, result }) {
                 </p>
             </div>
 
-            {/* ── 2-Kolom: Form Kiri | Hasil Kanan ── */}
+            {}
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
 
-                {/* Form — 2/5 */}
+                {}
                 <div className="lg:col-span-2">
                     <div className="bg-white border border-zinc-200 rounded-xl">
                         <div className="px-5 py-4 border-b border-zinc-100">
@@ -323,7 +323,7 @@ export default function Panen({ lahans, varietyRefs, prefill, result }) {
                     </div>
                 </div>
 
-                {/* Hasil — 3/5 */}
+                {}
                 <div className="lg:col-span-3">
                     {result ? (
                         <HasilPrediksi result={result} />

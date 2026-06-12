@@ -45,7 +45,7 @@ it('harvest regression menghitung estimasi ton per ha', function () {
     $lahan = Lahan::create([
         'user_id'     => $user->id,
         'nama_lahan'  => 'Sawah Test',
-        'luas_are'    => 100,
+        'luas_m2'     => 10000,
         'desa'        => 'Test',
         'kecamatan'   => 'Test',
         'kabupaten'   => 'Test',

@@ -18,7 +18,7 @@ export default function AuthenticatedLayout({ header, children }) {
             <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
             <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-                {/* Mobile Header */}
+                {}
                 <div className="lg:hidden flex items-center justify-between bg-white px-5 py-3.5 shadow-sm z-30 border-b border-zinc-100">
                     <span className="font-bold text-[#166534] text-lg tracking-tight">BathariSri</span>
                     <button
@@ -29,7 +29,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     </button>
                 </div>
 
-                {/* Scrollable Content */}
+                {}
                 <main className="flex-1 overflow-y-auto hide-scrollbar px-5 py-5 lg:px-6 lg:py-6">
                     {header && (
                         <header className="mb-4 dashboard-content shrink-0">

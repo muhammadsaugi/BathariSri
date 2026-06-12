@@ -22,7 +22,7 @@ export default function UsersIndex({ users }) {
             <Head title="Manajemen Pengguna" />
 
             <div className="space-y-5">
-                {/* Flash Message */}
+                {}
                 {flash?.success && (
                     <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl px-4 py-3 text-sm font-medium">
                         {flash.success}
@@ -92,7 +92,7 @@ export default function UsersIndex({ users }) {
                         </table>
                     </div>
 
-                    {/* Pagination */}
+                    {}
                     {users.links && users.links.length > 3 && (
                         <div className="px-5 py-4 border-t border-gray-100 flex flex-wrap gap-1">
                             {users.links.map((link, i) => (

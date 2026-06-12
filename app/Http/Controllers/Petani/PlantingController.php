@@ -34,7 +34,7 @@ class PlantingController extends Controller
                         $planting->umur_panen_hari
                     );
                 } catch (\InvalidArgumentException) {
-                    // Abaikan jika data tidak valid
+                    
                 }
 
                 return array_merge($planting->toArray(), [
@@ -47,10 +47,7 @@ class PlantingController extends Controller
         ]);
     }
 
-    /**
-     * Tampilkan form tambah jadwal tanam.
-     * Sertakan lahan aktif milik user dan daftar varietas dari DB.
-     */
+    
     public function create(): Response
     {
         $lahans = Lahan::where('user_id', auth()->id())
@@ -66,9 +63,7 @@ class PlantingController extends Controller
         ]);
     }
 
-    /**
-     * Simpan jadwal tanam baru ke database.
-     */
+    
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
@@ -87,17 +82,17 @@ class PlantingController extends Controller
         $umurPanenHari = (int) $validated['umur_panen_hari'];
         $lahanId = isset($validated['lahan_id']) ? (int) $validated['lahan_id'] : null;
 
-        // Hitung estimasi_panen = tanggal_tanam + umur_panen_hari
+        
         $tanggalTanam = Carbon::parse($validated['tanggal_tanam']);
         $estimasiPanen = (clone $tanggalTanam)->addDays($umurPanenHari);
 
-        // Generate jadwal_pupuk via service
+        
         $jadwalPupuk = $this->calculator->generateSchedule(
             $tanggalTanam,
             $umurPanenHari
         );
 
-        // Serialisasi tanggal Carbon agar bisa disimpan sebagai JSON
+        
         $jadwalPupukArray = array_map(function (array $event): array {
             return array_merge($event, [
                 'tanggal_mulai' => $event['tanggal_mulai']->toDateString(),
@@ -121,25 +116,23 @@ class PlantingController extends Controller
             ->with('success', 'Jadwal tanam berhasil dibuat.');
     }
 
-    /**
-     * Tampilkan detail jadwal tanam beserta status fase real-time.
-     */
+    
     public function show(PlantingSchedule $tanam): Response
     {
-        // Pastikan resource milik user yang login
+        
         if ($tanam->user_id !== auth()->id()) {
             abort(403);
         }
 
         $tanam->load('lahan');
 
-        // Hitung fase real-time
+        
         $todayStatus = $this->calculator->calculatePhase(
             $tanam->tanggal_tanam,
             $tanam->umur_panen_hari
         );
 
-        // Ambil jadwal dari kolom JSON (sudah di-cast ke array)
+        
         $schedule = $tanam->jadwal_pupuk ?? [];
 
         return Inertia::render('Tanam/Show', [
@@ -149,12 +142,10 @@ class PlantingController extends Controller
         ]);
     }
 
-    /**
-     * Hapus jadwal tanam milik user yang sedang login.
-     */
+    
     public function destroy(PlantingSchedule $tanam): RedirectResponse
     {
-        // Pastikan resource milik user yang login
+        
         if ($tanam->user_id !== auth()->id()) {
             abort(403);
         }

@@ -6,11 +6,7 @@ use App\Models\WastePriceRef;
 use App\Models\WasteRecommendation;
 use InvalidArgumentException;
 
-/**
- * Modul 5 — Rekomendasi Pengolahan Limbah via Rule-Based Expert System.
- *
- * Setiap rekomendasi memiliki alasan eksplisit, langkah praktis, dan estimasi nilai ekonomi.
- */
+
 class WasteRecommendationService
 {
   public function computeWasteVolume(float $estimasi_total_ton): array
@@ -199,7 +195,7 @@ class WasteRecommendationService
     $nilaiEkonomi = round($volumeKg * $hargaPerKg, 2);
     $isDisbakar = str_contains(strtolower($label), 'bakar') && ! str_contains(strtolower($label), 'biochar') && ! str_contains(strtolower($label), 'arang');
 
-    // Kalkulasi Dampak Lingkungan
+    
     $metricLabel = 'Reduksi CO₂ (Avoided Emissions)';
     $metricValue = 0;
     $metricUnit = 'kg CO₂-eq';
@@ -224,7 +220,7 @@ class WasteRecommendationService
         }
     } elseif ($jenis === 'dedak') {
         $metricLabel = 'Protein Terselamatkan';
-        $metricValue = $volumeKg * 0.12; // Asumsi 12% kandungan protein rata-rata
+        $metricValue = $volumeKg * 0.12; 
         $metricUnit = 'kg Protein';
     }
 

@@ -18,9 +18,9 @@ class CommodityPrice extends Model
         'harga_per_kg' => 'decimal:2',
     ];
 
-    // =========================================================
-    // Relasi Eloquent
-    // =========================================================
+    
+    
+    
 
     public function updatedBy(): BelongsTo
     {

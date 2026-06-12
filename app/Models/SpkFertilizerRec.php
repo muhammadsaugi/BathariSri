@@ -28,9 +28,9 @@ class SpkFertilizerRec extends Model
         'estimasi_biaya' => 'decimal:2',
     ];
 
-    // =========================================================
-    // Relasi Eloquent
-    // =========================================================
+    
+    
+    
 
     public function user(): BelongsTo
     {

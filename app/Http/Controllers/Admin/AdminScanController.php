@@ -11,10 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class AdminScanController extends Controller
 {
-    /**
-     * Tampilkan semua data scan penyakit dari seluruh petani.
-     * Filter opsional: predicted_class, date_from, date_to
-     */
+    
     public function index(Request $request)
     {
         $filters = $request->only(['predicted_class', 'date_from', 'date_to']);
@@ -33,10 +30,7 @@ class AdminScanController extends Controller
         ]);
     }
 
-    /**
-     * Export data scan penyakit ke file CSV.
-     * Filter opsional: predicted_class, date_from, date_to
-     */
+    
     public function export(Request $request)
     {
         $filters = $request->only(['predicted_class', 'date_from', 'date_to']);

@@ -5,14 +5,7 @@ import FeatureSection from '@/Components/Sections/FeatureSection';
 import AboutSection from '@/Components/Sections/AboutSection';
 import ImpactSection from '@/Components/Sections/ImpactSection';
 
-/**
- * BathariSri — Welcome (Landing Page)
- *
- * Halaman Utama Publik. Kita akan membangun tiap Section satu per satu:
- *  ✅ Tahap 4: HeroSection
- *  ⬜ Tahap 5: FeatureSection (Bento Grid)
- *  ⬜ Tahap 6: ImpactSection (SDGs Counter)
- */
+
 export default function Welcome({ auth }) {
     return (
         <LandingLayout auth={auth}>

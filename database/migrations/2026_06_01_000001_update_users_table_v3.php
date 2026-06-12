@@ -6,11 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     * Tambah kolom v3: alamat, avatar, is_active ke tabel users.
-     * Kolom role dan phone sudah ada di migration awal (0001_01_01_000000).
-     */
+    
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
@@ -20,9 +16,7 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+    
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {

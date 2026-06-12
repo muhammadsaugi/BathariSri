@@ -68,7 +68,7 @@ export default function Navbar({ auth }) {
                     ${scrolled ? 'shadow-lg shadow-black/5' : 'shadow-md shadow-black/5'}
                 `}
             >
-                {/* ── Logo ─────────────────────────────────── */}
+                {}
                 <a
                     href="#beranda"
                     onClick={(e) => handleNavClick(e, '#beranda')}
@@ -78,7 +78,7 @@ export default function Navbar({ auth }) {
                     <img src="/images/Logo_BathariSri.png" alt="BathariSri Logo" className="h-9 w-auto object-contain" />
                 </a>
 
-                {/* ── Nav Links (Desktop) ───────────────────── */}
+                {}
                 <ul className="hidden lg:flex items-center gap-8" role="list">
                     {navLinks.map((link) => {
                         const isActive = activeSection === link.id;
@@ -100,7 +100,7 @@ export default function Navbar({ auth }) {
                     })}
                 </ul>
 
-                {/* ── CTA + Hamburger (Kanan) ───────────────── */}
+                {}
                 <div className="flex items-center gap-3">
                     <div className="hidden lg:block">
                         {auth?.user ? (
@@ -122,7 +122,7 @@ export default function Navbar({ auth }) {
                         )}
                     </div>
 
-                    {/* Hamburger Menu (Mobile) */}
+                    {}
                     <button
                         type="button"
                         onClick={() => setMenuOpen((prev) => !prev)}
@@ -134,7 +134,7 @@ export default function Navbar({ auth }) {
                     </button>
                 </div>
 
-                {/* ── Mobile Menu Dropdown ──────────────── */}
+                {}
                 <div className={`
                     absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-300 origin-top
                     lg:hidden

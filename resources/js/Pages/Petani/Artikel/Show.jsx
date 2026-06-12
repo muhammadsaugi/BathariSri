@@ -1,9 +1,9 @@
 import { Head, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
-// -----------------------------------------------------------------------
-// Warna badge kategori
-// -----------------------------------------------------------------------
+
+
+
 const KATEGORI_COLORS = {
     penyakit: 'bg-red-100 text-red-700',
     pemupukan: 'bg-emerald-100 text-emerald-700',
@@ -31,9 +31,9 @@ function formatTanggal(dateStr) {
     });
 }
 
-// -----------------------------------------------------------------------
-// Komponen utama
-// -----------------------------------------------------------------------
+
+
+
 export default function Show({ artikel }) {
     const badgeClass = KATEGORI_COLORS[artikel.category] ?? KATEGORI_COLORS.umum;
     const badgeLabel = KATEGORI_LABELS[artikel.category] ?? artikel.category;
@@ -44,7 +44,7 @@ export default function Show({ artikel }) {
 
             <div className="max-w-3xl mx-auto w-full px-4 py-6">
 
-                {/* Link kembali */}
+                {}
                 <Link
                     href={route('petani.artikel.index')}
                     className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-emerald-600 transition-colors mb-6"
@@ -55,7 +55,7 @@ export default function Show({ artikel }) {
                     Kembali ke Artikel
                 </Link>
 
-                {/* Thumbnail besar */}
+                {}
                 {artikel.thumbnail && (
                     <div className="rounded-2xl overflow-hidden mb-7 aspect-[16/7] bg-gray-100">
                         <img
@@ -66,21 +66,21 @@ export default function Show({ artikel }) {
                     </div>
                 )}
 
-                {/* Header artikel */}
+                {}
                 <div className="mb-7">
-                    {/* Badge kategori */}
+                    {}
                     <span
                         className={`inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full mb-4 ${badgeClass}`}
                     >
                         {badgeLabel}
                     </span>
 
-                    {/* Judul */}
+                    {}
                     <h1 className="text-3xl font-black text-gray-900 tracking-tight leading-snug mb-4">
                         {artikel.title}
                     </h1>
 
-                    {/* Meta: author + tanggal */}
+                    {}
                     <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500">
                         {artikel.author?.name && (
                             <div className="flex items-center gap-1.5">
@@ -123,10 +123,10 @@ export default function Show({ artikel }) {
                     </div>
                 </div>
 
-                {/* Divider */}
+                {}
                 <hr className="border-gray-200 mb-7" />
 
-                {/* Konten artikel */}
+                {}
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8">
                     <div
                         className="text-gray-700 text-[15px] leading-relaxed whitespace-pre-line"
@@ -136,7 +136,7 @@ export default function Show({ artikel }) {
                     </div>
                 </div>
 
-                {/* Footer: kembali ke daftar */}
+                {}
                 <div className="mt-8 pt-6 border-t border-gray-100">
                     <Link
                         href={route('petani.artikel.index')}

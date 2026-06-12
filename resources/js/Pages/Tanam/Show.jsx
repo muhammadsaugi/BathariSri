@@ -1,7 +1,7 @@
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
-/* ── Warna fase ──────────────────────────────────────────────────────────── */
+
 const faseColors = {
     vegetatif_awal:  'bg-blue-100 text-blue-700',
     vegetatif_aktif: 'bg-emerald-100 text-emerald-700',
@@ -10,7 +10,7 @@ const faseColors = {
     panen:           'bg-purple-100 text-purple-700',
 };
 
-/* ── Warna status jadwal pupuk ───────────────────────────────────────────── */
+
 const statusColors = {
     selesai:   'bg-gray-100 text-gray-500',
     aktif:     'bg-emerald-100 text-emerald-700 ring-2 ring-emerald-300',
@@ -23,7 +23,7 @@ const statusLabels = {
     mendatang: 'Mendatang',
 };
 
-/* ── Helpers ─────────────────────────────────────────────────────────────── */
+
 function formatTanggal(dateStr) {
     if (!dateStr) return '-';
     return new Date(dateStr).toLocaleDateString('id-ID', {
@@ -43,7 +43,7 @@ function hitungCountdown(estimasiPanen) {
     return diff;
 }
 
-/* ── Komponen ────────────────────────────────────────────────────────────── */
+
 function FaseBadge({ fase, label }) {
     const cls = faseColors[fase] ?? 'bg-gray-100 text-gray-600';
     return (
@@ -60,16 +60,16 @@ function JadwalEvent({ event }) {
 
     return (
         <div className={`flex flex-col items-center text-center min-w-[130px] ${isAktif ? 'scale-105' : ''} transition-transform`}>
-            {/* Nama event */}
+            {}
             <p className="text-xs font-bold text-gray-700 mb-1.5 leading-tight">{event.event}</p>
-            {/* Badge status */}
+            {}
             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold mb-2 ${statusCls} ${isAktif ? 'animate-pulse' : ''}`}>
                 {isAktif && (
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 inline-block" />
                 )}
                 {statusLabel}
             </span>
-            {/* Rentang tanggal */}
+            {}
             <p className="text-xs text-gray-500 leading-snug">
                 {formatTanggal(event.tanggal_mulai)}
                 {' – '}
@@ -80,7 +80,7 @@ function JadwalEvent({ event }) {
     );
 }
 
-/* ── Halaman Utama ───────────────────────────────────────────────────────── */
+
 export default function Show({ planting, schedule, today_status }) {
     const { flash } = usePage().props;
     const ts = today_status ?? {};
@@ -103,7 +103,7 @@ export default function Show({ planting, schedule, today_status }) {
             <Head title={`Jadwal Tanam — ${planting.varietas}`} />
 
             <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
-                {/* Flash */}
+                {}
                 {flash?.success && (
                     <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-xl text-sm font-medium">
                         <svg className="w-5 h-5 text-emerald-600 shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -113,7 +113,7 @@ export default function Show({ planting, schedule, today_status }) {
                     </div>
                 )}
 
-                {/* Back link */}
+                {}
                 <div>
                     <Link
                         href={route('petani.tanam.index')}
@@ -126,9 +126,9 @@ export default function Show({ planting, schedule, today_status }) {
                     </Link>
                 </div>
 
-                {/* ── Card Utama: Header & Progress ── */}
+                {}
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                    {/* Header */}
+                    {}
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-5">
                         <div>
                             <h1 className="text-2xl font-black text-gray-900 tracking-tight">{planting.varietas}</h1>
@@ -145,7 +145,7 @@ export default function Show({ planting, schedule, today_status }) {
                         {fase && <FaseBadge fase={fase} label={faseLabel} />}
                     </div>
 
-                    {/* Progress Bar */}
+                    {}
                     <div className="mb-4">
                         <div className="flex justify-between text-sm text-gray-600 mb-1.5">
                             <span className="font-semibold">HST ke-{hst} dari {planting.umur_panen_hari} hari</span>
@@ -159,7 +159,7 @@ export default function Show({ planting, schedule, today_status }) {
                         </div>
                     </div>
 
-                    {/* Estimasi Panen */}
+                    {}
                     <div className="flex flex-col sm:flex-row sm:items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
                         <div className="flex items-center gap-2 text-gray-700">
                             <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -180,7 +180,7 @@ export default function Show({ planting, schedule, today_status }) {
                     </div>
                 </div>
 
-                {/* ── Alert Banner ── */}
+                {}
                 {alerts.length > 0 && (
                     <div className="bg-amber-50 border border-amber-200 rounded-2xl px-5 py-4 flex items-start gap-3">
                         <svg className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -197,7 +197,7 @@ export default function Show({ planting, schedule, today_status }) {
                     </div>
                 )}
 
-                {/* ── Timeline Jadwal Pupuk ── */}
+                {}
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                     <h2 className="text-base font-bold text-gray-800 mb-5 flex items-center gap-2">
                         <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -208,13 +208,13 @@ export default function Show({ planting, schedule, today_status }) {
 
                     {schedule && schedule.length > 0 ? (
                         <div className="relative">
-                            {/* Garis horizontal penghubung */}
+                            {}
                             <div className="absolute top-5 left-[calc(130px/2)] right-[calc(130px/2)] h-0.5 bg-gray-200 hidden sm:block" />
 
                             <div className="flex flex-col sm:flex-row sm:justify-between gap-6 sm:gap-2 overflow-x-auto pb-2">
                                 {schedule.map((event, i) => (
                                     <div key={i} className="relative flex sm:flex-col items-start sm:items-center gap-3 sm:gap-0">
-                                        {/* Dot */}
+                                        {}
                                         <div className={`w-3 h-3 rounded-full border-2 shrink-0 sm:mb-3 ${
                                             event.status === 'aktif'
                                                 ? 'bg-emerald-500 border-emerald-500'
@@ -222,7 +222,7 @@ export default function Show({ planting, schedule, today_status }) {
                                                 ? 'bg-gray-400 border-gray-400'
                                                 : 'bg-white border-blue-400'
                                         }`} />
-                                        {/* Konten */}
+                                        {}
                                         <JadwalEvent event={event} />
                                     </div>
                                 ))}
@@ -233,7 +233,7 @@ export default function Show({ planting, schedule, today_status }) {
                     )}
                 </div>
 
-                {/* ── Info Lahan ── */}
+                {}
                 {planting.lahan && (
                     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                         <h2 className="text-base font-bold text-gray-800 mb-4 flex items-center gap-2">
@@ -266,7 +266,7 @@ export default function Show({ planting, schedule, today_status }) {
                     </div>
                 )}
 
-                {/* ── Tombol Aksi Cepat ── */}
+                {}
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                     <h2 className="text-base font-bold text-gray-800 mb-4">Aksi Cepat</h2>
                     <div className="flex flex-col sm:flex-row gap-3">
@@ -292,7 +292,7 @@ export default function Show({ planting, schedule, today_status }) {
                     </div>
                 </div>
 
-                {/* ── Danger Zone: Hapus ── */}
+                {}
                 <div className="bg-white rounded-2xl shadow-sm border border-red-100 p-6">
                     <h2 className="text-base font-bold text-red-700 mb-1">Hapus Jadwal Tanam</h2>
                     <p className="text-sm text-gray-500 mb-4">

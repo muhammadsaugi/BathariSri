@@ -18,7 +18,7 @@ import {
 export default function SmartWaste() {
     const user = usePage().props.auth.user;
 
-    // Animations
+    
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
@@ -34,7 +34,7 @@ export default function SmartWaste() {
             <Head title="Smart Waste" />
 
             <div className="w-full px-2 lg:px-4 pb-4 lg:pb-0 lg:h-full flex flex-col lg:min-h-0">
-                {/* Floating Header Pill */}
+                {}
                 <div className="hidden lg:flex items-center justify-between mb-8 shrink-0">
                     <div className="hidden md:flex items-center gap-3 bg-white px-5 py-3 rounded-full shadow-sm">
                         <div className="bg-orange-50 p-2 rounded-full text-orange-500">
@@ -43,7 +43,7 @@ export default function SmartWaste() {
                         <span className="font-bold text-gray-700 text-sm">Manajemen Limbah Pintar</span>
                     </div>
                     
-                    {/* Right side consistent with Dashboard */}
+                    {}
                     <div className="flex items-center gap-3 ml-auto">
                         <button className="w-12 h-12 flex items-center justify-center bg-gray-900 text-white rounded-[1.25rem] shadow-md hover:bg-gray-800 transition-colors">
                             <FiSearch size={20} />
@@ -71,11 +71,11 @@ export default function SmartWaste() {
                     animate="visible"
                     className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:flex-1 lg:min-h-0"
                 >
-                    {/* KOLOM KIRI: Impact Metric & Pemantauan Kompos */}
+                    {}
                     <motion.div variants={itemVariants} className="lg:col-span-7 bg-white rounded-[2rem] shadow-sm relative overflow-hidden flex flex-col lg:min-h-[500px]">
                         <div className="lg:absolute lg:inset-0 p-6 sm:p-8 flex flex-col lg:overflow-y-auto hide-scrollbar">
                             
-                            {/* Impact Metric (Gamification) */}
+                            {}
                             <div className="bg-gradient-to-br from-forest-500 to-forest-700 rounded-[1.5rem] p-6 text-white shadow-lg shadow-forest-500/20 mb-8 shrink-0 relative overflow-hidden group">
                                 <div className="absolute -right-6 -top-6 opacity-10 group-hover:scale-110 transition-transform duration-500">
                                     <FiAward size={150} />
@@ -96,7 +96,7 @@ export default function SmartWaste() {
                                 </div>
                             </div>
 
-                            {/* Tong Kompos Aktif */}
+                            {}
                             <div className="flex items-center justify-between mb-6 shrink-0">
                                 <h3 className="text-xl font-bold font-sans text-gray-900 tracking-tight">Tong Kompos Utama</h3>
                                 <div className="px-3 py-1 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold rounded-lg flex items-center gap-1">
@@ -120,7 +120,7 @@ export default function SmartWaste() {
                                     </div>
                                 </div>
 
-                                {/* Progress Bar Visualizer */}
+                                {}
                                 <div className="h-6 w-full bg-gray-200 rounded-full overflow-hidden flex relative shadow-inner mb-6">
                                     <motion.div 
                                         className="h-full bg-gradient-to-r from-amber-400 to-orange-500 relative"
@@ -157,10 +157,10 @@ export default function SmartWaste() {
                         </div>
                     </motion.div>
 
-                    {/* KOLOM KANAN: Aksi Cepat & Daftar Limbah */}
+                    {}
                     <div className="lg:col-span-5 flex flex-col gap-6 lg:min-h-0">
                         
-                        {/* Kanan Atas: Aksi Cepat (Quick Actions) */}
+                        {}
                         <motion.div variants={itemVariants} className="bg-white rounded-[2rem] p-6 shadow-sm shrink-0 border-t-4 border-orange-500">
                             <h3 className="font-bold text-gray-900 mb-5 text-lg">Manajemen Harian</h3>
                             <div className="grid grid-cols-2 gap-3">
@@ -175,7 +175,7 @@ export default function SmartWaste() {
                             </div>
                         </motion.div>
 
-                        {/* Kanan Bawah: Daftar Semua Tumpukan */}
+                        {}
                         <motion.div variants={itemVariants} className="bg-white rounded-[2rem] shadow-sm lg:flex-1 relative overflow-hidden">
                             <div className="lg:absolute lg:inset-0 p-6 flex flex-col">
                                 <div className="flex items-center justify-between mb-4 shrink-0">
@@ -190,7 +190,7 @@ export default function SmartWaste() {
                                     <div className="lg:absolute lg:inset-0">
                                         <div className="space-y-3 pr-2">
                                             
-                                            {/* Item 1: Siap Pakai */}
+                                            {}
                                             <div className="p-4 rounded-2xl border border-gray-100 hover:border-green-200 hover:shadow-md transition-all cursor-pointer group">
                                                 <div className="flex justify-between items-start mb-2">
                                                     <div>
@@ -207,7 +207,7 @@ export default function SmartWaste() {
                                                 </div>
                                             </div>
 
-                                            {/* Item 2: Baru Masuk */}
+                                            {}
                                             <div className="p-4 rounded-2xl border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all cursor-pointer group">
                                                 <div className="flex justify-between items-start mb-2">
                                                     <div>
@@ -226,7 +226,7 @@ export default function SmartWaste() {
                                                 </div>
                                             </div>
                                             
-                                            {/* Item 3: Fermentasi (Lama) */}
+                                            {}
                                             <div className="p-4 rounded-2xl border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all cursor-pointer group">
                                                 <div className="flex justify-between items-start mb-2">
                                                     <div>

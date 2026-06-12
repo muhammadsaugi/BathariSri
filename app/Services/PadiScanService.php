@@ -8,9 +8,7 @@ use Illuminate\Http\Client\ConnectionException;
 
 class PadiScanService
 {
-    /**
-     * Pemetaan kelas dari FastAPI PadiScan v2 → disease_key internal Laravel.
-     */
+    
     private const CLASS_MAP = [
         'Bacterial_Blight'      => 'bacterial_leaf_blight',
         'bacterial_blight'      => 'bacterial_leaf_blight',
@@ -35,17 +33,7 @@ class PadiScanService
         $this->timeout = (int) env('PADISCAN_API_TIMEOUT', 30);
     }
 
-    /**
-     * Memanggil endpoint FastAPI untuk memprediksi penyakit daun padi.
-     *
-     * @param  string $imagePath  Path absolut ke file gambar di storage
-     * @return array{
-     *     predicted_class: string,
-     *     confidence: float,
-     *     class_probabilities: array
-     * }
-     * @throws PadiScanException  Jika FastAPI tidak dapat dijangkau, timeout, atau response tidak valid
-     */
+    
     public function predict(string $imagePath): array
     {
         try {
@@ -93,9 +81,7 @@ class PadiScanService
         }
     }
 
-    /**
-     * Normalisasi label kelas dari FastAPI ke disease_key yang dipakai database.
-     */
+    
     public function normalizePredictedClass(string $apiClass): string
     {
         if (isset(self::CLASS_MAP[$apiClass])) {
@@ -111,11 +97,7 @@ class PadiScanService
         return strtolower(str_replace([' ', '-'], '_', $apiClass));
     }
 
-    /**
-     * Memeriksa apakah FastAPI server sedang berjalan.
-     *
-     * @return bool  true jika server merespons HTTP 200, false jika tidak
-     */
+    
     public function isHealthy(): bool
     {
         try {

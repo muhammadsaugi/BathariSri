@@ -45,12 +45,12 @@ export default function Footer() {
             className="relative bg-[#f8faf6] pt-20 overflow-hidden"
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                {/* ── Konten Atas Footer (Grid) ─────────────────────────────────── */}
+                {}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
                     
-                    {/* Kolom Kiri — Brand (5 kolom di desktop) */}
+                    {}
                     <div className="lg:col-span-5 flex flex-col gap-6">
-                        {/* Logo */}
+                        {}
                         <a
                             href="#beranda"
                             className="flex items-center gap-3 group w-fit"
@@ -64,12 +64,12 @@ export default function Footer() {
                             </div>
                         </a>
 
-                        {/* Deskripsi */}
+                        {}
                         <p className="text-gray-500 text-base leading-relaxed max-w-sm">
                             Platform pertanian cerdas berbasis AI untuk petani Indonesia. Membantu dari benih hingga panen — dan mengolah limbah menjadi nilai yang bermakna.
                         </p>
 
-                        {/* SDGs Badges */}
+                        {}
                         <div>
                             <p className="text-xs uppercase tracking-widest text-gray-400 font-bold mb-3">
                                 Mendukung SDGs
@@ -88,10 +88,10 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Spacer */}
+                    {}
                     <div className="hidden lg:block lg:col-span-1"></div>
 
-                    {/* Kolom Kanan — Navigasi (6 kolom di desktop) */}
+                    {}
                     <div className="lg:col-span-6 grid grid-cols-2 sm:grid-cols-3 gap-8">
                         {footerLinks.map((group) => (
                             <div key={group.heading} className="flex flex-col gap-5">
@@ -115,7 +115,7 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* ── Divider & Baris Tengah ─────────────────────────────────── */}
+                {}
                 <div className="border-t border-gray-200 pt-8 pb-10 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <p className="text-sm text-gray-500 font-medium text-center sm:text-left">
                         &copy; {currentYear} BathariSri. Dikembangkan dengan <span className="text-red-500">♥</span> untuk petani Indonesia.
@@ -124,7 +124,7 @@ export default function Footer() {
                 </div>
             </div>
 
-            {/* ── Massive Bottom Text (Seperti Referensi) ─────────────────── */}
+            {}
             <div className="w-full relative overflow-hidden pointer-events-none -mt-4 md:-mt-8 flex justify-center border-t border-gray-100 bg-[#f8faf6]">
                 <h1 className="text-[17vw] font-bold text-gray-900 tracking-tighter leading-[0.8] select-none whitespace-nowrap opacity-[0.97] mt-8 mb-[-3%]">
                     BathariSri

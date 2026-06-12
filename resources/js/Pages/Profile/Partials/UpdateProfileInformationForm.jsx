@@ -3,7 +3,7 @@ import { Transition } from '@headlessui/react';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
-// ─── Reusable Field ───────────────────────────────────────────────────────────
+
 
 function Field({ label, id, error, children, hint }) {
     return (
@@ -24,7 +24,7 @@ const inputCls =
     'w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-medium text-slate-900 placeholder-slate-400 ' +
     'focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent focus:bg-white transition-all';
 
-// ─── Component ────────────────────────────────────────────────────────────────
+
 
 export default function UpdateProfileInformation({ mustVerifyEmail, status, className = '' }) {
     const user = usePage().props.auth.user;
@@ -44,7 +44,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     return (
         <section className={className}>
             <form onSubmit={submit} className="space-y-5">
-                {/* Row: Nama */}
+                {}
                 <Field label="Nama Lengkap" id="name" error={errors.name}>
                     <input
                         id="name"
@@ -58,7 +58,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     />
                 </Field>
 
-                {/* Row: Email */}
+                {}
                 <Field label="Alamat Email" id="email" error={errors.email}>
                     <input
                         id="email"
@@ -95,7 +95,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     </div>
                 )}
 
-                {/* Row: Phone */}
+                {}
                 <Field label="Nomor Telepon" id="phone" error={errors.phone} hint="Format: 08xx-xxxx-xxxx">
                     <div className="relative">
                         <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium select-none">
@@ -113,7 +113,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     </div>
                 </Field>
 
-                {/* Row: Alamat */}
+                {}
                 <Field label="Alamat Lengkap" id="alamat" error={errors.alamat} hint="Desa, Kecamatan, Kabupaten/Kota, Provinsi">
                     <textarea
                         id="alamat"
@@ -125,7 +125,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     />
                 </Field>
 
-                {/* Submit */}
+                {}
                 <div className="flex items-center gap-4 pt-2">
                     <button
                         type="submit"

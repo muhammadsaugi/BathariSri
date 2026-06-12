@@ -36,7 +36,7 @@ export default function Create({ lahans, varietyRefs }) {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-                {/* Form — 3/5 */}
+                {}
                 <div className="lg:col-span-3 bg-white border border-zinc-200 rounded-xl">
                     <div className="px-5 py-4 border-b border-zinc-100">
                         <h2 className="text-[15px] font-medium text-zinc-900">Data Musim Tanam</h2>
@@ -44,7 +44,7 @@ export default function Create({ lahans, varietyRefs }) {
                     </div>
 
                     <form onSubmit={handleSubmit} className="px-5 py-4 space-y-4">
-                        {/* Lahan */}
+                        {}
                         <div>
                             <label className={labelCls}>Lahan <span className="text-zinc-400 font-normal text-[12px]">(opsional)</span></label>
                             <select className={inputCls} value={data.lahan_id} onChange={(e) => setData('lahan_id', e.target.value)}>
@@ -54,7 +54,7 @@ export default function Create({ lahans, varietyRefs }) {
                             {errors.lahan_id && <p className={errCls}>{errors.lahan_id}</p>}
                         </div>
 
-                        {/* Varietas */}
+                        {}
                         <div>
                             <label className={labelCls}>Varietas Padi <span className="text-red-500">*</span></label>
                             <select className={inputCls} value={data.varietas} onChange={(e) => setData('varietas', e.target.value)} required>
@@ -64,7 +64,7 @@ export default function Create({ lahans, varietyRefs }) {
                             {errors.varietas && <p className={errCls}>{errors.varietas}</p>}
                         </div>
 
-                        {/* Tanggal */}
+                        {}
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className={labelCls}>Tanggal Semai <span className="text-red-500">*</span></label>
@@ -78,7 +78,7 @@ export default function Create({ lahans, varietyRefs }) {
                             </div>
                         </div>
 
-                        {/* Umur Panen */}
+                        {}
                         <div>
                             <label className={labelCls}>Umur Panen (hari) <span className="text-red-500">*</span></label>
                             <input type="number" min="90" max="180" className={inputCls} value={data.umur_panen_hari} onChange={(e) => setData('umur_panen_hari', e.target.value ? Number(e.target.value) : '')} placeholder="90 – 180 hari" required />
@@ -86,7 +86,7 @@ export default function Create({ lahans, varietyRefs }) {
                             {errors.umur_panen_hari && <p className={errCls}>{errors.umur_panen_hari}</p>}
                         </div>
 
-                        {/* Catatan */}
+                        {}
                         <div>
                             <label className={labelCls}>Catatan <span className="text-zinc-400 font-normal text-[12px]">(opsional)</span></label>
                             <textarea rows={3} className={`${inputCls} h-auto py-2.5`} value={data.catatan} onChange={(e) => setData('catatan', e.target.value)} placeholder="Catatan tambahan..." />
@@ -98,7 +98,7 @@ export default function Create({ lahans, varietyRefs }) {
                     </form>
                 </div>
 
-                {/* Info — 2/5 */}
+                {}
                 <div className="lg:col-span-2 space-y-4">
                     <div className="bg-white border border-zinc-200 rounded-xl p-5">
                         <p className="text-[12px] font-semibold text-zinc-400 uppercase tracking-[0.05em] mb-3">Jadwal Pupuk Otomatis</p>

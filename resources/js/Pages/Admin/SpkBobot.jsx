@@ -17,7 +17,7 @@ function isValid(total) {
 export default function SpkBobot({ configs }) {
     const { flash, errors: serverErrors } = usePage().props;
 
-    // Bangun state awal dari props configs (grouped by modul)
+    
     const buildInitialWeights = () => {
         const map = {};
         MODULS.forEach((modul) => {
@@ -36,7 +36,7 @@ export default function SpkBobot({ configs }) {
     const [submitting, setSubmitting] = useState(false);
     const [resetting, setResetting] = useState(null);
 
-    // Sync ulang jika props berubah (setelah reload)
+    
     useEffect(() => {
         setWeights(buildInitialWeights());
     }, [configs]);
@@ -57,7 +57,7 @@ export default function SpkBobot({ configs }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Validasi client-side
+        
         for (const modul of MODULS) {
             const total = getTotalBobot(modul);
             if (!isValid(total)) {

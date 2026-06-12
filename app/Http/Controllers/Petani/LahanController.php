@@ -24,9 +24,7 @@ class LahanController extends Controller
         ]);
     }
 
-    /**
-     * Tampilkan form tambah lahan.
-     */
+    
     public function create(): Response
     {
         $varietasList = VarietyRef::orderBy('nama')->get(['id', 'nama']);
@@ -35,28 +33,22 @@ class LahanController extends Controller
         ]);
     }
 
-    /**
-     * Simpan lahan baru ke database.
-     */
+    
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'nama_lahan' => ['required', 'string', 'max:255'],
-            'luas_ha' => ['required', 'numeric', 'min:0.001'],
-            'desa' => ['required', 'string', 'max:255'],
-            'kecamatan' => ['required', 'string', 'max:255'],
-            'kabupaten' => ['required', 'string', 'max:255'],
-            'jenis_tanah' => ['required', 'string', 'in:liat,lempung,pasir'],
-            'sumber_air' => ['required', 'string', 'in:irigasi_teknis,tadah_hujan,pompa'],
+            'nama_lahan'       => ['required', 'string', 'max:255'],
+            'luas_m2'          => ['required', 'numeric', 'min:1'],
+            'desa'             => ['required', 'string', 'max:255'],
+            'kecamatan'        => ['required', 'string', 'max:255'],
+            'kabupaten'        => ['required', 'string', 'max:255'],
+            'jenis_tanah'      => ['required', 'string', 'in:liat,lempung,pasir'],
+            'sumber_air'       => ['required', 'string', 'in:irigasi_teknis,tadah_hujan,pompa'],
             'varietas_default' => ['nullable', 'string', 'max:100'],
         ]);
 
-        $validated['user_id'] = auth()->id();
+        $validated['user_id']   = auth()->id();
         $validated['is_active'] = true;
-
-        // Konversi Hektar ke m2
-        $validated['luas_m2'] = $validated['luas_ha'] * 10000;
-        unset($validated['luas_ha']);
 
         Lahan::create($validated);
 
@@ -64,10 +56,7 @@ class LahanController extends Controller
             ->with('success', 'Lahan berhasil ditambahkan.');
     }
 
-    /**
-     * Tampilkan form edit lahan.
-     * Abort 403 jika lahan bukan milik user yang login.
-     */
+    
     public function edit(Lahan $lahan): Response
     {
         if ($lahan->user_id !== auth()->id()) {
@@ -82,10 +71,7 @@ class LahanController extends Controller
         ]);
     }
 
-    /**
-     * Update data lahan yang sudah ada.
-     * Abort 403 jika lahan bukan milik user yang login.
-     */
+    
     public function update(Request $request, Lahan $lahan): RedirectResponse
     {
         if ($lahan->user_id !== auth()->id()) {
@@ -93,19 +79,15 @@ class LahanController extends Controller
         }
 
         $validated = $request->validate([
-            'nama_lahan' => ['required', 'string', 'max:255'],
-            'luas_ha' => ['required', 'numeric', 'min:0.001'],
-            'desa' => ['required', 'string', 'max:255'],
-            'kecamatan' => ['required', 'string', 'max:255'],
-            'kabupaten' => ['required', 'string', 'max:255'],
-            'jenis_tanah' => ['required', 'string', 'in:liat,lempung,pasir'],
-            'sumber_air' => ['required', 'string', 'in:irigasi_teknis,tadah_hujan,pompa'],
+            'nama_lahan'       => ['required', 'string', 'max:255'],
+            'luas_m2'          => ['required', 'numeric', 'min:1'],
+            'desa'             => ['required', 'string', 'max:255'],
+            'kecamatan'        => ['required', 'string', 'max:255'],
+            'kabupaten'        => ['required', 'string', 'max:255'],
+            'jenis_tanah'      => ['required', 'string', 'in:liat,lempung,pasir'],
+            'sumber_air'       => ['required', 'string', 'in:irigasi_teknis,tadah_hujan,pompa'],
             'varietas_default' => ['nullable', 'string', 'max:100'],
         ]);
-
-        // Konversi Hektar ke m2
-        $validated['luas_m2'] = $validated['luas_ha'] * 10000;
-        unset($validated['luas_ha']);
 
         $lahan->update($validated);
 
@@ -113,10 +95,7 @@ class LahanController extends Controller
             ->with('success', 'Data lahan berhasil diperbarui.');
     }
 
-    /**
-     * Nonaktifkan lahan (soft delete via is_active = false).
-     * Abort 403 jika lahan bukan milik user yang login.
-     */
+    
     public function destroy(Lahan $lahan): RedirectResponse
     {
         if ($lahan->user_id !== auth()->id()) {

@@ -24,7 +24,7 @@ const TUJUAN_OPTIONS = [
 
 const NAMA_LIMBAH = { jerami: 'Jerami', sekam: 'Sekam', dedak: 'Dedak' };
 
-// ── Sub-komponen ──────────────────────────────────────────────────────────────
+
 
 function FormField({ label, error, children, required }) {
     return (
@@ -142,7 +142,7 @@ function HasilRekomendasi({ result }) {
 
     return (
         <div className="space-y-4">
-            {/* Volume Cards */}
+            {}
             <div className="bg-white border border-zinc-200 rounded-xl overflow-hidden">
                 <div className="px-5 py-4 border-b border-zinc-100">
                     <h3 className="text-[15px] font-medium text-zinc-900">Volume Limbah Estimasi</h3>
@@ -159,7 +159,7 @@ function HasilRekomendasi({ result }) {
             {rekomendasi_sekam  && <KartuRekomendasi jenisKey="sekam"  rekomendasi={rekomendasi_sekam} />}
             {rekomendasi_dedak  && <KartuRekomendasi jenisKey="dedak"  rekomendasi={rekomendasi_dedak} />}
 
-            {/* Total Nilai Ekonomi */}
+            {}
             <div className="bg-white border border-zinc-200 border-l-[3px] border-l-[#166534] rounded-xl px-5 py-4">
                 <p className="text-[11px] font-medium text-zinc-400 uppercase tracking-[0.06em] mb-1.5">Total Estimasi Nilai Ekonomi</p>
                 <p className="text-[28px] font-semibold text-zinc-900" style={{ fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
@@ -183,7 +183,7 @@ function HasilRekomendasi({ result }) {
     );
 }
 
-// ── Halaman Utama ─────────────────────────────────────────────────────────────
+
 
 export default function Limbah({ lahans, prefill, result }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -230,7 +230,7 @@ export default function Limbah({ lahans, prefill, result }) {
         <AuthenticatedLayout>
             <Head title="Kelola Limbah Padi" />
 
-            {/* Page Header */}
+            {}
             <div className="rounded-2xl bg-gradient-to-br from-[#166534] to-[#15803d] px-6 py-5 mb-5 text-white">
                 <h1 className="text-[20px] font-semibold mb-0.5" style={{ fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
                     Kelola Limbah Padi
@@ -240,10 +240,10 @@ export default function Limbah({ lahans, prefill, result }) {
                 </p>
             </div>
 
-            {/* 2-Kolom: Form Kiri | Hasil Kanan */}
+            {}
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
 
-                {/* Form — 2/5 */}
+                {}
                 <div className="lg:col-span-2">
                     <div className="bg-white border border-zinc-200 rounded-xl">
                         <div className="px-5 py-4 border-b border-zinc-100">
@@ -349,7 +349,7 @@ export default function Limbah({ lahans, prefill, result }) {
                     </div>
                 </div>
 
-                {/* Hasil — 3/5 */}
+                {}
                 <div className="lg:col-span-3">
                     {result ? (
                         <HasilRekomendasi result={result} />

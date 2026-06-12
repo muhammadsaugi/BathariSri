@@ -1,7 +1,7 @@
 import { Head, Link, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
-/* ── Helpers ──────────────────────────────────────────────────────────── */
+
 
 function formatTanggal(dateStr) {
     if (!dateStr) return '-';
@@ -14,7 +14,7 @@ function formatTanggal(dateStr) {
     });
 }
 
-/* ── Badge Confidence ─────────────────────────────────────────────────── */
+
 
 function ConfidenceBadge({ confidence }) {
     const pct = (confidence * 100).toFixed(1);
@@ -36,7 +36,7 @@ function ConfidenceBadge({ confidence }) {
     );
 }
 
-/* ── Badge Severity ───────────────────────────────────────────────────── */
+
 
 const severityConfig = {
     mild:     { label: 'Ringan',  cls: 'bg-green-100 text-green-800 ring-1 ring-green-200' },
@@ -60,7 +60,7 @@ function SeverityBadge({ severity }) {
     );
 }
 
-/* ── Section Wrapper ──────────────────────────────────────────────────── */
+
 
 function InfoSection({ icon, title, children }) {
     return (
@@ -74,7 +74,7 @@ function InfoSection({ icon, title, children }) {
     );
 }
 
-/* ── Halaman Utama ────────────────────────────────────────────────────── */
+
 
 export default function Hasil({ scan, diseaseRef, penanganan }) {
     const isHealthy = scan.predicted_class === 'healthy';
@@ -94,7 +94,7 @@ export default function Hasil({ scan, diseaseRef, penanganan }) {
 
             <div className="max-w-3xl mx-auto px-4 py-8 space-y-5">
 
-                {/* Back */}
+                {}
                 <div>
                     <Link
                         href={route('petani.scan.index')}
@@ -107,9 +107,9 @@ export default function Hasil({ scan, diseaseRef, penanganan }) {
                     </Link>
                 </div>
 
-                {/* ── Card Utama: Hasil Deteksi ── */}
+                {}
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                    {/* Gambar */}
+                    {}
                     <div className="bg-gray-50 flex items-center justify-center p-4 border-b border-gray-100">
                         <img
                             src={`/storage/${scan.image_path}`}
@@ -118,9 +118,9 @@ export default function Hasil({ scan, diseaseRef, penanganan }) {
                         />
                     </div>
 
-                    {/* Info Hasil */}
+                    {}
                     <div className="p-6">
-                        {/* Judul */}
+                        {}
                         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                             <div>
                                 <h1 className="text-2xl font-black text-gray-900 tracking-tight">
@@ -142,14 +142,14 @@ export default function Hasil({ scan, diseaseRef, penanganan }) {
                                 )}
                             </div>
 
-                            {/* Badges */}
+                            {}
                             <div className="flex flex-wrap gap-2 shrink-0">
                                 <ConfidenceBadge confidence={scan.confidence} />
                                 <SeverityBadge severity={scan.severity} />
                             </div>
                         </div>
 
-                        {/* Tanggal scan */}
+                        {}
                         <p className="text-xs text-gray-400 mb-4 flex items-center gap-1.5">
                             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -157,7 +157,7 @@ export default function Hasil({ scan, diseaseRef, penanganan }) {
                             Dianalisis {formatTanggal(scan.scanned_at)}
                         </p>
 
-                        {/* Tombol Aksi */}
+                        {}
                         <div className="flex flex-col sm:flex-row gap-3 pt-2 border-t border-gray-100">
                             <Link
                                 href={route('petani.spk.pupuk')}
@@ -182,7 +182,7 @@ export default function Hasil({ scan, diseaseRef, penanganan }) {
                     </div>
                 </div>
 
-                {/* ── Deskripsi Penyakit ── */}
+                {}
                 {diseaseRef?.deskripsi && (
                     <InfoSection
                         icon={
@@ -196,7 +196,7 @@ export default function Hasil({ scan, diseaseRef, penanganan }) {
                     </InfoSection>
                 )}
 
-                {/* ── Gejala Khas ── */}
+                {}
                 {diseaseRef?.gejala && (
                     <InfoSection
                         icon={
@@ -211,7 +211,7 @@ export default function Hasil({ scan, diseaseRef, penanganan }) {
                     </InfoSection>
                 )}
 
-                {/* ── Rekomendasi Penanganan ── */}
+                {}
                 {penanganan && (
                     <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6">
                         <h2 className="text-base font-bold text-amber-800 mb-3 flex items-center gap-2">
@@ -227,7 +227,7 @@ export default function Hasil({ scan, diseaseRef, penanganan }) {
                     </div>
                 )}
 
-                {/* ── Pencegahan ── */}
+                {}
                 {diseaseRef?.pencegahan && (
                     <InfoSection
                         icon={
@@ -241,7 +241,7 @@ export default function Hasil({ scan, diseaseRef, penanganan }) {
                     </InfoSection>
                 )}
 
-                {/* ── Kondisi Sehat ── */}
+                {}
                 {isHealthy && (
                     <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 flex items-start gap-4">
                         <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
@@ -258,7 +258,7 @@ export default function Hasil({ scan, diseaseRef, penanganan }) {
                     </div>
                 )}
 
-                {/* ── Hapus Scan ── */}
+                {}
                 <div className="bg-white rounded-2xl shadow-sm border border-red-100 p-6">
                     <h2 className="text-base font-bold text-red-700 mb-1">Hapus Data Scan</h2>
                     <p className="text-sm text-gray-500 mb-4">

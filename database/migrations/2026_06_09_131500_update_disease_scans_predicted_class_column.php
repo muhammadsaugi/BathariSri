@@ -9,7 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // ENUM lama (4 kelas PRD v3) tidak cocok dengan output FastAPI v2 (5 kelas).
+        
         DB::statement('ALTER TABLE disease_scans MODIFY predicted_class VARCHAR(100) NOT NULL');
 
         if (! DB::table('disease_refs')->where('disease_key', 'tungro')->exists()) {

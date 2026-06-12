@@ -10,7 +10,7 @@ class SpkWeightConfigSeeder extends Seeder
     public function run(): void
     {
         DB::table('spk_weight_configs')->insert([
-            // Modul M3 — SPK Rekomendasi Pupuk
+            
             [
                 'modul'         => 'M3',
                 'kriteria_nama' => 'fase_pertumbuhan',
@@ -57,7 +57,7 @@ class SpkWeightConfigSeeder extends Seeder
                 'updated_at'    => now(),
             ],
 
-            // Modul M4 — Prediksi Hasil Panen
+            
             [
                 'modul'         => 'M4',
                 'kriteria_nama' => 'keparahan_penyakit',
@@ -104,7 +104,7 @@ class SpkWeightConfigSeeder extends Seeder
                 'updated_at'    => now(),
             ],
 
-            // Modul M5 — Rekomendasi Pengolahan Limbah
+            
             [
                 'modul'         => 'M5',
                 'kriteria_nama' => 'nilai_ekonomi',

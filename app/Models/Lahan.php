@@ -27,9 +27,9 @@ class Lahan extends Model
         'luas_m2'  => 'decimal:2',
     ];
 
-    // =========================================================
-    // Relasi Eloquent
-    // =========================================================
+    
+    
+    
 
     public function user(): BelongsTo
     {
@@ -61,13 +61,11 @@ class Lahan extends Model
         return $this->hasMany(WasteRecommendation::class);
     }
 
-    // =========================================================
-    // Scopes
-    // =========================================================
+    
+    
+    
 
-    /**
-     * Scope untuk memfilter hanya lahan yang aktif (is_active = true).
-     */
+    
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);

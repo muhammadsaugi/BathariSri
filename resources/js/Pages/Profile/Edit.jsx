@@ -6,7 +6,7 @@ import DeleteUserForm from './Partials/DeleteUserForm';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
 
-// ─── Animation preset ─────────────────────────────────────────────────────────
+
 
 const panelVariants = {
     hidden : { opacity: 0, y: 16 },
@@ -14,7 +14,7 @@ const panelVariants = {
     exit   : { opacity: 0, y: -8, transition: { duration: 0.2 } },
 };
 
-// ─── Nav config ───────────────────────────────────────────────────────────────
+
 
 const NAV = [
     {
@@ -47,12 +47,12 @@ const NAV = [
     },
 ];
 
-// ─── Section wrapper ─────────────────────────────────────────────────────────
+
 
 function SectionCard({ title, subtitle, accent, children }) {
     return (
         <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
-            {/* card header */}
+            {}
             <div className={`px-8 py-6 border-b ${accent ? 'bg-red-50 border-red-100' : 'bg-slate-50 border-slate-100'}`}>
                 <h2 className={`text-lg font-black tracking-tight ${accent ? 'text-red-700' : 'text-slate-900'}`}>
                     {title}
@@ -61,7 +61,7 @@ function SectionCard({ title, subtitle, accent, children }) {
                     {subtitle}
                 </p>
             </div>
-            {/* card body */}
+            {}
             <div className="px-8 py-8">
                 {children}
             </div>
@@ -69,7 +69,7 @@ function SectionCard({ title, subtitle, accent, children }) {
     );
 }
 
-// ─── Avatar bubble ───────────────────────────────────────────────────────────
+
 
 function AvatarBubble({ name, size = 'lg' }) {
     const initials = name
@@ -85,7 +85,7 @@ function AvatarBubble({ name, size = 'lg' }) {
     );
 }
 
-// ─── Info chips ──────────────────────────────────────────────────────────────
+
 
 function InfoChip({ icon, label, value }) {
     if (!value) return null;
@@ -102,7 +102,7 @@ function InfoChip({ icon, label, value }) {
     );
 }
 
-// ─── Main ────────────────────────────────────────────────────────────────────
+
 
 export default function Edit({ mustVerifyEmail, status }) {
     const user             = usePage().props.auth.user;
@@ -118,22 +118,22 @@ export default function Edit({ mustVerifyEmail, status }) {
 
             <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-                {/* ── Profile Hero ── */}
+                {}
                 <motion.div
                     initial={{ opacity: 0, y: -16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4 }}
                     className="relative bg-slate-900 rounded-3xl p-6 sm:p-8 mb-8 overflow-hidden"
                 >
-                    {/* bg accents */}
+                    {}
                     <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-emerald-500 opacity-[0.1] blur-3xl pointer-events-none" />
                     <div className="absolute -bottom-16 -left-10  w-56 h-56 rounded-full bg-teal-400  opacity-[0.08] blur-3xl pointer-events-none" />
 
                     <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                        {/* Avatar */}
+                        {}
                         <AvatarBubble name={user.name} size="lg" />
 
-                        {/* Identity */}
+                        {}
                         <div className="flex-1 min-w-0">
                             <p className="text-emerald-400 text-[11px] font-bold uppercase tracking-widest mb-1">
                                 Akun {user.role ?? 'Petani'}
@@ -144,7 +144,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                             <p className="text-slate-400 text-sm font-medium mt-1 truncate">{user.email}</p>
                         </div>
 
-                        {/* Meta badges */}
+                        {}
                         <div className="flex flex-wrap gap-2">
                             {memberSince && (
                                 <span className="inline-flex items-center gap-1.5 bg-white/10 text-slate-300 text-xs font-semibold px-3 py-1.5 rounded-full">
@@ -159,17 +159,17 @@ export default function Edit({ mustVerifyEmail, status }) {
                     </div>
                 </motion.div>
 
-                {/* ── Layout: Sidebar + Content ── */}
+                {}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-7">
 
-                    {/* ─ Sidebar ─ */}
+                    {}
                     <motion.aside
                         initial={{ opacity: 0, x: -16 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.4, delay: 0.1 }}
                         className="lg:col-span-4 space-y-5"
                     >
-                        {/* Navigation menu */}
+                        {}
                         <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-4">
                             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 px-3 mb-3">Menu</p>
                             <nav className="space-y-1">
@@ -194,7 +194,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                             </nav>
                         </div>
 
-                        {/* Info summary card */}
+                        {}
                         <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6">
                             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Info Kontak</p>
                             <InfoChip icon="📧" label="Email"   value={user.email}  />
@@ -208,11 +208,11 @@ export default function Edit({ mustVerifyEmail, status }) {
                         </div>
                     </motion.aside>
 
-                    {/* ─ Main content ─ */}
+                    {}
                     <div className="lg:col-span-8">
                         <AnimatePresence mode="wait">
 
-                            {/* Tab: Profil */}
+                            {}
                             {active === 'profil' && (
                                 <motion.div
                                     key="profil"
@@ -233,7 +233,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                 </motion.div>
                             )}
 
-                            {/* Tab: Keamanan */}
+                            {}
                             {active === 'keamanan' && (
                                 <motion.div
                                     key="keamanan"
@@ -250,7 +250,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                         <UpdatePasswordForm />
                                     </SectionCard>
 
-                                    {/* Security tips */}
+                                    {}
                                     <div className="bg-slate-50 rounded-3xl border border-slate-100 p-6 space-y-3">
                                         <p className="text-sm font-bold text-slate-700">💡 Tips Keamanan Akun</p>
                                         <ul className="space-y-2">
@@ -269,7 +269,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                 </motion.div>
                             )}
 
-                            {/* Tab: Zona Bahaya */}
+                            {}
                             {active === 'bahaya' && (
                                 <motion.div
                                     key="bahaya"
@@ -279,7 +279,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                     exit="exit"
                                     className="space-y-6"
                                 >
-                                    {/* Warning banner */}
+                                    {}
                                     <div className="flex items-start gap-4 bg-red-50 border border-red-200 rounded-3xl px-6 py-5">
                                         <span className="text-2xl shrink-0">⚠️</span>
                                         <div>

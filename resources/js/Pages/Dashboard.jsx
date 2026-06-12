@@ -45,7 +45,7 @@ export default function Dashboard() {
                         <span className="font-medium text-gray-700 text-sm">24°C, Hujan Ringan (Kediri)</span>
                     </div>
                     
-                    {/* Right: Search, Bell, Profile */}
+                    {}
                     <div className="flex items-center gap-3 ml-auto">
                         <button className="w-12 h-12 flex items-center justify-center bg-gray-900 text-white rounded-[1.25rem] shadow-md hover:bg-gray-800 transition-colors">
                             <FiSearch size={20} />
@@ -73,7 +73,7 @@ export default function Dashboard() {
                     animate="visible"
                     className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:flex-1 lg:min-h-0"
                 >
-                    {/* KIRI: Status Pembibitan (Setara "My tasks") */}
+                    {}
                     <motion.div variants={itemVariants} className="lg:col-span-5 bg-white rounded-[2rem] shadow-sm relative overflow-hidden">
                         <div className="lg:absolute lg:inset-0 p-6 flex flex-col">
                             <div className="flex items-center justify-between mb-6 shrink-0">
@@ -83,16 +83,16 @@ export default function Dashboard() {
                                 </button>
                             </div>
                             
-                            {/* Filters (Pills) */}
+                            {}
                             <div className="flex flex-wrap gap-2 mb-6 shrink-0">
                                 <button className="px-4 py-1.5 bg-gray-900 text-white rounded-full text-sm font-medium">Semua Bibit</button>
                                 <button className="px-4 py-1.5 bg-white border border-gray-200 text-gray-600 rounded-full text-sm font-medium hover:bg-gray-50">Butuh Air</button>
                                 <button className="px-4 py-1.5 bg-white border border-gray-200 text-gray-600 rounded-full text-sm font-medium hover:bg-gray-50">Siap Tanam</button>
                             </div>
 
-                            {/* List Items */}
+                            {}
                             <div className="space-y-6 lg:flex-1 lg:overflow-y-auto pr-2 lg:min-h-0 relative">
-                            {/* Item 1 */}
+                            {}
                             <div className="group border-b border-gray-50 pb-5">
                                 <div className="flex justify-between items-start mb-2">
                                     <div>
@@ -105,7 +105,7 @@ export default function Dashboard() {
                                     <span>Hari ke-14</span>
                                     <span>3 Tindakan</span>
                                 </div>
-                                {/* Progress Bar Split */}
+                                {}
                                 <div className="flex h-2.5 gap-1">
                                     <div className="w-[66%] bg-green-400 rounded-full relative overflow-hidden">
                                         <div className="absolute inset-0 bg-white/20 stripe-pattern"></div>
@@ -114,7 +114,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
                             
-                            {/* Item 2 */}
+                            {}
                             <div className="group border-b border-gray-50 pb-5">
                                 <div className="flex justify-between items-start mb-2">
                                     <div>
@@ -127,14 +127,14 @@ export default function Dashboard() {
                                     <span>Hari ke-6</span>
                                     <span>0 Tindakan</span>
                                 </div>
-                                {/* Progress Bar Split */}
+                                {}
                                 <div className="flex h-2.5 gap-1">
                                     <div className="w-[28%] bg-blue-400 rounded-full"></div>
                                     <div className="w-[72%] bg-gray-100 rounded-full border border-gray-200/60"></div>
                                 </div>
                             </div>
 
-                             {/* Item 3 */}
+                             {}
                              <div className="group pb-2">
                                 <div className="flex justify-between items-start mb-2">
                                     <div>
@@ -147,7 +147,7 @@ export default function Dashboard() {
                                     <span>Hari ke-21</span>
                                     <span>Selesai</span>
                                 </div>
-                                {/* Progress Bar Split */}
+                                {}
                                 <div className="flex h-2.5 gap-1">
                                     <div className="w-full bg-forest-500 rounded-full"></div>
                                 </div>
@@ -160,10 +160,10 @@ export default function Dashboard() {
                         </div>
                     </motion.div>
 
-                    {/* KANAN (Kolom ganda) */}
+                    {}
                     <div className="lg:col-span-7 flex flex-col gap-6 min-h-0">
                         
-                        {/* Kanan Atas: Aksi Cepat (Setara "My notes") */}
+                        {}
                         <div className="bg-white rounded-[2rem] p-6 shadow-sm shrink-0">
                             <div className="flex items-center justify-between mb-6">
                                 <h2 className="text-2xl font-black font-sans text-gray-900 tracking-tight">Aksi Cepat</h2>
@@ -173,7 +173,7 @@ export default function Dashboard() {
                             </div>
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {/* Kartu Aksi 1 */}
+                                {}
                                 <motion.div whileHover={{ scale: 1.02 }} className="bg-forest-500 rounded-3xl p-5 text-white shadow-lg shadow-forest-500/30 cursor-pointer relative overflow-hidden group">
                                     <div className="absolute -right-4 -bottom-4 opacity-10 transform group-hover:scale-110 transition-transform">
                                         <FiCamera size={100} />
@@ -190,7 +190,7 @@ export default function Dashboard() {
                                     <div className="text-forest-200 text-xs font-medium relative z-10">Akurasi AI 98%</div>
                                 </motion.div>
 
-                                {/* Kartu Aksi 2 */}
+                                {}
                                 <motion.div whileHover={{ scale: 1.02 }} className="bg-[#e4ebf5] rounded-3xl p-5 text-gray-800 shadow-sm cursor-pointer relative overflow-hidden group">
                                     <div className="absolute -right-4 -bottom-4 opacity-5 transform group-hover:scale-110 transition-transform text-blue-900">
                                         <FiWind size={100} />
@@ -209,7 +209,7 @@ export default function Dashboard() {
                             </div>
                         </div>
 
-                        {/* Kanan Bawah: Riwayat Aktivitas (Setara "My schedule") */}
+                        {}
                         <motion.div variants={itemVariants} className="bg-white rounded-[2rem] shadow-sm flex-1 relative overflow-hidden min-h-[300px]">
                             <div className="lg:absolute lg:inset-0 p-6 flex flex-col">
                                 <div className="flex items-center justify-between mb-6 shrink-0">

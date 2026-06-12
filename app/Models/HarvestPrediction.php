@@ -30,9 +30,9 @@ class HarvestPrediction extends Model
         'estimasi_pendapatan' => 'decimal:2',
     ];
 
-    // =========================================================
-    // Relasi Eloquent
-    // =========================================================
+    
+    
+    
 
     public function user(): BelongsTo
     {

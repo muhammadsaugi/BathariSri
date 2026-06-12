@@ -27,7 +27,7 @@ export default function Penyakit({ lahans = [] }) {
         <AuthenticatedLayout>
             <Head title="Deteksi Penyakit Daun Padi" />
 
-            {/* Green Header */}
+            {}
             <div className="rounded-2xl bg-gradient-to-br from-[#166534] to-[#15803d] px-6 py-5 mb-5 text-white">
                 <div className="flex items-center justify-between gap-4">
                     <div>
@@ -42,9 +42,9 @@ export default function Penyakit({ lahans = [] }) {
                 </div>
             </div>
 
-            {/* 2-Kolom: Upload | Panduan */}
+            {}
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-                {/* Form Upload — 3/5 */}
+                {}
                 <div className="lg:col-span-3 bg-white border border-zinc-200 rounded-xl overflow-hidden">
                     <div className="px-5 py-4 border-b border-zinc-100">
                         <h2 className="text-[15px] font-medium text-zinc-900">Upload Foto Daun</h2>
@@ -52,7 +52,7 @@ export default function Penyakit({ lahans = [] }) {
                     </div>
 
                     <form onSubmit={handleSubmit} className="p-5 space-y-5">
-                        {/* Drop Zone */}
+                        {}
                         <div
                             onClick={() => !processing && fileInputRef.current?.click()}
                             onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFile(e.dataTransfer.files?.[0]); }}
@@ -88,7 +88,7 @@ export default function Penyakit({ lahans = [] }) {
                         <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={(e) => handleFile(e.target.files?.[0])} disabled={processing} />
                         {errors.image && <p className="text-[12px] text-red-600">{errors.image}</p>}
 
-                        {/* Pilih Lahan */}
+                        {}
                         {lahans.length > 0 && (
                             <div>
                                 <label className="block text-[13px] font-medium text-zinc-700 mb-[5px]">
@@ -103,7 +103,7 @@ export default function Penyakit({ lahans = [] }) {
                             </div>
                         )}
 
-                        {/* Loading */}
+                        {}
                         {processing && (
                             <div className="flex items-center gap-3 bg-[#f0fdf4] border border-[#bbf7d0] rounded-lg px-4 py-3">
                                 <svg className="w-5 h-5 text-[#166534] animate-spin shrink-0" fill="none" viewBox="0 0 24 24">
@@ -114,7 +114,7 @@ export default function Penyakit({ lahans = [] }) {
                             </div>
                         )}
 
-                        {/* Submit */}
+                        {}
                         <button
                             type="submit"
                             disabled={processing || !data.image}
@@ -125,9 +125,9 @@ export default function Penyakit({ lahans = [] }) {
                     </form>
                 </div>
 
-                {/* Panduan — 2/5 */}
+                {}
                 <div className="lg:col-span-2 space-y-4">
-                    {/* Tips */}
+                    {}
                     <div className="bg-white border border-zinc-200 rounded-xl p-5">
                         <div className="flex items-center gap-2 mb-4">
                             <div className="w-8 h-8 bg-[#f0fdf4] rounded-lg flex items-center justify-center">
@@ -152,7 +152,7 @@ export default function Penyakit({ lahans = [] }) {
                         </ul>
                     </div>
 
-                    {/* Info AI */}
+                    {}
                     <div className="bg-[#f0fdf4] border border-[#bbf7d0] rounded-xl p-5">
                         <p className="text-[12px] font-semibold text-[#166534] uppercase tracking-[0.05em] mb-2">Model AI</p>
                         <p className="text-[14px] font-semibold text-[#14532d] mb-1">ResNet50</p>

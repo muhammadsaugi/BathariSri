@@ -19,13 +19,11 @@ class SpkWeightConfig extends Model
         'bobot' => 'decimal:4',
     ];
 
-    // =========================================================
-    // Scopes
-    // =========================================================
+    
+    
+    
 
-    /**
-     * Scope untuk memfilter konfigurasi bobot berdasarkan modul.
-     */
+    
     public function scopeForModule(Builder $query, string $modul): Builder
     {
         return $query->where('modul', $modul);

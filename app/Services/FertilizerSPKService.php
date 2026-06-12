@@ -6,12 +6,7 @@ use App\Models\FertilizerRef;
 use App\Models\SpkFertilizerRec;
 use InvalidArgumentException;
 
-/**
- * Modul 3 — Rekomendasi Pemupukan via Fuzzy Inference System (Mamdani + Centroid).
- *
- * Output kuantitatif: dosis Urea, Fosfor (SP36), dan Kalium (KCl) dalam kg/are,
- * beserta penjelasan aturan fuzzy yang terpenuhi.
- */
+
 class FertilizerSPKService
 {
   private const INPUT_SETS = [
@@ -71,14 +66,14 @@ class FertilizerSPKService
     $dosisP    = $this->defuzzifyOutput($pRules, self::OUTPUT_SETS_P, 0.0, 0.45);
     $dosisK    = $this->defuzzifyOutput($kRules, self::OUTPUT_SETS_K, 0.0, 0.35);
 
-    // Penyakit parah: batasi nitrogen
+    
     if ($input['kondisi_penyakit'] === 'severe') {
       $dosisUrea = min($dosisUrea, 0.20);
     }
 
     $firedRules = array_merge($ureaRules, $pRules, $kRules);
     
-    // dosis yang dihasilkan fuzzy adalah kg/are, kita konversi ke kg/ha dengan dikali 100
+    
     $dosisUreaHa = $dosisUrea * 100;
     $dosisPHa    = $dosisP * 100;
     $dosisKHa    = $dosisK * 100;
@@ -171,10 +166,7 @@ class FertilizerSPKService
     ];
   }
 
-  /**
-   * @param  array<string, array<string, float>>  $fuzzified
-   * @return array<int, array{id:string, strength:float, output:string, output_label:string, explanation:string}>
-   */
+  
   private function buildUreaRules(array $fuzzified): array
   {
     $rules = [];
@@ -278,10 +270,7 @@ class FertilizerSPKService
     ];
   }
 
-  /**
-   * @param  array<int, array{strength:float, output:string}>  $rules
-   * @param  array<string, array{0:float,1:float,2:float}>  $outputSets
-   */
+  
   private function defuzzifyOutput(array $rules, array $outputSets, float $min, float $max): float
   {
     if ($rules === []) {

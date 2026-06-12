@@ -8,14 +8,7 @@ use App\Models\Lahan;
 use App\Models\VarietyRef;
 use InvalidArgumentException;
 
-/**
- * Modul 4 — Prediksi Panen via Regresi Linear Berganda (multiplicative weighted).
- *
- * Estimasi (ton/ha) = potensi_varietas × faktor_penyakit × faktor_pemupukan
- *                     × faktor_air × faktor_cuaca
- *
- * Koefisien faktor diambil dari literatur agronomi padi (IRRI / Balai Litbang).
- */
+
 class HarvestPredictionService
 {
   private const FAKTOR_PENYAKIT = [

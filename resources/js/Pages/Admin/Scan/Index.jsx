@@ -54,7 +54,7 @@ export default function ScanIndex({ scans, filters }) {
                     </div>
                 )}
 
-                {/* Form Filter */}
+                {}
                 <form onSubmit={handleFilter} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div>
@@ -109,7 +109,7 @@ export default function ScanIndex({ scans, filters }) {
                     </div>
                 </form>
 
-                {/* Tabel */}
+                {}
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left">
@@ -168,7 +168,7 @@ export default function ScanIndex({ scans, filters }) {
                         </table>
                     </div>
 
-                    {/* Pagination */}
+                    {}
                     {scans.links && scans.links.length > 3 && (
                         <div className="px-5 py-4 border-t border-gray-100 flex flex-wrap gap-1">
                             {scans.links.map((link, i) => (

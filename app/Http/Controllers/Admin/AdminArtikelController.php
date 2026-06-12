@@ -11,9 +11,7 @@ use Inertia\Response;
 
 class AdminArtikelController extends Controller
 {
-    /**
-     * Daftar semua artikel dengan author, paginate 15.
-     */
+    
     public function index(): Response
     {
         $artikel = Article::with('author:id,name')
@@ -25,17 +23,13 @@ class AdminArtikelController extends Controller
         ]);
     }
 
-    /**
-     * Form tambah artikel baru.
-     */
+    
     public function create(): Response
     {
         return Inertia::render('Admin/Artikel/Create');
     }
 
-    /**
-     * Simpan artikel baru.
-     */
+    
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
@@ -59,9 +53,7 @@ class AdminArtikelController extends Controller
             ->with('success', 'Artikel berhasil ditambahkan.');
     }
 
-    /**
-     * Form edit artikel.
-     */
+    
     public function edit(Article $artikel): Response
     {
         return Inertia::render('Admin/Artikel/Edit', [
@@ -69,9 +61,7 @@ class AdminArtikelController extends Controller
         ]);
     }
 
-    /**
-     * Update artikel.
-     */
+    
     public function update(Request $request, Article $artikel): RedirectResponse
     {
         $validated = $request->validate([
@@ -82,12 +72,12 @@ class AdminArtikelController extends Controller
             'is_published' => 'nullable|boolean',
         ]);
 
-        // Re-generate slug hanya jika title berubah
+        
         if ($validated['title'] !== $artikel->title) {
             $validated['slug'] = Article::generateSlug($validated['title']);
         }
 
-        // Set published_at jika is_published berubah dari false ke true
+        
         $nowPublished = !empty($validated['is_published']);
         if ($nowPublished && !$artikel->is_published) {
             $validated['published_at'] = now();
@@ -99,9 +89,7 @@ class AdminArtikelController extends Controller
             ->with('success', 'Artikel berhasil diperbarui.');
     }
 
-    /**
-     * Hapus artikel.
-     */
+    
     public function destroy(Article $artikel): RedirectResponse
     {
         $artikel->delete();

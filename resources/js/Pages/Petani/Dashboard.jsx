@@ -215,7 +215,7 @@ export default function Dashboard({ lahans_data, scan_terbaru, latest_fertilizer
         <AuthenticatedLayout>
             <Head title="Dashboard" />
 
-            {/* ── Hero Banner Hijau ───────────────────────────────────────────── */}
+            {}
             <div className="rounded-2xl bg-gradient-to-br from-[#166534] to-[#15803d] px-6 py-5 mb-5 text-white">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                     <div>
@@ -226,7 +226,7 @@ export default function Dashboard({ lahans_data, scan_terbaru, latest_fertilizer
                         <p className="text-[14px] text-green-200">Berikut ringkasan kondisi lahanmu hari ini.</p>
                     </div>
 
-                    {/* Stat Chips */}
+                    {}
                     <div className="flex gap-2.5 flex-wrap">
                         <div className="bg-white/10 border border-white/20 rounded-xl px-4 py-3 min-w-[80px]">
                             <p className="text-[11px] font-medium text-green-200 uppercase tracking-[0.05em] mb-1">Total Lahan</p>
@@ -255,10 +255,10 @@ export default function Dashboard({ lahans_data, scan_terbaru, latest_fertilizer
                 </div>
             </div>
 
-            {/* ── Main Grid ──────────────────────────────────────────────────── */}
+            {}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
-                {/* LEFT — Lahan Cards (2/3 width) */}
+                {}
                 <div className="lg:col-span-2 space-y-3">
                     <div className="flex items-center justify-between">
                         <h2 className="text-[16px] font-semibold text-zinc-900" style={{ fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
@@ -286,13 +286,13 @@ export default function Dashboard({ lahans_data, scan_terbaru, latest_fertilizer
                     )}
                 </div>
 
-                {/* RIGHT — Sorotan (1/3 width) */}
+                {}
                 <div className="space-y-3">
                     <h2 className="text-[16px] font-semibold text-zinc-900" style={{ fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
                         Sorotan
                     </h2>
 
-                    {/* Scan Widget */}
+                    {}
                     <div className="bg-white border border-zinc-200 rounded-xl p-4">
                         {scan_terbaru ? (
                             <ScanWidget scan={scan_terbaru} />
@@ -317,7 +317,7 @@ export default function Dashboard({ lahans_data, scan_terbaru, latest_fertilizer
                         )}
                     </div>
 
-                    {/* Aksi Cepat */}
+                    {}
                     <div className="bg-white border border-zinc-200 rounded-xl p-4">
                         <p className="text-[11px] font-medium uppercase tracking-[0.06em] text-zinc-400 mb-3">Aksi Cepat</p>
                         <div className="space-y-2">
@@ -338,7 +338,7 @@ export default function Dashboard({ lahans_data, scan_terbaru, latest_fertilizer
                         </div>
                     </div>
 
-                    {/* Quick nav ke scan baru */}
+                    {}
                     <Link
                         href={route('petani.scan.create')}
                         className="flex items-center gap-3 bg-[#166534] text-white rounded-xl px-4 py-3.5 hover:bg-[#15803d] transition-colors group"

@@ -22,10 +22,10 @@ class PetaniDashboardController extends Controller
     {
         $userId = auth()->id();
 
-        // ------------------------------------------------------------------
-        // 1. Ambil semua lahan aktif milik petani yang sedang login
-        // ------------------------------------------------------------------
-        // Eager-load planting schedule terbaru per lahan (hindari N+1 query)
+        
+        
+        
+        
         $lahans = Lahan::where('user_id', $userId)
             ->active()
             ->with([
@@ -33,9 +33,9 @@ class PetaniDashboardController extends Controller
             ])
             ->get(['id', 'nama_lahan', 'luas_m2']);
 
-        // ------------------------------------------------------------------
-        // 2. Untuk setiap lahan, hitung fase pertumbuhan real-time
-        // ------------------------------------------------------------------
+        
+        
+        
         $lahansData = $lahans->map(function (Lahan $lahan) {
             $latestPlanting = $lahan->plantingSchedules->first();
 
@@ -63,31 +63,31 @@ class PetaniDashboardController extends Controller
             ];
         })->values()->toArray();
 
-        // ------------------------------------------------------------------
-        // 3. Ambil scan terbaru milik petani dalam 7 hari terakhir
-        // ------------------------------------------------------------------
+        
+        
+        
         $scanTerbaru = DiseaseScan::where('user_id', $userId)
             ->where('scanned_at', '>=', now()->subDays(7)->startOfDay())
             ->latest('scanned_at')
             ->first();
 
-        // ------------------------------------------------------------------
-        // 4. Ambil rekomendasi pupuk terbaru (SpkFertilizerRec) milik petani
-        // ------------------------------------------------------------------
+        
+        
+        
         $latestFertilizer = SpkFertilizerRec::where('user_id', $userId)
             ->latest()
             ->first();
 
-        // ------------------------------------------------------------------
-        // 5. Ambil prediksi panen terbaru (HarvestPrediction) milik petani
-        // ------------------------------------------------------------------
+        
+        
+        
         $latestHarvest = HarvestPrediction::where('user_id', $userId)
             ->latest()
             ->first();
 
-        // ------------------------------------------------------------------
-        // 6. Render Inertia view — HANYA data milik auth()->id()
-        // ------------------------------------------------------------------
+        
+        
+        
         return Inertia::render('Petani/Dashboard', [
             'lahans_data'        => $lahansData,
             'scan_terbaru'       => $scanTerbaru,

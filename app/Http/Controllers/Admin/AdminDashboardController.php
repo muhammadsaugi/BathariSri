@@ -14,9 +14,9 @@ class AdminDashboardController extends Controller
 {
     public function index(): Response
     {
-        // -------------------------------------------------------
-        // Statistik badge
-        // -------------------------------------------------------
+        
+        
+        
         $totalPetaniAktif  = User::where('role', 'petani')->where('is_active', true)->count();
 
         $totalScanBulanIni = DiseaseScan::whereMonth('scanned_at', now()->month)
@@ -29,25 +29,25 @@ class AdminDashboardController extends Controller
 
         $totalArtikelPublish = Article::where('is_published', true)->count();
 
-        // -------------------------------------------------------
-        // Data chart: scan per hari 7 hari terakhir
-        // -------------------------------------------------------
+        
+        
+        
         $scanPerHari = DiseaseScan::selectRaw('DATE(scanned_at) as tanggal, COUNT(*) as total')
             ->where('scanned_at', '>=', now()->subDays(6)->startOfDay())
             ->groupBy('tanggal')
             ->orderBy('tanggal')
             ->get();
 
-        // -------------------------------------------------------
-        // Distribusi predicted_class
-        // -------------------------------------------------------
+        
+        
+        
         $distribusiPenyakit = DiseaseScan::selectRaw('predicted_class, COUNT(*) as total')
             ->groupBy('predicted_class')
             ->get();
 
-        // -------------------------------------------------------
-        // Scan terbaru 10 record
-        // -------------------------------------------------------
+        
+        
+        
         $scanTerbaru = DiseaseScan::with(['user:id,name', 'lahan:id,nama_lahan'])
             ->latest('scanned_at')
             ->take(10)

@@ -20,13 +20,11 @@ class DiseaseRef extends Model
         'pencegahan',
     ];
 
-    // =========================================================
-    // Relasi Eloquent
-    // =========================================================
+    
+    
+    
 
-    /**
-     * Relasi non-standard: foreignKey = predicted_class, localKey = disease_key
-     */
+    
     public function diseaseScans(): HasMany
     {
         return $this->hasMany(DiseaseScan::class, 'predicted_class', 'disease_key');

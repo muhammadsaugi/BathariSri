@@ -27,9 +27,9 @@ class DiseaseScan extends Model
         'scanned_at'   => 'datetime',
     ];
 
-    // =========================================================
-    // Relasi Eloquent
-    // =========================================================
+    
+    
+    
 
     public function user(): BelongsTo
     {
@@ -41,9 +41,7 @@ class DiseaseScan extends Model
         return $this->belongsTo(Lahan::class);
     }
 
-    /**
-     * Relasi non-standard: foreignKey = predicted_class, ownerKey = disease_key
-     */
+    
     public function diseaseRef(): BelongsTo
     {
         return $this->belongsTo(DiseaseRef::class, 'predicted_class', 'disease_key');
@@ -54,13 +52,11 @@ class DiseaseScan extends Model
         return $this->hasOne(SpkFertilizerRec::class, 'disease_scan_id');
     }
 
-    // =========================================================
-    // Scopes
-    // =========================================================
+    
+    
+    
 
-    /**
-     * Scope untuk memfilter scan berdasarkan user_id.
-     */
+    
     public function scopeForUser(Builder $query, int $userId): Builder
     {
         return $query->where('user_id', $userId);

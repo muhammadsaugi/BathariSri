@@ -6,14 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+    
     public function up(): void
     {
         Schema::create('spk_weight_configs', function (Blueprint $table) {
             $table->id();
-            $table->string('modul', 10); // M3, M4, M5
+            $table->string('modul', 10); 
             $table->string('kriteria_nama', 255);
             $table->decimal('bobot', 5, 4);
             $table->enum('jenis', ['benefit', 'cost']);
@@ -23,9 +21,7 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+    
     public function down(): void
     {
         Schema::dropIfExists('spk_weight_configs');

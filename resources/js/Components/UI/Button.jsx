@@ -1,22 +1,6 @@
 import { forwardRef } from 'react';
 
-/**
- * BathariSri — Button Component (Polished v2)
- *
- * Komponen tombol POLIMORFIK — bisa merender <button>, <a>, <Link>, dll.
- * Hover: Transisi perubahan WARNA profesional (tidak terangkat).
- * Active: Scale kecil untuk sensasi klik fisik yang natural.
- *
- * Props:
- * - as:       Tag atau komponen yang dirender ('button' | 'a' | Link)
- * - variant:  'primary' | 'secondary' | 'ghost' | 'danger'
- * - size:     'sm' | 'md' | 'lg' | 'xl'
- * - rounded:  'full' | 'xl' | 'lg'
- * - loading:  boolean
- * - leftIcon: ReactNode
- * - rightIcon: ReactNode
- * - className: string
- */
+
 const Button = forwardRef(function Button(
     {
         as: Tag = 'button',
@@ -33,7 +17,7 @@ const Button = forwardRef(function Button(
     },
     ref
 ) {
-    // ─── Ukuran ────────────────────────────────────────────────────────────
+    
     const sizeClasses = {
         sm: 'px-4 py-2 text-xs gap-1.5',
         md: 'px-6 py-2.5 text-sm gap-2',
@@ -41,14 +25,14 @@ const Button = forwardRef(function Button(
         xl: 'px-9 py-3.5 text-base gap-2.5',
     };
 
-    // ─── Border Radius ──────────────────────────────────────────────────────
+    
     const roundedClasses = {
         full: 'rounded-full',
         xl:   'rounded-xl',
         lg:   'rounded-lg',
     };
 
-    // ─── Variant ───────────────────────────────────────────────────────────
+    
     const variantBase = {
         primary: [
             'bg-gradient-to-br from-forest-500 to-forest-600',
@@ -110,7 +94,7 @@ const Button = forwardRef(function Button(
             className={baseClass}
             {...props}
         >
-            {/* Spinner Loading */}
+            {}
             {loading && (
                 <svg
                     className="animate-spin h-4 w-4 shrink-0"
@@ -124,15 +108,15 @@ const Button = forwardRef(function Button(
                 </svg>
             )}
 
-            {/* Ikon Kiri */}
+            {}
             {!loading && leftIcon && (
                 <span className="shrink-0 leading-none" aria-hidden="true">{leftIcon}</span>
             )}
 
-            {/* Label */}
+            {}
             <span>{children}</span>
 
-            {/* Ikon Kanan */}
+            {}
             {!loading && rightIcon && (
                 <span className="shrink-0 leading-none" aria-hidden="true">{rightIcon}</span>
             )}

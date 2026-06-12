@@ -18,7 +18,7 @@ import {
 export default function SmartNursery() {
     const user = usePage().props.auth.user;
 
-    // Animations
+    
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
@@ -34,7 +34,7 @@ export default function SmartNursery() {
             <Head title="Smart Nursery" />
 
             <div className="w-full px-2 lg:px-4 pb-4 lg:pb-0 lg:h-full flex flex-col lg:min-h-0">
-                {/* Floating Header Pill */}
+                {}
                 <div className="hidden lg:flex items-center justify-between mb-8 shrink-0">
                     <div className="hidden md:flex items-center gap-3 bg-white px-5 py-3 rounded-full shadow-sm">
                         <div className="bg-forest-50 p-2 rounded-full text-forest-500">
@@ -43,7 +43,7 @@ export default function SmartNursery() {
                         <span className="font-bold text-gray-700 text-sm">Manajemen Pembibitan</span>
                     </div>
                     
-                    {/* Right side consistent with Dashboard */}
+                    {}
                     <div className="flex items-center gap-3 ml-auto">
                         <button className="w-12 h-12 flex items-center justify-center bg-gray-900 text-white rounded-[1.25rem] shadow-md hover:bg-gray-800 transition-colors">
                             <FiSearch size={20} />
@@ -71,7 +71,7 @@ export default function SmartNursery() {
                     animate="visible"
                     className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:flex-1 lg:min-h-0"
                 >
-                    {/* KOLOM KIRI: Batch Aktif & Metrik Lingkungan */}
+                    {}
                     <motion.div variants={itemVariants} className="lg:col-span-7 bg-white rounded-[2rem] shadow-sm relative overflow-hidden flex flex-col lg:min-h-[500px]">
                         <div className="lg:absolute lg:inset-0 p-6 lg:p-8 flex flex-col lg:overflow-y-auto hide-scrollbar">
                             <div className="flex items-center justify-between mb-8 shrink-0">
@@ -84,10 +84,10 @@ export default function SmartNursery() {
                                 </div>
                             </div>
 
-                            {/* Donut Chart Umur Bibit */}
+                            {}
                             <div className="flex-1 flex flex-col items-center justify-center relative mb-8 shrink-0">
                                 <div className="relative w-48 h-48 sm:w-64 sm:h-64 flex items-center justify-center">
-                                    {/* SVG Donut */}
+                                    {}
                                     <svg className="w-full h-full -rotate-90 transform" viewBox="0 0 100 100">
                                         <circle cx="50" cy="50" r="45" className="stroke-gray-100" strokeWidth="8" fill="none" />
                                         <motion.circle 
@@ -99,7 +99,7 @@ export default function SmartNursery() {
                                             fill="none" 
                                             strokeLinecap="round"
                                             initial={{ strokeDasharray: "0, 300" }}
-                                            animate={{ strokeDasharray: "190, 300" }} // Approx 66% (14/21 days)
+                                            animate={{ strokeDasharray: "190, 300" }} 
                                             transition={{ duration: 1.5, ease: "easeOut" }}
                                         />
                                     </svg>
@@ -114,7 +114,7 @@ export default function SmartNursery() {
                                 </div>
                             </div>
 
-                            {/* Panel Metrik Lingkungan IoT */}
+                            {}
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 shrink-0 mt-auto">
                                 <div className="bg-orange-50 rounded-2xl p-4 border border-orange-100 flex items-start gap-3">
                                     <div className="bg-orange-100 p-2 rounded-xl text-orange-500">
@@ -152,10 +152,10 @@ export default function SmartNursery() {
                         </div>
                     </motion.div>
 
-                    {/* KOLOM KANAN: Aksi Cepat & Daftar Batch */}
+                    {}
                     <div className="lg:col-span-5 flex flex-col gap-6 lg:min-h-0">
                         
-                        {/* Kanan Atas: Aksi Cepat (Quick Actions) */}
+                        {}
                         <motion.div variants={itemVariants} className="bg-white rounded-[2rem] p-6 shadow-sm shrink-0">
                             <h3 className="font-bold text-gray-900 mb-4 text-lg">Catat Aktivitas Hari Ini</h3>
                             <div className="grid grid-cols-2 gap-3">
@@ -174,7 +174,7 @@ export default function SmartNursery() {
                             </div>
                         </motion.div>
 
-                        {/* Kanan Bawah: Daftar Batch Pembibitan Lainnya */}
+                        {}
                         <motion.div variants={itemVariants} className="bg-white rounded-[2rem] shadow-sm lg:flex-1 relative overflow-hidden">
                             <div className="lg:absolute lg:inset-0 p-6 flex flex-col">
                                 <div className="flex items-center justify-between mb-4 shrink-0">
@@ -188,7 +188,7 @@ export default function SmartNursery() {
                                     <div className="lg:absolute lg:inset-0">
                                         <div className="space-y-3 pr-2">
                                             
-                                            {/* Item 1: Inpari (Siap Tanam) */}
+                                            {}
                                             <div className="p-4 rounded-2xl border border-gray-100 hover:border-forest-200 hover:shadow-md transition-all cursor-pointer group">
                                                 <div className="flex justify-between items-start mb-2">
                                                     <div>
@@ -205,7 +205,7 @@ export default function SmartNursery() {
                                                 </div>
                                             </div>
 
-                                            {/* Item 2: IR64 (Baru Semai) */}
+                                            {}
                                             <div className="p-4 rounded-2xl border border-gray-100 hover:border-forest-200 hover:shadow-md transition-all cursor-pointer group">
                                                 <div className="flex justify-between items-start mb-2">
                                                     <div>
@@ -222,7 +222,7 @@ export default function SmartNursery() {
                                                 </div>
                                             </div>
 
-                                            {/* Item 3: Ciherang (Krisis Air) */}
+                                            {}
                                             <div className="p-4 rounded-2xl border border-red-100 bg-red-50/30 hover:shadow-md transition-all cursor-pointer group">
                                                 <div className="flex justify-between items-start mb-2">
                                                     <div>

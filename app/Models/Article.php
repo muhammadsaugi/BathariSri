@@ -25,35 +25,30 @@ class Article extends Model
         'published_at' => 'datetime',
     ];
 
-    // =========================================================
-    // Relasi Eloquent
-    // =========================================================
+    
+    
+    
 
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
     }
 
-    // =========================================================
-    // Scopes
-    // =========================================================
+    
+    
+    
 
-    /**
-     * Scope untuk memfilter hanya artikel yang dipublikasikan.
-     */
+    
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('is_published', true);
     }
 
-    // =========================================================
-    // Static helpers
-    // =========================================================
+    
+    
+    
 
-    /**
-     * Generate slug unik dari judul artikel.
-     * Jika slug sudah ada, tambahkan suffix numerik hingga unik.
-     */
+    
     public static function generateSlug(string $title): string
     {
         $base = Str::slug($title);

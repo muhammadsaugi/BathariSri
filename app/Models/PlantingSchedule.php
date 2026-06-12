@@ -28,9 +28,9 @@ class PlantingSchedule extends Model
         'jadwal_pupuk'    => 'array',
     ];
 
-    // =========================================================
-    // Relasi Eloquent
-    // =========================================================
+    
+    
+    
 
     public function user(): BelongsTo
     {

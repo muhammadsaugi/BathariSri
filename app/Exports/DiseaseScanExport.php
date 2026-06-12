@@ -11,9 +11,7 @@ class DiseaseScanExport implements FromQuery, WithHeadings, WithMapping
 {
     public function __construct(private array $filters = []) {}
 
-    /**
-     * Query data scan dengan filter opsional.
-     */
+    
     public function query()
     {
         return DiseaseScan::with(['user:id,name', 'lahan:id,nama_lahan'])
@@ -23,9 +21,7 @@ class DiseaseScanExport implements FromQuery, WithHeadings, WithMapping
             ->latest('scanned_at');
     }
 
-    /**
-     * Header kolom CSV.
-     */
+    
     public function headings(): array
     {
         return [
@@ -39,9 +35,7 @@ class DiseaseScanExport implements FromQuery, WithHeadings, WithMapping
         ];
     }
 
-    /**
-     * Mapping baris data ke kolom CSV.
-     */
+    
     public function map($scan): array
     {
         return [

@@ -14,7 +14,7 @@ import {
 } from 'react-icons/fi';
 import { PiPlant, PiChartLineUp, PiRecycle } from 'react-icons/pi';
 
-// ─── Menu per role ────────────────────────────────────────────────────────────
+
 
 function getPetaniMenu() {
     return [
@@ -42,7 +42,7 @@ function getAdminMenu() {
     ];
 }
 
-// ─── Komponen Utama ───────────────────────────────────────────────────────────
+
 
 export default function Sidebar({ isOpen, onClose }) {
     const { url, props } = usePage();
@@ -63,7 +63,7 @@ export default function Sidebar({ isOpen, onClose }) {
     function SidebarContent() {
         return (
             <div className="flex h-full flex-col overflow-hidden">
-                {/* Logo */}
+                {}
                 <div className="flex items-center justify-between px-2 mb-5 shrink-0">
                     <Link href="/" className="flex items-center gap-2 shrink-0">
                         <img src="/images/Logo_BathariSri.png" alt="BathariSri Logo" className="h-9 w-auto object-contain" />
@@ -77,7 +77,7 @@ export default function Sidebar({ isOpen, onClose }) {
                     </button>
                 </div>
 
-                {/* Nav Items */}
+                {}
                 <nav className="flex-1 overflow-y-auto hide-scrollbar space-y-1">
                     {menuItems.map((item) => {
                         const Icon = item.icon;
@@ -99,7 +99,7 @@ export default function Sidebar({ isOpen, onClose }) {
                     })}
                 </nav>
 
-                {/* Bottom: Settings, Logout, Profile */}
+                {}
                 <div className="shrink-0">
                     <div className="border-t border-gray-100 my-3" />
 
@@ -141,14 +141,14 @@ export default function Sidebar({ isOpen, onClose }) {
 
     return (
         <>
-            {/* Desktop Sidebar — fixed height, no scroll on container */}
+            {}
             <div className="hidden lg:flex w-64 shrink-0 h-screen p-4">
                 <div className="w-full h-full bg-white rounded-[1.5rem] border border-zinc-100 p-5 flex flex-col overflow-hidden">
                     <SidebarContent />
                 </div>
             </div>
 
-            {/* Mobile Sidebar Drawer */}
+            {}
             <AnimatePresence>
                 {isOpen && (
                     <>

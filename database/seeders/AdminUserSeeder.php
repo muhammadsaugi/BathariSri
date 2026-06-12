@@ -11,7 +11,7 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Admin
+        
         User::firstOrCreate(
             ['email' => 'admin@bathariSri.test'],
             [
@@ -22,7 +22,7 @@ class AdminUserSeeder extends Seeder
             ]
         );
 
-        // 2. Petani demo
+        
         $petani = User::firstOrCreate(
             ['email' => 'budi@demo.test'],
             [
@@ -33,7 +33,7 @@ class AdminUserSeeder extends Seeder
             ]
         );
 
-        // 3. Lahan demo untuk Budi
+        
         DB::table('lahans')->insertOrIgnore([
             [
                 'user_id'          => $petani->id,

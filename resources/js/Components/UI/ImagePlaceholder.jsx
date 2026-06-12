@@ -1,17 +1,4 @@
-/**
- * BathariSri — ImagePlaceholder Component
- *
- * Penampung gambar sementara yang tetap estetik dan sesuai tema.
- * Digunakan di seluruh Landing Page sampai foto asli tersedia.
- * Nanti cukup ganti dengan tag <img> atau komponen yang sesungguhnya.
- *
- * Props:
- * - aspect:      'video' (16:9) | 'square' (1:1) | 'portrait' (3:4) | 'wide' (21:9)
- * - label:       string — Keterangan gambar yang akan dipasang di sini
- * - icon:        ReactNode — Ikon opsional di tengah placeholder
- * - rounded:     string — Kelas rounded Tailwind
- * - className:   string — Kelas tambahan
- */
+
 export default function ImagePlaceholder({
     aspect = 'video',
     label = 'Gambar akan dipasang di sini',
@@ -43,7 +30,7 @@ export default function ImagePlaceholder({
             role="img"
             aria-label={label}
         >
-            {/* Pola Grid Tipis — memberikan kedalaman pada placeholder */}
+            {}
             <div
                 aria-hidden="true"
                 className="absolute inset-0 opacity-20"
@@ -56,7 +43,7 @@ export default function ImagePlaceholder({
                 }}
             />
 
-            {/* Efek Cahaya Sudut */}
+            {}
             <div
                 aria-hidden="true"
                 className="absolute top-0 left-0 w-32 h-32 rounded-full opacity-20 blur-3xl bg-forest-400"
@@ -66,9 +53,9 @@ export default function ImagePlaceholder({
                 className="absolute bottom-0 right-0 w-24 h-24 rounded-full opacity-15 blur-3xl bg-sage-400"
             />
 
-            {/* Isi Tengah */}
+            {}
             <div className="relative z-10 flex flex-col items-center gap-3 text-center px-6">
-                {/* Ikon atau Daun Default */}
+                {}
                 <div className="
                     w-14 h-14 rounded-2xl
                     bg-forest-500/15 border border-forest-500/25
@@ -76,7 +63,7 @@ export default function ImagePlaceholder({
                     text-forest-400 text-2xl
                 ">
                     {icon || (
-                        // Ikon daun SVG default
+                        
                         <svg
                             viewBox="0 0 24 24"
                             fill="none"
@@ -98,7 +85,7 @@ export default function ImagePlaceholder({
                     )}
                 </div>
 
-                {/* Label */}
+                {}
                 <p className="text-forest-400/60 text-xs font-medium tracking-wide">
                     {label}
                 </p>

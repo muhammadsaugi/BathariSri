@@ -21,31 +21,25 @@ class FertilizerController extends Controller
         private PlantingCalculatorService $calculatorService,
     ) {}
 
-    /**
-     * Tampilkan form SPK pupuk dengan pre-fill otomatis dari M1 dan M2.
-     *
-     * Pre-fill:
-     *   - fase_pertumbuhan : dari PlantingSchedule terbaru per lahan (M1)
-     *   - kondisi_penyakit : dari DiseaseScan terbaru per lahan dalam 30 hari terakhir (M2)
-     */
+    
     public function create(): Response
     {
         $userId = auth()->id();
 
-        // Ambil lahan aktif milik user yang sedang login
+        
         $lahans = Lahan::where('user_id', $userId)
             ->active()
             ->orderBy('nama_lahan')
             ->get(['id', 'nama_lahan', 'luas_m2', 'jenis_tanah']);
 
-        // Ambil riwayat rekomendasi pupuk terbaru milik user (5 terakhir)
+        
         $previousRecs = SpkFertilizerRec::where('user_id', $userId)
             ->with(['lahan:id,nama_lahan'])
             ->latest()
             ->take(5)
             ->get(['id', 'lahan_id', 'rekomendasi', 'detail_pupuk', 'estimasi_biaya', 'created_at']);
 
-        // Bangun data pre-fill per lahan dari M1 dan M2
+        
         $prefill = [];
 
         foreach ($lahans as $lahan) {
@@ -57,7 +51,7 @@ class FertilizerController extends Controller
                 'kondisi_penyakit' => null,
             ];
 
-            // M1 — PlantingSchedule terbaru untuk lahan ini
+            
             $latestPlanting = PlantingSchedule::where('user_id', $userId)
                 ->where('lahan_id', $lahan->id)
                 ->latest('tanggal_tanam')
@@ -70,17 +64,17 @@ class FertilizerController extends Controller
                         $latestPlanting->umur_panen_hari,
                     );
 
-                    // Hanya pre-fill fase yang valid untuk form SPK (bukan 'panen')
+                    
                     if (in_array($phaseData['fase'], ['vegetatif_awal', 'vegetatif_aktif', 'reproduktif', 'pemasakan'])) {
                         $lahanPrefill['planting_id']      = $latestPlanting->id;
                         $lahanPrefill['fase_pertumbuhan'] = $phaseData['fase'];
                     }
                 } catch (\InvalidArgumentException) {
-                    // Jika umur_panen tidak valid, lewati pre-fill fase
+                    
                 }
             }
 
-            // M2 — DiseaseScan terbaru dalam 30 hari terakhir untuk lahan ini
+            
             $latestScan = DiseaseScan::where('user_id', $userId)
                 ->where('lahan_id', $lahan->id)
                 ->where('scanned_at', '>=', now()->subDays(30))
@@ -102,9 +96,7 @@ class FertilizerController extends Controller
         ]);
     }
 
-    /**
-     * Jalankan Fuzzy Logic untuk rekomendasi pupuk dan tampilkan hasil.
-     */
+    
     public function store(Request $request): Response
     {
         $userId = auth()->id();
@@ -118,7 +110,7 @@ class FertilizerController extends Controller
             'riwayat_pemupukan' => ['required', 'in:belum_pupuk,sudah_dasar,sudah_susulan1'],
         ]);
 
-        // Tentukan luas lahan: ambil dari lahan jika ada, default 2500 m2 (0.25 Ha) jika tidak ada
+        
         $luasM2 = 2500.0;
         $lahanId = $validated['lahan_id'] ?? null;
 
@@ -132,7 +124,7 @@ class FertilizerController extends Controller
             }
         }
 
-        // Resolusi planting_id dan disease_scan_id dari data terbaru lahan yang dipilih
+        
         $plantingId    = null;
         $diseaseScanId = null;
 
@@ -153,7 +145,7 @@ class FertilizerController extends Controller
             $diseaseScanId = $latestScan;
         }
 
-        // Susun array input untuk service
+        
         $input = [
             'fase_pertumbuhan'  => $validated['fase_pertumbuhan'],
             'kondisi_penyakit'  => $validated['kondisi_penyakit'],
@@ -162,7 +154,7 @@ class FertilizerController extends Controller
             'riwayat_pemupukan' => $validated['riwayat_pemupukan'],
         ];
 
-        // Jalankan Fuzzy Inference System via FertilizerSPKService
+        
         $result = $this->fertilizerService->generate(
             input: $input,
             luas_m2: $luasM2,
@@ -172,20 +164,20 @@ class FertilizerController extends Controller
             disease_scan_id: $diseaseScanId,
         );
 
-        // Ambil ulang daftar lahan untuk dikirim kembali ke view
+        
         $lahans = Lahan::where('user_id', $userId)
             ->active()
             ->orderBy('nama_lahan')
             ->get(['id', 'nama_lahan', 'luas_m2', 'jenis_tanah']);
 
-        // Ambil riwayat rekomendasi terbaru (termasuk yang baru saja disimpan)
+        
         $previousRecs = SpkFertilizerRec::where('user_id', $userId)
             ->with(['lahan:id,nama_lahan'])
             ->latest()
             ->take(5)
             ->get(['id', 'lahan_id', 'rekomendasi', 'detail_pupuk', 'estimasi_biaya', 'created_at']);
 
-        // Tampilkan form + hasil dalam satu halaman (UX terbaik)
+        
         return Inertia::render('SPK/Pupuk', [
             'lahans'        => $lahans,
             'prefill'       => null,

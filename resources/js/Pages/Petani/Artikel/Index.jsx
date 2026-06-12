@@ -1,9 +1,9 @@
 import { Head, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
-// -----------------------------------------------------------------------
-// Warna badge kategori artikel
-// -----------------------------------------------------------------------
+
+
+
 const KATEGORI_COLORS = {
     penyakit: 'bg-red-100 text-red-700',
     pemupukan: 'bg-emerald-100 text-emerald-700',
@@ -26,16 +26,16 @@ function formatTanggal(dateStr) {
     return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
-// -----------------------------------------------------------------------
-// Sub-komponen: Kartu artikel
-// -----------------------------------------------------------------------
+
+
+
 function ArtikelCard({ artikel }) {
     const badgeClass = KATEGORI_COLORS[artikel.category] ?? KATEGORI_COLORS.umum;
     const badgeLabel = KATEGORI_LABELS[artikel.category] ?? artikel.category;
 
     return (
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow">
-            {/* Thumbnail */}
+            {}
             {artikel.thumbnail ? (
                 <div className="aspect-[16/9] overflow-hidden bg-gray-100">
                     <img
@@ -63,24 +63,24 @@ function ArtikelCard({ artikel }) {
                 </div>
             )}
 
-            {/* Konten kartu */}
+            {}
             <div className="flex flex-col flex-1 p-5">
-                {/* Badge kategori */}
+                {}
                 <span className={`self-start text-xs font-semibold px-2.5 py-1 rounded-full mb-3 ${badgeClass}`}>
                     {badgeLabel}
                 </span>
 
-                {/* Judul */}
+                {}
                 <h3 className="text-base font-bold text-gray-900 leading-snug mb-2 line-clamp-2">
                     {artikel.title}
                 </h3>
 
-                {/* Tanggal publish */}
+                {}
                 <p className="text-xs text-gray-400 mb-4">
                     {formatTanggal(artikel.published_at)}
                 </p>
 
-                {/* Tombol baca */}
+                {}
                 <div className="mt-auto">
                     <Link
                         href={route('petani.artikel.show', artikel.slug)}
@@ -97,9 +97,9 @@ function ArtikelCard({ artikel }) {
     );
 }
 
-// -----------------------------------------------------------------------
-// Sub-komponen: Pagination
-// -----------------------------------------------------------------------
+
+
+
 function Pagination({ links }) {
     if (!links || links.length <= 3) return null;
 
@@ -132,9 +132,9 @@ function Pagination({ links }) {
     );
 }
 
-// -----------------------------------------------------------------------
-// Komponen utama
-// -----------------------------------------------------------------------
+
+
+
 export default function Index({ artikels }) {
     const hasData = artikels?.data?.length > 0;
 
@@ -156,17 +156,17 @@ export default function Index({ artikels }) {
             <div className="max-w-6xl mx-auto w-full">
                 {hasData ? (
                     <>
-                        {/* Grid artikel */}
+                        {}
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                             {artikels.data.map((artikel) => (
                                 <ArtikelCard key={artikel.id} artikel={artikel} />
                             ))}
                         </div>
-                        {/* Pagination */}
+                        {}
                         <Pagination links={artikels.links} />
                     </>
                 ) : (
-                    /* Empty state */
+                    
                     <div className="bg-white rounded-2xl border border-dashed border-gray-200 py-20 flex flex-col items-center text-center">
                         <div className="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center mb-4">
                             <svg

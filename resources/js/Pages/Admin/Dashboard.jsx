@@ -29,7 +29,7 @@ export default function AdminDashboard({ stats, scanPerHari, distribusiPenyakit,
         },
     ];
 
-    // Hitung max total untuk skala bar chart
+    
     const maxScan = scanPerHari.length > 0 ? Math.max(...scanPerHari.map(d => d.total), 1) : 1;
 
     const severityBadge = (severity) => {
@@ -58,7 +58,7 @@ export default function AdminDashboard({ stats, scanPerHari, distribusiPenyakit,
             <Head title="Dashboard Admin" />
 
             <div className="space-y-6">
-                {/* Stat Cards */}
+                {}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     {statCards.map((card) => (
                         <div key={card.label} className={`bg-white rounded-2xl p-5 shadow-sm border border-gray-100`}>
@@ -74,7 +74,7 @@ export default function AdminDashboard({ stats, scanPerHari, distribusiPenyakit,
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    {/* Bar Chart: Scan Per Hari */}
+                    {}
                     <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                         <h2 className="text-base font-semibold text-gray-800 mb-5">Scan Per Hari (7 Hari Terakhir)</h2>
                         {scanPerHari.length === 0 ? (
@@ -102,7 +102,7 @@ export default function AdminDashboard({ stats, scanPerHari, distribusiPenyakit,
                         )}
                     </div>
 
-                    {/* Distribusi Penyakit */}
+                    {}
                     <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                         <h2 className="text-base font-semibold text-gray-800 mb-4">Distribusi Penyakit</h2>
                         {distribusiPenyakit.length === 0 ? (
@@ -122,7 +122,7 @@ export default function AdminDashboard({ stats, scanPerHari, distribusiPenyakit,
                     </div>
                 </div>
 
-                {/* Tabel Scan Terbaru */}
+                {}
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                     <div className="p-6 border-b border-gray-100">
                         <h2 className="text-base font-semibold text-gray-800">Scan Terbaru</h2>

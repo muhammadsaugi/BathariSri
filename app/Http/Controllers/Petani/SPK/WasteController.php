@@ -16,24 +16,18 @@ class WasteController extends Controller
         private WasteRecommendationService $wasteService,
     ) {}
 
-    /**
-     * Tampilkan form SPK rekomendasi limbah dengan pre-fill otomatis.
-     *
-     * Pre-fill per lahan:
-     *   - harvest_id          : dari HarvestPrediction terbaru per lahan (Modul 4)
-     *   - estimasi_total_ton  : estimasi ton dari prediksi panen terbaru
-     */
+    
     public function create(): Response
     {
         $userId = auth()->id();
 
-        // Ambil lahan aktif milik user
+        
         $lahans = Lahan::where('user_id', $userId)
             ->active()
             ->orderBy('nama_lahan')
             ->get(['id', 'nama_lahan', 'luas_m2']);
 
-        // Bangun data pre-fill per lahan
+        
         $prefill = [];
 
         foreach ($lahans as $lahan) {
@@ -43,7 +37,7 @@ class WasteController extends Controller
                 'estimasi_total_ton' => null,
             ];
 
-            // Cari HarvestPrediction terbaru per lahan
+            
             $latestHarvest = HarvestPrediction::where('user_id', $userId)
                 ->where('lahan_id', $lahan->id)
                 ->latest()
@@ -63,9 +57,7 @@ class WasteController extends Controller
         ]);
     }
 
-    /**
-     * Jalankan rule-based expert system untuk rekomendasi pengolahan limbah.
-     */
+    
     public function store(Request $request): Response
     {
         $userId = auth()->id();
@@ -84,14 +76,14 @@ class WasteController extends Controller
         $lahanId   = $validated['lahan_id'] ?? null;
         $harvestId = $validated['harvest_id'] ?? null;
 
-        // Susun input untuk service
+        
         $input = [
             'jenis_limbah_ada' => $validated['jenis_limbah_ada'],
             'fasilitas'        => $validated['fasilitas'] ?? [],
             'tujuan_utama'     => $validated['tujuan_utama'],
         ];
 
-        // Panggil WasteRecommendationService
+        
         $result = $this->wasteService->generate(
             input: $input,
             estimasi_total_ton: (float) $validated['estimasi_total_ton'],
@@ -100,7 +92,7 @@ class WasteController extends Controller
             harvest_id: $harvestId,
         );
 
-        // Ambil ulang daftar lahan untuk dikembalikan ke view
+        
         $lahans = Lahan::where('user_id', $userId)
             ->active()
             ->orderBy('nama_lahan')

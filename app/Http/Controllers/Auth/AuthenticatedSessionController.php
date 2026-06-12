@@ -14,9 +14,7 @@ use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     */
+    
     public function create(): Response
     {
         return Inertia::render('Auth/Login', [
@@ -25,19 +23,17 @@ class AuthenticatedSessionController extends Controller
         ]);
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
+    
     public function store(LoginRequest $request): RedirectResponse
     {
-        // Autentikasi kredensial terlebih dahulu (belum membuat sesi)
+        
         $request->authenticate();
 
-        // Ambil user yang sudah terautentikasi sebelum membuat sesi
-        /** @var \App\Models\User $user */
+        
+        
         $user = Auth::user();
 
-        // Guard: tolak login jika akun dinonaktifkan — sebelum sesi dibuat
+        
         if (! $user->is_active) {
             Auth::guard('web')->logout();
 
@@ -48,7 +44,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // Redirect berdasarkan role
+        
         if ($user->role === 'admin') {
             return redirect()->intended('/admin/dashboard');
         }
@@ -56,9 +52,7 @@ class AuthenticatedSessionController extends Controller
         return redirect()->intended('/petani/dashboard');
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
+    
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();

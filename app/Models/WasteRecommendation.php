@@ -26,9 +26,9 @@ class WasteRecommendation extends Model
         'total_nilai_ekonomi' => 'decimal:2',
     ];
 
-    // =========================================================
-    // Relasi Eloquent
-    // =========================================================
+    
+    
+    
 
     public function user(): BelongsTo
     {

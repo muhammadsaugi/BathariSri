@@ -18,27 +18,21 @@ class HarvestController extends Controller
         private HarvestPredictionService $harvestService,
     ) {}
 
-    /**
-     * Tampilkan form SPK prediksi panen dengan pre-fill otomatis.
-     *
-     * Pre-fill per lahan:
-     *   - spk_fertilizer_id : dari SpkFertilizerRec terbaru per lahan (Modul 3)
-     *   - kondisi_penyakit  : dari DiseaseScan terbaru dalam 30 hari terakhir (Modul 2)
-     */
+    
     public function create(): Response
     {
         $userId = auth()->id();
 
-        // Ambil lahan aktif milik user
+        
         $lahans = Lahan::where('user_id', $userId)
             ->active()
             ->orderBy('nama_lahan')
             ->get(['id', 'nama_lahan', 'luas_m2', 'jenis_tanah']);
 
-        // Ambil semua varietas dari referensi
+        
         $varietyRefs = VarietyRef::orderBy('nama')->get(['id', 'nama', 'potensi_hasil_ton_ha', 'umur_panen_hari']);
 
-        // Bangun data pre-fill per lahan
+        
         $prefill = [];
 
         foreach ($lahans as $lahan) {
@@ -48,7 +42,7 @@ class HarvestController extends Controller
                 'kondisi_penyakit'  => null,
             ];
 
-            // Cari SpkFertilizerRec terbaru per lahan sebagai konteks
+            
             $latestFertilizer = SpkFertilizerRec::where('user_id', $userId)
                 ->where('lahan_id', $lahan->id)
                 ->latest()
@@ -58,7 +52,7 @@ class HarvestController extends Controller
                 $lahanPrefill['spk_fertilizer_id'] = $latestFertilizer->id;
             }
 
-            // Cari DiseaseScan terbaru dalam 30 hari terakhir
+            
             $latestScan = DiseaseScan::where('user_id', $userId)
                 ->where('lahan_id', $lahan->id)
                 ->where('scanned_at', '>=', now()->subDays(30))
@@ -66,7 +60,7 @@ class HarvestController extends Controller
                 ->first(['severity']);
 
             if ($latestScan) {
-                // Map severity scan ke kondisi_penyakit yang valid untuk form
+                
                 $severityMap = [
                     'healthy'  => 'tidak_ada',
                     'mild'     => 'mild',
@@ -86,9 +80,7 @@ class HarvestController extends Controller
         ]);
     }
 
-    /**
-     * Jalankan regresi linear berganda untuk prediksi panen dan tampilkan hasil.
-     */
+    
     public function store(Request $request): Response
     {
         $userId = auth()->id();
@@ -104,23 +96,23 @@ class HarvestController extends Controller
 
         $lahanId = $validated['lahan_id'] ?? null;
 
-        // Load Lahan (gunakan default jika tidak dipilih)
+        
         if ($lahanId) {
             $lahan = Lahan::where('id', $lahanId)
                 ->where('user_id', $userId)
                 ->firstOrFail();
         } else {
-            // Buat pseudo-lahan default dengan luas 2500 m2 untuk kalkulasi
+            
             $lahan = new Lahan([
                 'id'       => null,
                 'luas_m2'  => 2500.0,
             ]);
         }
 
-        // Load VarietyRef
+        
         $variety = VarietyRef::findOrFail($validated['variety_id']);
 
-        // Tentukan spk_fertilizer_id dari request atau cari yang terbaru
+        
         $spkFertilizerId = $request->input('spk_fertilizer_id');
 
         if (! $spkFertilizerId && $lahanId) {
@@ -130,7 +122,7 @@ class HarvestController extends Controller
                 ->value('id');
         }
 
-        // Susun input untuk service
+        
         $input = [
             'kondisi_penyakit'     => $validated['kondisi_penyakit'],
             'kesesuaian_pemupukan' => $validated['kesesuaian_pemupukan'],
@@ -138,7 +130,7 @@ class HarvestController extends Controller
             'kondisi_cuaca'        => $validated['kondisi_cuaca'],
         ];
 
-        // Panggil HarvestPredictionService
+        
         $result = $this->harvestService->generate(
             input: $input,
             lahan: $lahan,
@@ -147,7 +139,7 @@ class HarvestController extends Controller
             spk_fertilizer_id: $spkFertilizerId,
         );
 
-        // Ambil ulang daftar lahan dan variety refs untuk dikembalikan ke view
+        
         $lahans = Lahan::where('user_id', $userId)
             ->active()
             ->orderBy('nama_lahan')

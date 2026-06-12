@@ -20,11 +20,11 @@ export default function AiDiagnosis() {
     const user = usePage().props.auth.user;
     const fileInputRef = useRef(null);
 
-    // idle | analyzing | result
+    
     const [scanState, setScanState] = useState('idle');
     const [selectedImage, setSelectedImage] = useState(null);
 
-    // Animations
+    
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
@@ -46,10 +46,10 @@ export default function AiDiagnosis() {
 
     const startAnalysis = () => {
         setScanState('analyzing');
-        // Simulate API call
+        
         setTimeout(() => {
             setScanState('result');
-        }, 3000); // 3 second fake loading
+        }, 3000); 
     };
 
     const resetScan = () => {
@@ -62,7 +62,7 @@ export default function AiDiagnosis() {
             <Head title="AI Diagnosis" />
 
             <div className="w-full px-2 lg:px-4 pb-4 lg:pb-0 lg:h-full flex flex-col lg:min-h-0">
-                {/* Floating Header Pill */}
+                {}
                 <div className="hidden lg:flex items-center justify-between mb-8 shrink-0">
                     <div className="hidden md:flex items-center gap-3 bg-white px-5 py-3 rounded-full shadow-sm">
                         <div className="bg-forest-50 p-2 rounded-full text-forest-500">
@@ -71,7 +71,7 @@ export default function AiDiagnosis() {
                         <span className="font-bold text-gray-700 text-sm">Diagnosis Penyakit Padi</span>
                     </div>
                     
-                    {/* Right side consistent with Dashboard */}
+                    {}
                     <div className="flex items-center gap-3 ml-auto">
                         <button className="w-12 h-12 flex items-center justify-center bg-gray-900 text-white rounded-[1.25rem] shadow-md hover:bg-gray-800 transition-colors">
                             <FiSearch size={20} />
@@ -99,11 +99,11 @@ export default function AiDiagnosis() {
                     animate="visible"
                     className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:flex-1 lg:min-h-0"
                 >
-                    {/* KOLOM KIRI: Upload Hero Card */}
+                    {}
                     <motion.div variants={itemVariants} className="lg:col-span-7 bg-white rounded-[2rem] shadow-sm relative overflow-hidden flex flex-col lg:min-h-[500px]">
                         <div className="lg:absolute lg:inset-0 p-8 flex flex-col lg:overflow-y-auto hide-scrollbar">
                             
-                            {/* State: Idle */}
+                            {}
                             {scanState === 'idle' && (
                                 <div className="flex-1 flex flex-col items-center justify-center text-center">
                                     <div className="w-32 h-32 bg-forest-50 rounded-full flex items-center justify-center text-forest-500 mb-6 shadow-inner relative">
@@ -143,13 +143,13 @@ export default function AiDiagnosis() {
                                 </div>
                             )}
 
-                            {/* State: Analyzing */}
+                            {}
                             {scanState === 'analyzing' && (
                                 <div className="flex-1 flex flex-col items-center justify-center text-center">
                                     <div className="relative w-64 h-64 rounded-3xl overflow-hidden mb-8 shadow-2xl border-4 border-white">
                                         <img src={selectedImage} alt="Daun Padi" className="w-full h-full object-cover" />
                                         
-                                        {/* Scanner Overlay Animation */}
+                                        {}
                                         <motion.div 
                                             className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-forest-500/10 via-forest-500/30 to-forest-500/5 border-b-2 border-forest-500"
                                             animate={{ 
@@ -170,7 +170,7 @@ export default function AiDiagnosis() {
                                 </div>
                             )}
 
-                            {/* State: Result */}
+                            {}
                             {scanState === 'result' && (
                                 <div className="flex-1 flex flex-col text-left">
                                     <div className="flex items-start justify-between mb-8">
@@ -228,10 +228,10 @@ export default function AiDiagnosis() {
                         </div>
                     </motion.div>
 
-                    {/* KOLOM KANAN: Edukasi & Riwayat */}
+                    {}
                     <div className="lg:col-span-5 flex flex-col gap-6 lg:min-h-0">
                         
-                        {/* Kanan Atas: Cara Kerja AI (Kartu Edukasi) */}
+                        {}
                         <motion.div variants={itemVariants} className="bg-sky-50 rounded-[2rem] p-6 shadow-sm shrink-0 border border-sky-100">
                             <h3 className="font-bold text-gray-900 mb-6 flex items-center gap-2">
                                 <FiInfo className="text-sky-500" />
@@ -259,7 +259,7 @@ export default function AiDiagnosis() {
                             </div>
                         </motion.div>
 
-                        {/* Kanan Bawah: Riwayat Diagnosis */}
+                        {}
                         <motion.div variants={itemVariants} className="bg-white rounded-[2rem] shadow-sm lg:flex-1 relative overflow-hidden">
                             <div className="lg:absolute lg:inset-0 p-6 flex flex-col">
                                 <div className="flex items-center justify-between mb-6 shrink-0">
