@@ -38,7 +38,7 @@ class AdminUserSeeder extends Seeder
             [
                 'user_id'          => $petani->id,
                 'nama_lahan'       => 'Sawah Timur Rumah',
-                'luas_are'         => 50.00,
+                'luas_m2'          => 5000,
                 'desa'             => 'Desa Sumber Sari',
                 'kecamatan'        => 'Kecamatan Jember',
                 'kabupaten'        => 'Kabupaten Jember',
