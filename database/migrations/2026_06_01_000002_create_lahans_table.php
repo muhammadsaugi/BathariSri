@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('nama_lahan', 255);
-            $table->decimal('luas_are', 8, 2);
+            $table->decimal('luas_are', 12, 2);
             $table->string('desa', 255);
             $table->string('kecamatan', 255);
             $table->string('kabupaten', 255);

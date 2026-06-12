@@ -38,7 +38,7 @@ class LahanController extends Controller
     {
         $validated = $request->validate([
             'nama_lahan'       => ['required', 'string', 'max:255'],
-            'luas_m2'          => ['required', 'numeric', 'min:1'],
+            'luas_m2'          => ['required', 'numeric', 'min:1', 'max:999999999'],
             'desa'             => ['required', 'string', 'max:255'],
             'kecamatan'        => ['required', 'string', 'max:255'],
             'kabupaten'        => ['required', 'string', 'max:255'],
@@ -80,7 +80,7 @@ class LahanController extends Controller
 
         $validated = $request->validate([
             'nama_lahan'       => ['required', 'string', 'max:255'],
-            'luas_m2'          => ['required', 'numeric', 'min:1'],
+            'luas_m2'          => ['required', 'numeric', 'min:1', 'max:999999999'],
             'desa'             => ['required', 'string', 'max:255'],
             'kecamatan'        => ['required', 'string', 'max:255'],
             'kabupaten'        => ['required', 'string', 'max:255'],
