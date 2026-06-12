@@ -9,7 +9,7 @@ class DiseaseRefSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('disease_refs')->insert([
+        DB::table('disease_refs')->upsert([
             [
                 'disease_key'         => 'bacterial_leaf_blight',
                 'nama_id'             => 'Hawar Daun Bakteri',
@@ -80,6 +80,6 @@ class DiseaseRefSeeder extends Seeder
                 'created_at'          => now(),
                 'updated_at'          => now(),
             ],
-        ]);
+        ], ['disease_key'], ['nama_id', 'nama_en', 'nama_ilmiah', 'deskripsi', 'gejala', 'penanganan_mild', 'penanganan_moderate', 'penanganan_severe', 'pencegahan', 'updated_at']);
     }
 }
